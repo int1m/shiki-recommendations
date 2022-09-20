@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    container_name: shiki-recommendations-backend-production
+    restart: always
+    networks:
+      - default
+      - shiki-recommendations-network-production
+    ports:
+      - "3000"
+
+networks:
+  default:
+    name: containers-controller_default
+    external: true
+  shiki-recommendations-network-production:
+    name: shiki-recommendations-network-production
+    driver: bridge

@@ -1,12 +1,23 @@
 {
   "name": "shiki-recommendations-web-app",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1-alpha",
+  "description": "",
+  "contributors": [
+    "Maxim Mostovoy <maxmonsta@gmail.com>"
+  ],
   "type": "module",
+  "license": "MIT",
   "scripts": {
+    "start:prod": "npm run build:prod && npm run preview",
+    "start:staging": "npm run build:prod && npm run preview",
+    "start:dev": "npm run build:dev && npm run preview",
+    "build:prod": "vue-tsc --noEmit && vite build --emptyOutDir",
+    "build:staging": "vue-tsc --noEmit && vite build --emptyOutDir --mode staging",
+    "build:dev": "vue-tsc --noEmit && vite build --emptyOutDir --mode development",
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
     "vue": "^3.2.37"
