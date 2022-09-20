@@ -93,7 +93,7 @@ web-app-deploy-production:
   image:
     name: docker/compose:latest
   script:
-    - cd packages/backend
+    - cd packages/web-app
     - docker-compose -f docker-compose.production.yml up --build -d
   only:
     - main
