@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:10.3
+    container_name: shiki-recommendations-backend-development-mariadb
+    restart: always
+    networks:
+      - shiki-recommendations-network-development
+    volumes:
+      - ~/shiki-recommendations-volume-development:/data/db
+    environment:
+      MARIADB_ROOT_PASSWORD: gkkI7ifm3cmOpQerxb
+      MARIADB_DATABASE: shiki-recommendations
+    ports:
+      - "3306:3306"
+
+  pma:
+    image: phpmyadmin
+    container_name: volsu-rating-bot-production-pma
+    restart: always
+    networks:
+      - shiki-recommendations-network-development
+    volumes:
+      - ~/shiki-recommendations-volume-development:/data/db
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: shiki-recommendations-backend-development-mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: gkkI7ifm3cmOpQerxb
+      UPLOAD_LIMIT: 900M
+    depends_on:
+      - mariadb
+    ports:
+      - "4081:80"
+
+volumes:
+  shiki-recommendations-volume-development:
+    driver: local
+networks:
+  shiki-recommendations-network-development:
+    name: shiki-recommendations-network-development
+    driver: bridge
