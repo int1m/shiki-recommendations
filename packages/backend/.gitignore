@@ -36,6 +36,3 @@ lerna-debug.log*
 
 # SSL cets
 /tools/mkcert/*.pem
-
-#env
-/configs/.env.development
