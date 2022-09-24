@@ -20,12 +20,37 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
-    "vue": "^3.2.37"
+    "naive-ui": "^2.31.0",
+    "pinia": "^2.0.11",
+    "vue": "^3.2.37",
+    "vue-query": "^2.0.0-beta.6",
+    "vue-router": "^4.1.1"
   },
   "devDependencies": {
+    "@types/node": "^17.0.18",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
     "@vitejs/plugin-vue": "^3.1.0",
+    "autoprefixer": "^10.4.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-vue": "^8.4.1",
+    "postcss": "^8.4.7",
+    "postcss-scss": "^4.0.3",
+    "sass": "^1.49.8",
+    "stylelint": "^14.6.0",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-config-standard-scss": "^3.0.0",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
+    "vite-plugin-mkcert": "^1.9.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-eslint-parser": "^8.3.0",
     "vue-tsc": "^0.40.4"
   }
 }
