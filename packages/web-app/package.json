@@ -5,7 +5,6 @@
   "contributors": [
     "Maxim Mostovoy <maxmonsta@gmail.com>"
   ],
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "start:prod": "npm run build:prod && npm run preview",
@@ -33,7 +32,7 @@
     "@vitejs/plugin-vue": "^3.1.0",
     "autoprefixer": "^10.4.2",
     "cross-env": "^7.0.3",
-    "eslint": "^8.9.0",
+    "eslint": "^8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
