@@ -1,39 +1,41 @@
 version: "3.8"
 
 services:
-  mariadb:
-    image: mariadb:10.3
-    container_name: shiki-recommendations-backend-development-mariadb
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: shiki-recommendations-mongodb-development
     restart: always
     networks:
       - shiki-recommendations-network-development
     volumes:
       - ~/shiki-recommendations-volume-development:/data/db
     environment:
-      MARIADB_ROOT_PASSWORD: gkkI7ifm3cmOpQerxb
-      MARIADB_DATABASE: shiki-recommendations
+      MONGODB_DATABASE: shiki-recommendations
+    env_file:
+      - ./configs/.env.development
     ports:
-      - "3306:3306"
+      - "27017:27017"
 
-  pma:
-    image: phpmyadmin
-    container_name: volsu-rating-bot-production-pma
-    restart: always
-    networks:
-      - shiki-recommendations-network-development
-    volumes:
-      - ~/shiki-recommendations-volume-development:/data/db
-    environment:
-      PMA_ARBITRARY: 1
-      PMA_HOST: shiki-recommendations-backend-development-mariadb
-      PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: gkkI7ifm3cmOpQerxb
-      UPLOAD_LIMIT: 900M
-    depends_on:
-      - mariadb
-    ports:
-      - "4081:80"
+  mongodb-express:
+      image: mongo-express:latest
+      container_name: shiki-recommendations-express-development
+      restart: always
+      networks:
+        - shiki-recommendations-network-development
+      volumes:
+        - ~/shiki-recommendations-volume-development:/data/db
+      environment:
+        ME_CONFIG_MONGODB_SERVER: shiki-recommendations-mongodb-development
+        ME_CONFIG_MONGODB_PORT: 27017
+        ME_CONFIG_MONGODB_AUTH_USERNAME: root
+        ME_CONFIG_MONGODB_AUTH_PASSWORD: gkkI7ifm3cmOpQerxb
+        ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      env_file:
+        - ./configs/.env.development
+      depends_on:
+        - mongodb
+      ports:
+        - "4082:8081"
 
 volumes:
   shiki-recommendations-volume-development:

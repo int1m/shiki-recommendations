@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { AnimesModule } from './animes/animes.module';
 
@@ -12,23 +12,25 @@ import { AnimesModule } from './animes/animes.module';
       isGlobal: true,
     }),
     ScheduleModule.forRoot(),
-    TypeOrmModule.forRootAsync({
+    MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'mariadb',
-        host: configService.get<string>('MARIADB_HOST'),
-        port: configService.get<number>('MARIADB_PORT'),
-        username: configService.get<string>('MARIADB_ROOT_USER'),
-        password: configService.get<string>('MARIADB_ROOT_PASSWORD'),
-        database: configService.get<string>('MARIADB_DATABASE'),
-        synchronize: true,
-        logging: true,
-        entities: [],
-        subscribers: [],
-        migrations: [],
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const uri = 'mongodb://'
+          + `${configService.get<string>('MONGODB_USERNAME')}:`
+          + `${configService.get<string>('MONGODB_PASSWORD')}@`
+          + `${configService.get<string>('MONGODB_HOST')}:`
+          + `${configService.get<string>('MONGODB_PORT')}/${
+            configService.get<string>('MONGODB_DATABASE')
+          }?readPreference=primary`;
+
+        Logger.log(`DB URI: ${uri}`);
+        return {
+          uri,
+        };
+      },
       inject: [ConfigService],
     }),
+
     AnimesModule,
   ],
   controllers: [],
