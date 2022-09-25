@@ -47,10 +47,10 @@ export class Anime {
   @Prop({ required: true })
     url: string;
 
-  @Prop()
+  @Prop({ required: true })
     score: number;
 
-  @Prop()
+  @Prop({ required: true })
     rating: string; // возрастной рейтинг
 
   @Prop()
@@ -111,25 +111,25 @@ export class Anime {
   }))
     images: Images;
 
-  @Prop()
+  @Prop({ required: true })
     duration: number;
 
-  @Prop()
+  @Prop({ required: true })
     episodes: number;
 
-  @Prop()
+  @Prop({ required: true })
     episodesAired: number;
 
   @Prop()
-    nextEpisodeAt: string;
+    nextEpisodeAt?: string;
 
-  @Prop()
+  @Prop({ required: true })
     favoured: boolean;
 
-  @Prop()
+  @Prop({ required: true })
     anons: boolean;
 
-  @Prop()
+  @Prop({ required: true })
     ongoing: boolean;
 
   @Prop(raw([{
