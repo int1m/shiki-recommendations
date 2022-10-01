@@ -10,6 +10,8 @@ import AppProvider from '@/AppProvider.vue';
 </template>
 
 <style lang="scss" scoped>
+@import 'styles/index';
+
 #app {
   height: 100%;
 
