@@ -1,0 +1,12 @@
+{
+  "shiki-light": {
+    "--color-primary": "#3390EC",
+    "--color-primary-opacity": "#50A2E980",
+    "--color-primary-shade": "#4a95d6"
+  },
+  "shiki-dark": {
+    "--color-primary": "#8774E1",
+    "--color-primary-opacity": "#8378DB80",
+    "--color-primary-shade": "#7b71c6"
+  }
+}

@@ -8,9 +8,24 @@ import {
   GlobalThemeOverrides,
 } from 'naive-ui';
 
-import { useGetCSSVariable } from '@/hooks/useCssVariables';
+import useFetch from '@/hooks/useFetch';
+import { useGetCSSVariable, useSetCSSVariable } from '@/hooks/useCssVariables';
+import { onMounted } from 'vue';
 
-// Color
+import { ColorSchemes } from '@/types/color-schemes';
+
+// Color schemas
+
+onMounted(async () => {
+  const response = await useFetch.get<ColorSchemes>('/color-schemes.json');
+  const colorSchemes = await response.json();
+  if (colorSchemes['shiki-light']) {
+    const colors = colorSchemes['shiki-light'];
+    Object.entries(colors).forEach(([key, value]) => useSetCSSVariable(key, value));
+  }
+});
+
+// Naive UI color schema
 const colorText = useGetCSSVariable('--color-text');
 const colorPrimary = useGetCSSVariable('--color-primary');
 
