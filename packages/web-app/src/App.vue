@@ -9,7 +9,7 @@ import AppProvider from '@/AppProvider.vue';
   </app-provider>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import 'styles/index';
 
 #app {
