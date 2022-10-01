@@ -29,7 +29,7 @@ backend-build:
   artifacts:
     expire_in: 2 days
     paths:
-      - node_modules/
+      - /packages/backend/node_modules/
   tags:
     - artic
 
@@ -48,7 +48,7 @@ web-app-build:
   artifacts:
     expire_in: 2 days
     paths:
-      - node_modules/
+      - /packages/web-app/node_modules/
   tags:
     - artic
 
@@ -65,8 +65,8 @@ backend-linting:
 
 web-app-linting:
   stage: linting
-  extends:
-    - .web-app
+  extends: .web-app
+  needs:
     - web-app-build
   script:
     - cd packages/web-app
