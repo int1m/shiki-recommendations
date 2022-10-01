@@ -68,8 +68,6 @@ web-app-linting:
   extends:
     - .web-app
     - web-app-build
-  needs:
-    - web-app-build
   script:
     - cd packages/web-app
     - npm run lint
