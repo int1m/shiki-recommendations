@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { fileURLToPath } from 'url';
 
 import Vue from '@vitejs/plugin-vue'
+import mkcert from'vite-plugin-mkcert';
 
 export default defineConfig({
   publicDir: fileURLToPath(new URL('public', import.meta.url)),
@@ -21,7 +22,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('src', import.meta.url)),
     },
   },
+  server: {
+    https: true,
+  },
   plugins: [
+    mkcert({
+      mkcertPath: fileURLToPath(new URL('utils/mkcert/mkcert.exe', import.meta.url)),
+    }),
     Vue({
       include: [/\.vue$/],
     }),
