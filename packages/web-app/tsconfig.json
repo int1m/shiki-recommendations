@@ -12,8 +12,7 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "types": [
-      "node",
-      "vite-plugin-svg-icons/client"
+      "node"
     ],
     "lib": ["ESNext", "DOM"],
     "baseUrl": "./",

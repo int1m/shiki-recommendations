@@ -1,6 +1,29 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { fileURLToPath } from 'url';
+
+import Vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  plugins: [vue()]
+  publicDir: fileURLToPath(new URL('public', import.meta.url)),
+  root: 'src',
+  envDir: fileURLToPath(new URL('configs', import.meta.url)),
+  build: {
+    sourcemap: process.env.SOURCE_MAP === 'true',
+    outDir: fileURLToPath(new URL('dist', import.meta.url)),
+    rollupOptions: {
+      input: {
+        index: fileURLToPath(new URL('src/index.html', import.meta.url)),
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('src', import.meta.url)),
+    },
+  },
+  plugins: [
+    Vue({
+      include: [/\.vue$/],
+    }),
+  ]
 })
