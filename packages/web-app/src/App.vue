@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
+import AppProvider from '@/AppProvider.vue';
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img
-        src="/vite.svg"
-        class="logo"
-        alt="Vite logo"
-      >
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img
-        src="./assets/vue.svg"
-        class="logo vue"
-        alt="Vue logo"
-      >
-    </a>
-    <hello-world msg="123" />
-  </div>
+  <app-provider>
+    <router-view />
+  </app-provider>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+<style lang="scss" scoped>
+#app {
+  height: 100%;
+
+  @media (max-width: 926px) {
+    height: calc(var(--vh, 1vh) * 100);
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.n-config-provider {
+  height: 100%;
+
+  @media (max-width: 926px) {
+    height: calc(var(--vh, 1vh) * 100);
+  }
 }
 </style>
