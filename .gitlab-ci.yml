@@ -29,7 +29,7 @@ backend-build:
   artifacts:
     expire_in: 2 days
     paths:
-      - /packages/backend/node_modules/
+      - packages/backend/node_modules/
   tags:
     - artic
 
@@ -48,7 +48,7 @@ web-app-build:
   artifacts:
     expire_in: 2 days
     paths:
-      - /packages/web-app/node_modules/
+      - packages/web-app/node_modules/
   tags:
     - artic
 
