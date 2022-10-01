@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 
 import Vue from '@vitejs/plugin-vue'
 import mkcert from'vite-plugin-mkcert';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 export default defineConfig({
   publicDir: fileURLToPath(new URL('public', import.meta.url)),
@@ -31,6 +32,10 @@ export default defineConfig({
     }),
     Vue({
       include: [/\.vue$/],
+    }),
+    createSvgIconsPlugin({
+      iconDirs: [fileURLToPath(new URL('src/assets/icons', import.meta.url))],
+      symbolId: 'icon-[dir]-[name]',
     }),
   ]
 })
