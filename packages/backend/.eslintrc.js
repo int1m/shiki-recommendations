@@ -43,7 +43,7 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   overrides: [
     {
-      files: ['test/**', '.*\\.spec\\.ts$'],
+      files: ['.*\\.spec\\.ts$'],
       plugins: ['jest'],
       rules: {
         // Выключаем правило unbound-method в тестах
