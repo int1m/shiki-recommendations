@@ -52,7 +52,7 @@ export class AnimesService {
 
     await Promise.resolve(delay);
 
-    this.logger.log(`response: ${animeResponse.status}; id: ${id}`);
+    // this.logger.log(`response: ${animeResponse.status}; id: ${id}`);
 
     if (animeResponse.status === 200) {
       const animeResult = await animeResponse.json() as ApiShikiAnime;
@@ -149,7 +149,7 @@ export class AnimesService {
 
     const parsingEndTime = new Date();
     const minutesHasPassed = (parsingEndTime.getTime() - parsingStartTime.getTime()) / (1000 * 60);
-    this.logger.log(`Parsing startup at: ${parsingEndTime.getHours()}:${parsingEndTime.getMinutes()}`);
+    this.logger.log(`Parsing end at: ${parsingEndTime.getHours()}:${parsingEndTime.getMinutes()}`);
     this.logger.log(`Minutes has passed: ${minutesHasPassed}`);
   }
 

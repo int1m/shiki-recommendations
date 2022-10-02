@@ -3,14 +3,14 @@ version: "3.8"
 services:
   mongodb:
     image: bitnami/mongodb:latest
-    container_name: shiki-recommendations-mongodb-development
+    container_name: shikireki-mongodb-development
     restart: always
     networks:
-      - shiki-recommendations-network-development
+      - shikireki-network-development
     volumes:
-      - ~/shiki-recommendations-volume-development:/data/db
+      - ~/shikireki-volume-development:/data/db
     environment:
-      MONGODB_DATABASE: shiki-recommendations
+      MONGODB_DATABASE: shikireki
     env_file:
       - ./configs/.env.development
     ports:
@@ -18,14 +18,14 @@ services:
 
   mongodb-express:
       image: mongo-express:latest
-      container_name: shiki-recommendations-express-development
+      container_name: shikireki-express-development
       restart: always
       networks:
-        - shiki-recommendations-network-development
+        - shikireki-network-development
       volumes:
-        - ~/shiki-recommendations-volume-development:/data/db
+        - ~/shikireki-volume-development:/data/db
       environment:
-        ME_CONFIG_MONGODB_SERVER: shiki-recommendations-mongodb-development
+        ME_CONFIG_MONGODB_SERVER: shikireki-mongodb-development
         ME_CONFIG_MONGODB_PORT: 27017
         ME_CONFIG_MONGODB_AUTH_USERNAME: root
         ME_CONFIG_MONGODB_AUTH_PASSWORD: gkkI7ifm3cmOpQerxb
@@ -38,9 +38,9 @@ services:
         - "4082:8081"
 
 volumes:
-  shiki-recommendations-volume-development:
+  shikireki-volume-development:
     driver: local
 networks:
-  shiki-recommendations-network-development:
-    name: shiki-recommendations-network-development
+  shikireki-network-development:
+    name: shikireki-network-development
     driver: bridge

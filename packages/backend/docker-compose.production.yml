@@ -1,24 +1,64 @@
 version: "3.8"
 
 services:
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: shikireki-mongodb-production
+    restart: always
+    networks:
+      - shikireki-network-production
+    volumes:
+      - ~/shikireki-volume-production:/data/db
+    environment:
+      MONGODB_DATABASE: shikireki
+    env_file:
+      - ./configs/.env.production
+
+  mongodb-express:
+    image: mongo-express:latest
+    container_name: shikireki-express-production
+    restart: always
+    networks:
+      - shikireki-network-production
+    volumes:
+      - ~/shikireki-volume-production:/data/db
+    environment:
+      ME_CONFIG_MONGODB_SERVER: shikireki-mongodb-production
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_AUTH_USERNAME: root
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: gk8kIfoflsmvgjh51
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+    env_file:
+      - ./configs/.env.production
+    depends_on:
+      - mongodb
+    ports:
+      - "8081"
+
   backend:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       NODE_ENV: production
-    container_name: shiki-recommendations-backend-production
+    container_name: shikireki-backend-production
     restart: always
     networks:
       - default
-      - shiki-recommendations-network-production
+      - shikireki-network-production
+    depends_on:
+      - mongodb
     ports:
       - "3000"
+
+volumes:
+  shikireki-volume-production:
+    driver: local
 
 networks:
   default:
     name: containers-controller_default
     external: true
-  shiki-recommendations-network-production:
-    name: shiki-recommendations-network-production
+  shikireki-network-production:
+    name: shikireki-network-production
     driver: bridge
