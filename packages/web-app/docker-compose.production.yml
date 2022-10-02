@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: shiki-recommendations-web-app-production
+    container_name: shikireki-web-app-production
     networks:
       - default
     ports:
