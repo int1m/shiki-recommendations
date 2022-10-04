@@ -1,12 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Model } from 'mongoose';
+import { FilterQuery, Model, SortOrder } from 'mongoose';
 
 import { Anime, AnimeDocument } from './schemas/animes.schema';
-import { CreateAnimeDto } from './dto/create-anime.dto';
-import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { ApiShikiAnime, ApiShikiAnimeListItem } from './@types/api-shiki.types';
+
+interface FindOptions {
+  skip: number;
+  limit: number;
+  sort?: { [p: string]: SortOrder };
+}
 
 @Injectable()
 export class AnimesService {
@@ -16,24 +20,14 @@ export class AnimesService {
     @InjectModel(Anime.name) private AnimeModel: Model<AnimeDocument>,
   ) {}
 
-  create(createAnimeDto: CreateAnimeDto) {
-    return 'This action adds a new anime';
-  }
-
-  findAll() {
-    return 'This action returns all animes';
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} anime`;
-  }
-
-  update(id: number, updateAnimeDto: UpdateAnimeDto) {
-    return `This action updates a #${id} anime`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} anime`;
+  async find(query: FilterQuery<AnimeDocument>, options: FindOptions = { skip: 0, limit: 10, sort: { } }) {
+    const result = await this.AnimeModel
+      .find(query)
+      .skip(options.skip)
+      .limit(options.limit)
+      .sort(options.sort ?? {})
+      .exec();
+    return result;
   }
 
   private async shikimoriAnimeFetch(id: number) {
