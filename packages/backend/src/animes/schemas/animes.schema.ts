@@ -117,4 +117,10 @@ export class Anime {
     ratesStatusesStats: Array<RateStatusesStat>;
 }
 
-export const AnimeSchema = SchemaFactory.createForClass(Anime);
+export const AnimeSchema = SchemaFactory.createForClass(Anime)
+  .index({
+    nameRussian: 'text',
+    namesEnglish: 'text',
+    name: 'text',
+    description: 'text',
+  });

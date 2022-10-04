@@ -3,6 +3,7 @@ import {
 } from '@nestjs/common';
 
 import { AnimesService } from './animes.service';
+import { FindAnimesDto } from './dto/find-animes.dto';
 import { GetAnimesDto } from './dto/get-animes.dto';
 
 @Controller('animes')
@@ -19,13 +20,13 @@ export class AnimesController implements OnApplicationBootstrap {
   }
 
   @Get()
-  getAllAnimesHandler(
+  async getAllAnimesHandler(
   @Query() query: GetAnimesDto,
   ) {
     const page = query.page ?? 0;
     const count = query.count ?? 40;
 
-    const animes = this.animesService.find({}, {
+    const animes = await this.animesService.find({}, {
       skip: page * count,
       limit: count,
     });
@@ -34,13 +35,13 @@ export class AnimesController implements OnApplicationBootstrap {
   }
 
   @Get('popular')
-  getPopularAnimesHandler(
+  async getPopularAnimesHandler(
   @Query() query: GetAnimesDto,
   ) {
     const page = query.page ?? 0;
     const count = query.count ?? 40;
 
-    const animes = this.animesService.find({}, {
+    const animes = await this.animesService.find({}, {
       skip: page * count,
       limit: count,
       sort: { score: 'desc' },
@@ -50,14 +51,34 @@ export class AnimesController implements OnApplicationBootstrap {
   }
 
   @Get('ongoing')
-  getOngoingAnimesHandler(
+  async getOngoingAnimesHandler(
   @Query() query: GetAnimesDto,
   ) {
     const page = query.page ?? 0;
     const count = query.count ?? 40;
 
-    const animes = this.animesService.find({
+    const animes = await this.animesService.find({
       ongoing: true,
+    }, {
+      skip: page * count,
+      limit: count,
+      sort: { score: 'desc' },
+    });
+
+    return animes;
+  }
+
+  @Get('find')
+  async findAnimesHandler(
+  @Query() query: FindAnimesDto,
+  ) {
+    const page = query.page ?? 0;
+    const count = query.count ?? 40;
+
+    const animes = await this.animesService.find({
+      $text: {
+        $search: query.search,
+      },
     }, {
       skip: page * count,
       limit: count,
