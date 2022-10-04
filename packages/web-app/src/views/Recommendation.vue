@@ -4,13 +4,13 @@
 
 <template>
   <div class="anime-search">
-    <h1>Здесь будут аниме</h1>
+    <h1>Здесь будут рекомендации</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .anime-search {
   height: 100%;
-  background-color: #ffffff;
+  background-color: #7B71C6;
 }
 </style>

@@ -8,8 +8,13 @@ import {
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'MessengerLayout',
+    name: 'anime-search',
     component: () => import('@/views/AnimeSearch.vue'),
+  },
+  {
+    path: '/recommendation',
+    name: 'recommendation',
+    component: () => import('@/views/Recommendation.vue'),
   },
 ];
 
