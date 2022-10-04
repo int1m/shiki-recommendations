@@ -22,6 +22,7 @@ const disabledColorSchema = computed(() => colorSchemas
 let applyColorSchema: (schemaName: string) => void;
 onMounted(async () => {
   applyColorSchema = (await useChangeColorSchema()).applyColorSchema;
+  applyColorSchema(initialStore.activeColorSchema);
 });
 const changeColorSchemaClickHandler = (schemaName: string) => {
   if (applyColorSchema) {
@@ -76,7 +77,7 @@ const changeColorSchemaClickHandler = (schemaName: string) => {
 
   @media (min-width: 927px) {
     max-width: 270px;
-    padding: 1.5rem;
+    padding: var(--padding-containter);
     border-top: none;
     border-right: #ECEFF6 solid 1px;
 

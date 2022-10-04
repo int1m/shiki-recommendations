@@ -4,10 +4,10 @@ import NavBar from '@/components/common/NavBar.vue';
 
 <template>
   <div class="main-layout">
+    <nav-bar />
     <main>
       <router-view />
     </main>
-    <nav-bar />
   </div>
 </template>
 
@@ -15,12 +15,12 @@ import NavBar from '@/components/common/NavBar.vue';
 .main-layout {
   height: calc(var(--vh, 1vh) * 100);
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @media (min-width: 927px) {
     height: 100%;
 
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
 
   main {

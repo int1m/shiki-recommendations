@@ -25,6 +25,7 @@ const themeOverrides: GlobalThemeOverrides = {
     fontSizeLarge: '18px',
     fontSizeHuge: '18px',
     lineHeight: '1.5rem',
+    placeholderColor: '#C6C9D2',
     textColorBase: colorText,
     primaryColor: colorPrimary,
   },

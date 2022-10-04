@@ -153,8 +153,7 @@ $color-message-reaction-own-hover: #b5e0a4;
   --border-radius-default-small: 0.625rem;
   --border-radius-default-large: 1rem;
   --border-radius-default-tiny: 0.375rem;
-  --border-radius-messages: 0.75rem;
-  --border-radius-messages-small: 0.375rem;
+  --border-radius-card: 0.5rem;
   // Elements
   --header-height: 3.5rem;
   --messages-container-width: 45.5rem;
@@ -164,6 +163,7 @@ $color-message-reaction-own-hover: #b5e0a4;
   --larrge: 3.5em;
   // Padding
   --padding-default: 0.25rem;
+  --padding-containter: 1rem;
 
   --vh: 1vh;
 }
