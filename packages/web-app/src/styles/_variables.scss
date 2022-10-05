@@ -15,7 +15,7 @@
   @return rgb($bm-red, $bm-green, $bm-blue);
 }
 
-$color-primary: #8774E1;
+$color-primary: #5C77F0;
 
 $color-links: #8774E1;
 
@@ -32,7 +32,7 @@ $color-warning: #fb8c00;
 $color-yellow: #fdd764;
 
 $color-white: #ffffff;
-$color-black: #101010;
+$color-black: #1E1E1E;
 $color-dark-gray: #2e3939;
 $color-gray: #c4c9cc;
 $color-secondary: #707579;
@@ -151,9 +151,9 @@ $color-message-reaction-own-hover: #b5e0a4;
   // Borders
   --border-radius-default: 0.75rem;
   --border-radius-default-small: 0.625rem;
+  --border-radius-default-large: 1rem;
   --border-radius-default-tiny: 0.375rem;
-  --border-radius-messages: 0.75rem;
-  --border-radius-messages-small: 0.375rem;
+  --border-radius-card: 0.5rem;
   // Elements
   --header-height: 3.5rem;
   --messages-container-width: 45.5rem;
@@ -163,6 +163,7 @@ $color-message-reaction-own-hover: #b5e0a4;
   --larrge: 3.5em;
   // Padding
   --padding-default: 0.25rem;
+  --padding-containter: 1rem;
 
   --vh: 1vh;
 }
