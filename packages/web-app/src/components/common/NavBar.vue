@@ -9,6 +9,8 @@ import { computed, onMounted } from 'vue';
 
 const route = useRoute();
 
+const routeName = computed(() => route.name as string | undefined);
+
 const initialStore = useInitialStore();
 
 const colorSchemas = [
@@ -24,8 +26,8 @@ onMounted(async () => {
   applyColorSchema = (await useChangeColorSchema()).applyColorSchema;
   applyColorSchema(initialStore.activeColorSchema);
 });
-const changeColorSchemaClickHandler = (schemaName: string) => {
-  if (applyColorSchema) {
+const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
+  if (applyColorSchema && schemaName) {
     applyColorSchema(schemaName);
     initialStore.saveColorSchema(schemaName);
   }
@@ -43,13 +45,13 @@ const changeColorSchemaClickHandler = (schemaName: string) => {
       <div class="nav-bar-items">
         <nav-bar-item
           route-name="anime-search"
-          :active-route-name="route.name"
+          :active-route-name="routeName"
           icon-name="search"
           title="Поиск"
         />
         <nav-bar-item
           route-name="recommendation"
-          :active-route-name="route.name"
+          :active-route-name="routeName"
           icon-name="compass"
           title="Рекомендации"
         />
@@ -58,10 +60,10 @@ const changeColorSchemaClickHandler = (schemaName: string) => {
     <div
       v-if="!initialStore.isMobileVersion"
       class="nav-bar-up-content-down-content"
-      @click="changeColorSchemaClickHandler(disabledColorSchema.name)"
+      @click="changeColorSchemaClickHandler(disabledColorSchema?.name)"
     >
       <VIcon name="sun" :size="24" />
-      <span>{{ disabledColorSchema.label }}</span>
+      <span>{{ disabledColorSchema?.label }}</span>
     </div>
   </aside>
 </template>
