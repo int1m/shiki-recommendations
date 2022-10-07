@@ -17,14 +17,14 @@ async function bootstrap() {
     defaultVersion: '1',
   });
 
-  const openApiConfig = new DocumentBuilder()
-    .setTitle('Animes documentation')
-    .setDescription('The animes API description')
-    .setVersion('1.0')
-    .addTag('animes')
-    .build();
-  const openApiInstance = SwaggerModule.createDocument(app, openApiConfig);
-  SwaggerModule.setup('api', app, openApiInstance);
+  // const openApiConfig = new DocumentBuilder()
+  //   .setTitle('Animes documentation')
+  //   .setDescription('The animes API description')
+  //   .setVersion('1.0')
+  //   .addTag('animes')
+  //   .build();
+  // const openApiInstance = SwaggerModule.createDocument(app, openApiConfig);
+  // SwaggerModule.setup('api', app, openApiInstance);
 
   await app.listen(3000);
 }
