@@ -25,6 +25,7 @@ import NavBar from '@/components/common/NavBar.vue';
 
   main {
     flex: 1;
+    overflow-y: auto;
   }
 }
 </style>

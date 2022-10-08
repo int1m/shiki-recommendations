@@ -14,6 +14,7 @@
     "build:staging": "vue-tsc --noEmit && vite build --emptyOutDir --mode staging",
     "build:dev": "vue-tsc --noEmit && vite build --emptyOutDir --mode development",
     "dev": "vite",
+    "dev:prod": "vite --mode production",
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
