@@ -24,7 +24,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
     </div>
 
     <div class="anime-cards-container">
-      <span class="anime-cards-title">Сейчас на экранах</span>
+      <span class="anime-cards-title">Популярное</span>
       <horizontal-scroll-container class="anime-cards-scrollable">
         <anime-card />
         <anime-card />

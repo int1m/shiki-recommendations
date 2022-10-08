@@ -7,10 +7,14 @@ import { useInitialStore } from '@/stores/initialStore';
 const initialStore = useInitialStore();
 
 const colorPrimary = useGetCSSVariable('--color-primary');
+
+const OnCardClickHandler = () => {
+  console.log('click!');
+};
 </script>
 
 <template>
-  <div class="anime-card">
+  <div class="anime-card" @click="OnCardClickHandler">
     <img
       class="anime-card-poster"
       src="https://kawai.shikimori.one/system/animes/original/51096.jpg?1662797576"
@@ -42,9 +46,9 @@ const colorPrimary = useGetCSSVariable('--color-primary');
   flex-shrink: 0;
   flex-direction: column;
   gap: 0.75rem;
-  cursor: pointer;
   user-select: none;
   transition: transform ease-out .1s;
+  cursor: pointer;
 
   @media (min-width: 927px) {
     max-width: 200px;
