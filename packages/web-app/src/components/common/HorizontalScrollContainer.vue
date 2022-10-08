@@ -19,9 +19,34 @@ const isPrevButtonVisible = computed(() => (!initialStore.isMobileVersion
 const isNextButtonVisible = computed(() => (!initialStore.isMobileVersion
 && !isContainerScrollInEnd.value));
 
-const childrenGap = 44;
+const childrenGap = 20;
 const onClickPrevButtonHandler = () => {
   if (scrollableContainer.value) {
+    const containerChildren = scrollableContainer.value.children[0] as HTMLDivElement;
+    if (containerChildren) {
+      const currentCard = scrollableContainer.value.children.length
+        - Math.ceil((scrollableContainer.value.scrollWidth - scrollableContainer.value.scrollLeft)
+          / (containerChildren.offsetWidth + childrenGap + 4)) + 1;
+      console.log(currentCard);
+      const cardsVisible = Math.floor(
+        (scrollableContainer.value.offsetWidth - 24) / (containerChildren.offsetWidth + childrenGap),
+      );
+
+      const nextCardScrollOffset = scrollableContainer.value.scrollLeft
+        - (currentCard - cardsVisible) * (containerChildren.offsetWidth + childrenGap);
+
+      if (scrollableContainer.value.scrollLeft - nextCardScrollOffset > 0) {
+        scrollableContainer.value.scrollTo({
+          left: scrollableContainer.value.scrollLeft - nextCardScrollOffset - 4,
+          behavior: 'smooth',
+        });
+      } else {
+        scrollableContainer.value.scrollTo({
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+    }
   }
 };
 
@@ -32,20 +57,18 @@ const onClickNextButtonHandler = () => {
       const maxContainerScroll = scrollableContainer.value.scrollWidth - scrollableContainer.value.offsetWidth;
       const currentCard = scrollableContainer.value.children.length
         - Math.ceil((scrollableContainer.value.scrollWidth - scrollableContainer.value.scrollLeft)
-          / (containerChildren.offsetWidth + childrenGap));
-      console.log(Math.ceil((scrollableContainer.value.scrollWidth - scrollableContainer.value.scrollLeft)
-        / (containerChildren.offsetWidth + childrenGap)));
-      const nextCardScrollOffset = (currentCard + 1) * (containerChildren.offsetWidth + childrenGap - 20)
+          / (containerChildren.offsetWidth + childrenGap + 4));
+
+      const cardsVisible = Math.floor(
+        (scrollableContainer.value.offsetWidth - 24) / (containerChildren.offsetWidth + childrenGap),
+      );
+
+      const nextCardScrollOffset = (currentCard + cardsVisible) * (containerChildren.offsetWidth + childrenGap)
         - scrollableContainer.value.scrollLeft;
 
       if (scrollableContainer.value.scrollLeft + nextCardScrollOffset < maxContainerScroll) {
         scrollableContainer.value.scrollTo({
-          left: scrollableContainer.value.scrollLeft + nextCardScrollOffset,
-          behavior: 'smooth',
-        });
-      } else if (scrollableContainer.value.scrollLeft === maxContainerScroll) {
-        scrollableContainer.value.scrollTo({
-          left: 0,
+          left: scrollableContainer.value.scrollLeft + nextCardScrollOffset + 4,
           behavior: 'smooth',
         });
       } else {
@@ -217,6 +240,10 @@ const onMouseUpContainerHandler = () => {
 
     :deep(> div:first-child) {
       margin-left: var(--padding-containter);
+    }
+
+    :deep(> div:last-child) {
+      margin-right: var(--padding-containter);
     }
   }
 }
