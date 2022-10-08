@@ -1,6 +1,7 @@
 import {
   Genre, Images, RateScoresStat, RateStatusesStat, Studio,
 } from '@/animes/@types/animes.types';
+import exp from 'constants';
 
 export interface ApiShikiAnimeListItem {
   id: number;
@@ -45,4 +46,44 @@ export interface ApiShikiAnime {
   ongoing: boolean;
   rates_scores_stats: Array<RateScoresStat>;
   rates_statuses_stats: Array<RateStatusesStat>;
+}
+
+export interface ApiShikiPersons {
+  character?: {
+    id: number;
+    name: string;
+    russian: string;
+    image: Images;
+    url: string;
+  };
+  person?: {
+    id: number;
+    name: string;
+    russian: string;
+    image: Images;
+    url: string;
+  };
+  roles: string[];
+  roles_russian: string[];
+}
+
+export interface ApiShikiSeyu {
+  id: number;
+  name: string;
+  russian: string;
+  image: Images;
+  url: string;
+}
+
+export interface ApiShikiCharacter {
+  id: number;
+  name: string;
+  russian: string;
+  image: Images;
+  url: string;
+  altname: string;
+  japanese: string;
+  description: string;
+  favoured: boolean;
+  seyu: ApiShikiSeyu[];
 }

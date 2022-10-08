@@ -1,10 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { FilterQuery, Model, SortOrder } from 'mongoose';
 
+import { Character, Person, RoleEnum } from '@/animes/@types/animes.types';
 import { Anime, AnimeDocument } from './schemas/animes.schema';
-import { ApiShikiAnime, ApiShikiAnimeListItem } from './@types/api-shiki.types';
+import {
+  ApiShikiAnime, ApiShikiAnimeListItem, ApiShikiCharacter, ApiShikiPersons,
+} from './@types/api-shiki.types';
 
 interface FindOptions {
   skip: number;
@@ -30,6 +33,101 @@ export class AnimesService {
     return result;
   }
 
+  private async shikimoriCharacterFetch(id: number): Promise<Character> {
+    const headers = new Headers({
+      'User-Agent': 'shikimori-recommendations',
+    });
+
+    const characterResponse = await fetch(`https://shikimori.one/api/characters/${id}`, {
+      method: 'GET',
+      headers,
+    });
+
+    const delay = new Promise((resolve) => {
+      setTimeout(() => resolve(characterResponse), 100);
+    });
+
+    await Promise.resolve(delay);
+
+    if (characterResponse.status === 200) {
+      const characterResult = await characterResponse.json() as ApiShikiCharacter;
+
+      return {
+        externalId: characterResult.id,
+        images: characterResult.image,
+        name: characterResult.name,
+        nameRussian: characterResult.russian,
+        url: characterResult.url,
+        seyus: characterResult.seyu.map((seyu) => ({
+          externalId: seyu.id,
+          images: seyu.image,
+          name: seyu.name,
+          nameRussian: seyu.russian,
+          url: seyu.url,
+        })),
+      };
+    }
+    const retryFetch = new Promise((resolve) => {
+      setTimeout(() => resolve(this.shikimoriCharacterFetch(id)), 15000);
+    });
+
+    const result = await Promise.resolve(retryFetch) as Character;
+    return result;
+  }
+
+  private async shikimoriPersonsAndCharactersFetch(id: number) {
+    const headers = new Headers({
+      'User-Agent': 'shikimori-recommendations',
+    });
+
+    const personsResponse = await fetch(`https://shikimori.one/api/animes/${id}/roles`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (personsResponse.status === 200) {
+      const personsResult = await personsResponse.json() as ApiShikiPersons[];
+
+      const persons: Person[] = personsResult.filter((role) => role.roles
+        .includes('Director') || role.roles.includes('Original Creator'))
+        .map((role) => ({
+          externalId: role.person.id,
+          images: role.person.image,
+          name: role.person.name,
+          nameRussian: role.person.russian,
+          url: role.person.url,
+          roles: role.roles.map((roleValue) => ({
+            name: roleValue,
+            nameRussia: RoleEnum[roleValue],
+          })),
+        }));
+
+      const charactersApi = personsResult.filter((person) => person.roles.includes('Main'));
+      const characters: Character[] = [];
+
+      await charactersApi.reduce(async (referencePoint, role) => {
+        await referencePoint;
+        try {
+          const character = await this.shikimoriCharacterFetch(role.character.id);
+          characters.push(character);
+        } catch (e) {
+          this.logger.error(e);
+        }
+      }, Promise.resolve());
+
+      return {
+        persons,
+        characters,
+      };
+    }
+    const retryFetch = new Promise((resolve) => {
+      setTimeout(() => resolve(this.shikimoriPersonsAndCharactersFetch(id)), 15000);
+    });
+
+    const result = await Promise.resolve(retryFetch) as { persons: Person[], characters: Character[] };
+    return result;
+  }
+
   private async shikimoriAnimeFetch(id: number) {
     const headers = new Headers({
       'User-Agent': 'shikimori-recommendations',
@@ -41,12 +139,15 @@ export class AnimesService {
     });
 
     const delay = new Promise((resolve) => {
-      setTimeout(() => resolve(animeResponse), 100);
+      setTimeout(() => resolve(animeResponse), 300);
     });
 
     await Promise.resolve(delay);
 
+    const animePersonsAndCharacters = await this.shikimoriPersonsAndCharactersFetch(id);
+
     // this.logger.log(`response: ${animeResponse.status}; id: ${id}`);
+    // this.logger.log(`persons: ${JSON.stringify(animePersonsAndCharacters.persons)}`);
 
     if (animeResponse.status === 200) {
       const animeResult = await animeResponse.json() as ApiShikiAnime;
@@ -79,6 +180,8 @@ export class AnimesService {
         ongoing: animeResult.ongoing,
         ratesScoresStats: animeResult.rates_scores_stats,
         ratesStatusesStats: animeResult.rates_statuses_stats,
+        characters: animePersonsAndCharacters.characters,
+        persons: animePersonsAndCharacters.persons,
       };
       await this.AnimeModel.findOneAndUpdate({ externalId: animePrepare.externalId }, animePrepare, {
         new: true,
@@ -147,7 +250,7 @@ export class AnimesService {
     this.logger.log(`Minutes has passed: ${minutesHasPassed}`);
   }
 
-  @Cron(CronExpression.EVERY_12_HOURS)
+  @Cron('0 0-23/72 * * *')
   async onCronAnimesUpdateHandler() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.shikimoriAnimesParsingBootstrap();
