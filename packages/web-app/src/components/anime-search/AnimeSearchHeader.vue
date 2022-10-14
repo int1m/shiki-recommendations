@@ -1,12 +1,22 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import { NAutoComplete, AutoCompleteProps } from 'naive-ui';
 
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
 import VIcon from '@/components/kit/VIcon.vue';
+import { AnimeApi } from '@/services/@types/animes';
 
 type AutoCompleteThemeOverrides = NonNullable<AutoCompleteProps['themeOverrides']>;
+
+const props = defineProps({
+  animes: {
+    type: Object as PropType<AnimeApi[]>,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['search', 'select']);
 
 const colorPrimary = useGetCSSVariable('--color-primary');
 const colorText = useGetCSSVariable('--color-text');
@@ -31,18 +41,20 @@ const autoCompleteThemeOverrides: AutoCompleteThemeOverrides = {
   },
 };
 
-const valueRef = ref('');
+const search = ref('');
 
-const options = computed(() => ['@gmail.com', '@163.com', '@qq.com'].map((suffix) => {
-  const prefix = valueRef.value.split('@')[0];
-  return {
-    label: prefix + suffix,
-    value: prefix + suffix,
-  };
-}));
+const options = computed(() => props.animes.map((anime) => ({
+  value: anime.externalId.toString(),
+  label: anime.nameRussian,
+})));
 
-const onSearchInputHandler = (value: string) => {
-  valueRef.value = value;
+const onSearchInputHandler = () => {
+  emit('search', search.value);
+};
+
+const onSelectInputHandler = (animeExternalId: string | number) => {
+  console.log(`select: ${animeExternalId}`);
+  emit('select', animeExternalId);
 };
 </script>
 
@@ -53,13 +65,14 @@ const onSearchInputHandler = (value: string) => {
       Поиск по <span>18454</span> тайтлам
     </div>
     <n-auto-complete
-      v-model:value="valueRef"
+      v-model:value="search"
       class="search-auto-complete"
       :options="options"
       placeholder="Найти аниме"
       size="medium"
-      :on-update:value="onSearchInputHandler"
       :theme-overrides="autoCompleteThemeOverrides"
+      :on-select="onSelectInputHandler"
+      :on-input="onSearchInputHandler"
     >
       <template #prefix>
         <VIcon name="search" :size="28" />

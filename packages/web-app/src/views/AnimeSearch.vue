@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { useQuery } from 'vue-query';
 
-import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
+import { getOngoingAnimes, getPopularAnimes, searchAnimes } from '@/services/animes';
 
 import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
+import { computed, ref } from 'vue';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
   refetchOnWindowFocus: false,
@@ -14,11 +16,27 @@ const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongo
 const { data: animesPopular, isFetching: isLoadingPopular } = useQuery(['get-popular-animes'], getPopularAnimes, {
   refetchOnWindowFocus: false,
 });
+
+const searchQuery = ref('');
+const searchEnabled = computed(() => searchQuery.value !== '');
+
+const { data: searchResult } = useQuery(['search-animes', searchQuery], () => searchAnimes(searchQuery.value), {
+  refetchOnWindowFocus: false,
+  enabled: searchEnabled,
+});
+
+const animeSearched = computed(() => searchResult.value ?? []);
+
+const onSearchInputHandler = (searchValue: string) => {
+  searchQuery.value = searchValue;
+};
+
+const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
 </script>
 
 <template>
   <div class="anime-search">
-    <anime-search-header />
+    <anime-search-header :animes="animeSearched" @search="onSearchInputHandlerDebounce" />
     <div class="anime-cards-container">
       <span class="anime-cards-title">Сейчас на экранах</span>
       <horizontal-scroll-container v-if="!isLoadingOngoing" class="anime-cards-scrollable">
