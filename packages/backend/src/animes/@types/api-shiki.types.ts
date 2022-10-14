@@ -1,7 +1,8 @@
+import { Images } from '@/@types';
+
 import {
-  Genre, Images, RateScoresStat, RateStatusesStat, Studio,
-} from '@/animes/@types/animes.types';
-import exp from 'constants';
+  Genre, RateScoresStat, RateStatusesStat, Studio,
+} from './animes.types';
 
 export interface ApiShikiAnimeListItem {
   id: number;

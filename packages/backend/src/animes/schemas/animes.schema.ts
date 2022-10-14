@@ -1,13 +1,14 @@
 import {
   Schema, Prop, raw, SchemaFactory,
 } from '@nestjs/mongoose';
-import { Document, ObjectId, Types } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 import { Timestamps } from '@/@types/mongoose';
 
+import { Images } from '@/@types';
 import {
   Character,
-  Genre, Images, Person, RateScoresStat, RateStatusesStat, Studio,
+  Genre, Person, RateScoresStat, RateStatusesStat, Studio,
 } from '../@types/animes.types';
 
 export type AnimeDocument = Anime & Document<ObjectId> & Timestamps;

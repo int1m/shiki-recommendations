@@ -1,9 +1,4 @@
-export interface Images {
-  original?: string;
-  preview?: string;
-  x48?: string;
-  x96?: string;
-}
+import { Images } from '@/@types';
 
 export interface Studio {
   id: number;

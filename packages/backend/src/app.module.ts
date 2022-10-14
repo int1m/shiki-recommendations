@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AnimesModule } from './animes/animes.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -32,6 +33,8 @@ import { AnimesModule } from './animes/animes.module';
     }),
 
     AnimesModule,
+
+    UsersModule,
   ],
   controllers: [],
   providers: [],

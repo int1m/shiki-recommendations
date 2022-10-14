@@ -238,16 +238,16 @@ export class AnimesService {
     }
   }
 
-  async shikimoriAnimesParsingBootstrap(currentPage = 0) {
+  async shikimoriAnimesParsingBootstrap(currentPage = 1) {
     const parsingStartTime = new Date();
-    this.logger.log(`Parsing startup at: ${parsingStartTime.getHours()}:${parsingStartTime.getMinutes()}`);
+    this.logger.log(`Anime parsing startup at: ${parsingStartTime.getHours()}:${parsingStartTime.getMinutes()}`);
 
     await this.shikimoriAnimesParsing(currentPage);
 
     const parsingEndTime = new Date();
     const minutesHasPassed = (parsingEndTime.getTime() - parsingStartTime.getTime()) / (1000 * 60);
-    this.logger.log(`Parsing end at: ${parsingEndTime.getHours()}:${parsingEndTime.getMinutes()}`);
-    this.logger.log(`Minutes has passed: ${minutesHasPassed}`);
+    this.logger.log(`Anime parsing end at: ${parsingEndTime.getHours()}:${parsingEndTime.getMinutes()}`);
+    this.logger.log(`Anime minutes has passed: ${minutesHasPassed}`);
   }
 
   @Cron('0 0-23/72 * * *')
