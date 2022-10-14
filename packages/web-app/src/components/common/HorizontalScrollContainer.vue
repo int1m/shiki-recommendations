@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
@@ -14,10 +14,14 @@ const scrollableContainer = ref<null | HTMLDivElement>(null);
 const containerScrollLeft = ref(0);
 const isContainerScrollInEnd = ref(false);
 
+const isScrollableContainerScrolled = computed(
+  () => scrollableContainer.value?.offsetWidth !== scrollableContainer.value?.scrollWidth,
+);
+
 const isPrevButtonVisible = computed(() => (!initialStore.isMobileVersion
-&& containerScrollLeft.value > 0));
+&& containerScrollLeft.value > 0) && isScrollableContainerScrolled);
 const isNextButtonVisible = computed(() => (!initialStore.isMobileVersion
-&& !isContainerScrollInEnd.value));
+&& !isContainerScrollInEnd.value) && isScrollableContainerScrolled);
 
 const childrenGap = 20;
 const onClickPrevButtonHandler = () => {
@@ -27,7 +31,6 @@ const onClickPrevButtonHandler = () => {
       const currentCard = scrollableContainer.value.children.length
         - Math.ceil((scrollableContainer.value.scrollWidth - scrollableContainer.value.scrollLeft)
           / (containerChildren.offsetWidth + childrenGap + 4)) + 1;
-      console.log(currentCard);
       const cardsVisible = Math.floor(
         (scrollableContainer.value.offsetWidth - 24) / (containerChildren.offsetWidth + childrenGap),
       );

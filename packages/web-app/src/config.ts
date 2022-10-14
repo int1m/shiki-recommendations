@@ -1,4 +1,4 @@
-export default {
+export const config = {
   urlBase: import.meta.env.VITE_API_BASE_DOMAIN,
   urlWs: import.meta.env.MODE === 'development'
     ? `ws://${import.meta.env.VITE_API_BASE_DOMAIN}:8080`
@@ -7,6 +7,7 @@ export default {
     ? `https://${import.meta.env.VITE_API_BASE_DOMAIN}:3000`
     : `https://${import.meta.env.VITE_API_BASE_DOMAIN}`,
   apiVersion: 'v1',
+  shikimoriUrl: 'https://shikimori.one',
   mode: import.meta.env.MODE as 'development' | 'production' | 'staging',
   mocks: {
     isGlobalUseMockedData: false,

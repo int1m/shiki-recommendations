@@ -77,6 +77,7 @@ const onSearchInputHandler = (value: string) => {
   color: #ffffff;
 
   @media (min-width: 927px) {
+    width: fit-content;
     color: var(--color-text);
     background-color: unset;
 
@@ -110,7 +111,6 @@ const onSearchInputHandler = (value: string) => {
     :deep(.n-input) {
       @media (min-width: 927px) {
         box-shadow: 0 12px 40px 10px rgba(19, 19, 19, 0.05);
-        max-width: 900px;
       }
 
       &.n-input--focus {

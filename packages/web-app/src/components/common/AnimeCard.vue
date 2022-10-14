@@ -1,8 +1,20 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+
+import { config } from '@/config';
+import { useInitialStore } from '@/stores/initialStore';
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
 import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
-import { useInitialStore } from '@/stores/initialStore';
+
+import { AnimeApi, KindEnumApi } from '@/services/@types/animes';
+
+const props = defineProps({
+  anime: {
+    type: Object as PropType<AnimeApi>,
+    required: true,
+  },
+});
 
 const initialStore = useInitialStore();
 
@@ -17,13 +29,13 @@ const OnCardClickHandler = () => {
   <div class="anime-card" @click="OnCardClickHandler">
     <img
       class="anime-card-poster"
-      src="https://kawai.shikimori.one/system/animes/original/51096.jpg?1662797576"
+      :src="`${config.shikimoriUrl}${props.anime.images.original}`"
       alt="anime poster"
     >
     <div class="anime-card-info">
       <div class="anime-card-info-content">
         <span class="anime-card-type">
-          TV Сериал
+          {{ KindEnumApi[props.anime.kind] }}
         </span>
         <div class="anime-card-rating">
           <v-icon-import
@@ -31,10 +43,12 @@ const OnCardClickHandler = () => {
             :size="initialStore.isMobileVersion ? 12 : 18"
             :fill="colorPrimary"
           />
-          <span class="anime-card-rating-value">8.4</span>
+          <span class="anime-card-rating-value">{{ props.anime.score }}</span>
         </div>
       </div>
-      <div class="anime-card-title">Добро пожаловать в класс превосходства 2</div>
+      <div class="anime-card-title">
+        {{ props.anime.nameRussian }}
+      </div>
     </div>
   </div>
 </template>
@@ -60,7 +74,8 @@ const OnCardClickHandler = () => {
 
   .anime-card-poster {
     width: 100%;
-    height: auto;
+    height: 17.5rem;
+    object-fit: cover;
     border-radius: var(--border-radius-card);
     user-select: none;
     pointer-events: none;
@@ -96,11 +111,16 @@ const OnCardClickHandler = () => {
     }
 
     .anime-card-title {
+      display: -webkit-box;
       width: 100%;
+      max-height: 2.5rem;
       margin-top: 0.5rem;
       font-size: 0.875rem;
       word-break: break-word;
-      white-space: pre-wrap;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
       line-height: 1.25;
 
       @media (min-width: 927px) {

@@ -4,7 +4,7 @@
 
 <template>
   <div class="anime-search">
-    <h1>Здесь будут рекомендации</h1>
+    <h1>Здесь будут рекомендации123</h1>
   </div>
 </template>
 

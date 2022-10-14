@@ -1,8 +1,19 @@
 <script lang="ts" setup>
+import { useQuery } from 'vue-query';
+
+import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
+
 import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
 
+const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
+  refetchOnWindowFocus: false,
+});
+
+const { data: animesPopular, isFetching: isLoadingPopular } = useQuery(['get-popular-animes'], getPopularAnimes, {
+  refetchOnWindowFocus: false,
+});
 </script>
 
 <template>
@@ -10,31 +21,23 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
     <anime-search-header />
     <div class="anime-cards-container">
       <span class="anime-cards-title">Сейчас на экранах</span>
-      <horizontal-scroll-container class="anime-cards-scrollable">
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
+      <horizontal-scroll-container v-if="!isLoadingOngoing" class="anime-cards-scrollable">
+        <anime-card
+          v-for="anime in animesOngoing"
+          :key="anime.externalId"
+          :anime="anime"
+        />
       </horizontal-scroll-container>
     </div>
 
     <div class="anime-cards-container">
       <span class="anime-cards-title">Популярное</span>
-      <horizontal-scroll-container class="anime-cards-scrollable">
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
-        <anime-card />
+      <horizontal-scroll-container v-if="!isLoadingPopular" class="anime-cards-scrollable">
+        <anime-card
+          v-for="anime in animesPopular"
+          :key="anime.externalId"
+          :anime="anime"
+        />
       </horizontal-scroll-container>
     </div>
   </div>
