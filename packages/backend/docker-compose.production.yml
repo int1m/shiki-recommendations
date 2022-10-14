@@ -13,8 +13,6 @@ services:
       MONGODB_DATABASE: shikireki
     env_file:
       - ./configs/.env.production
-    ports:
-      - "27017"
 
   mongodb-express:
     image: mongo-express:latest
