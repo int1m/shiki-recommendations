@@ -47,17 +47,6 @@ export enum RoleEnumApi {
   'Director' = 'Режиссёр',
 }
 
-export enum KindEnumApi {
-  tv = 'TV сериал',
-  ona = 'ONA',
-  ova = 'OVA',
-  special = 'Special',
-  movie = 'Фильм',
-  tv_13 = 'TV сериал',
-  tv_24 = 'TV сериал',
-  tv_48 = 'TV сериал',
-}
-
 export interface RoleApi {
   name: string;
   nameRussia: string;

@@ -7,7 +7,7 @@ import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
 import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 
-import { AnimeApi, KindEnumApi } from '@/services/@types/animes';
+import { AnimeApi } from '@/services/@types/animes';
 
 const props = defineProps({
   anime: {
@@ -19,6 +19,17 @@ const props = defineProps({
 const initialStore = useInitialStore();
 
 const colorPrimary = useGetCSSVariable('--color-primary');
+
+const KindApi: { [key: string]: string } = {
+  tv: 'TV сериал',
+  ona: 'ONA',
+  ova: 'OVA',
+  special: 'Special',
+  movie: 'Фильм',
+  tv_13: 'TV сериал',
+  tv_24: 'TV сериал',
+  tv_48: 'TV сериал',
+};
 
 const OnCardClickHandler = () => {
   console.log('click!');
@@ -35,7 +46,7 @@ const OnCardClickHandler = () => {
     <div class="anime-card-info">
       <div class="anime-card-info-content">
         <span class="anime-card-type">
-          {{ KindEnumApi[props.anime.kind] }}
+          {{ KindApi[props.anime.kind ?? 'tv'] }}
         </span>
         <div class="anime-card-rating">
           <v-icon-import
