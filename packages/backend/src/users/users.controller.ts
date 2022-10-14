@@ -7,6 +7,6 @@ export class UsersController implements OnApplicationBootstrap {
 
   onApplicationBootstrap() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.usersService.shikimoriUsersParsingBootstrap(70000);
+    this.usersService.shikimoriUsersParsingBootstrap(200);
   }
 }
