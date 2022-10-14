@@ -32,42 +32,44 @@ export class UsersService {
 
     this.logger.log(`response: ${userRatesResponse.status}; id: ${user.id}`);
 
-    if (userRatesResponse.status === 200) {
-      const userRatesResult = await userRatesResponse.json() as ApiShikiUserRate[];
+    if (userRatesResponse.status !== 403) {
+      if (userRatesResponse.status === 200) {
+        const userRatesResult = await userRatesResponse.json() as ApiShikiUserRate[];
 
-      if (userRatesResult.length > 14) {
-        const userPrepare: User = {
-          externalId: user.id,
-          url: user.url,
-          nickname: user.nickname,
-          avatar: user.avatar,
-          images: user.image,
-          lastOnlineAt: user.last_online_at,
-          rates: userRatesResult.map((rate) => ({
-            externalId: rate.id,
-            episodes: rate.episodes,
-            rewatches: rate.rewatches,
-            score: rate.score,
-            status: rate.status,
-            animeExternalId: rate.anime.id,
-            createdAt: rate.created_at,
-            updatedAt: rate.updated_at,
-          })).filter((rate) => rate.status !== 'planned' && rate.status !== 'watching' && rate.score > 0),
-        };
+        if (userRatesResult.length > 14) {
+          const userPrepare: User = {
+            externalId: user.id,
+            url: user.url,
+            nickname: user.nickname,
+            avatar: user.avatar,
+            images: user.image,
+            lastOnlineAt: user.last_online_at,
+            rates: userRatesResult.map((rate) => ({
+              externalId: rate.id,
+              episodes: rate.episodes,
+              rewatches: rate.rewatches,
+              score: rate.score,
+              status: rate.status,
+              animeExternalId: rate.anime.id,
+              createdAt: rate.created_at,
+              updatedAt: rate.updated_at,
+            })).filter((rate) => rate.status !== 'planned' && rate.status !== 'watching' && rate.score > 0),
+          };
 
-        if (userPrepare.rates.length > 14) {
-          await this.UserModel.findOneAndUpdate({ externalId: userPrepare.externalId }, userPrepare, {
-            new: true,
-            upsert: true,
-          });
+          if (userPrepare.rates.length > 14) {
+            await this.UserModel.findOneAndUpdate({ externalId: userPrepare.externalId }, userPrepare, {
+              new: true,
+              upsert: true,
+            });
+          }
         }
-      }
-    } else {
-      const retryFetch = new Promise((resolve) => {
-        setTimeout(() => resolve(this.shikimoriUserRatesParsing(user)), 30000);
-      });
+      } else {
+        const retryFetch = new Promise((resolve) => {
+          setTimeout(() => resolve(this.shikimoriUserRatesParsing(user)), 15000);
+        });
 
-      await Promise.resolve(retryFetch);
+        await Promise.resolve(retryFetch);
+      }
     }
   }
 
@@ -103,7 +105,7 @@ export class UsersService {
         }
       } else {
         const retryFetch = new Promise((resolve) => {
-          setTimeout(() => resolve(this.shikimoriUsersParsing(currentPage)), 30000);
+          setTimeout(() => resolve(this.shikimoriUsersParsing(currentPage)), 15000);
         });
 
         await Promise.resolve(retryFetch);
