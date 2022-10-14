@@ -25,20 +25,6 @@ import NavBar from '@/components/common/NavBar.vue';
   main {
     flex: 1;
     overflow-y: auto;
-    margin-bottom: 3.75rem;
-
-    @media (min-width: 927px) {
-      margin: 0;
-    }
-  }
-
-  .nav-bar {
-    position: fixed;
-    z-index: 1;
-
-    @media (min-width: 927px) {
-      position: inherit;
-    }
   }
 }
 </style>
