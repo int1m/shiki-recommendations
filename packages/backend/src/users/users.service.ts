@@ -64,7 +64,7 @@ export class UsersService {
       }
     } else {
       const retryFetch = new Promise((resolve) => {
-        setTimeout(() => resolve(this.shikimoriUserRatesParsing(user)), 15000);
+        setTimeout(() => resolve(this.shikimoriUserRatesParsing(user)), 30000);
       });
 
       await Promise.resolve(retryFetch);
@@ -103,7 +103,7 @@ export class UsersService {
         }
       } else {
         const retryFetch = new Promise((resolve) => {
-          setTimeout(() => resolve(this.shikimoriUsersParsing(currentPage)), 15000);
+          setTimeout(() => resolve(this.shikimoriUsersParsing(currentPage)), 30000);
         });
 
         await Promise.resolve(retryFetch);
