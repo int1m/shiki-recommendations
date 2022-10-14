@@ -85,11 +85,15 @@ const OnCardClickHandler = () => {
 
   .anime-card-poster {
     width: 100%;
-    height: 17.5rem;
+    height: 12.5rem;
     object-fit: cover;
     border-radius: var(--border-radius-card);
     user-select: none;
     pointer-events: none;
+
+    @media (min-width: 927px) {
+      height: 17.5rem;
+    }
   }
 
   .anime-card-info {

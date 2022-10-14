@@ -48,8 +48,9 @@ const options = computed(() => props.animes.map((anime) => ({
   label: anime.nameRussian,
 })));
 
-const onSearchInputHandler = () => {
-  emit('search', search.value);
+const onSearchInputHandler = (searchValue: string) => {
+  search.value = searchValue;
+  emit('search', searchValue);
 };
 
 const onSelectInputHandler = (animeExternalId: string | number) => {
