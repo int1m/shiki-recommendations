@@ -24,6 +24,8 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors();
+
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
