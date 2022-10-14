@@ -90,7 +90,7 @@ export class UsersService {
       if (response.status === 200) {
         const users = (await response.json()) as ApiShikiUser[];
 
-        if (users.length > 0) {
+        if (users.length > 10) {
           await users.reduce(async (referencePoint, user) => {
             await referencePoint;
             try {

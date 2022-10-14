@@ -11,7 +11,7 @@ import { UserRate } from '../@types/users.types';
 export type UserDocument = User & Document<ObjectId> & Timestamps;
 
 @Schema({ timestamps: true })
-export class User {
+class User {
   @Prop({ required: true })
     externalId: number;
 
@@ -48,4 +48,15 @@ export class User {
     rates: Array<UserRate>;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.virtual('anime', {
+  ref: 'Anime',
+  localField: 'rates.animeId',
+  foreignField: 'externalId',
+  justOne: true,
+});
+
+export {
+  User,
+  UserSchema,
+};
