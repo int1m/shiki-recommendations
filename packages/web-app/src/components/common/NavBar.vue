@@ -76,6 +76,7 @@ const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
   padding: 0.625rem 1rem;
   justify-content: space-between;
   border-top: #ECEFF6 solid 1px;
+  background-color: var(--color-background);
 
   @media (min-width: 927px) {
     max-width: 270px;

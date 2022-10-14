@@ -4,7 +4,7 @@ import NavBar from '@/components/common/NavBar.vue';
 
 <template>
   <div class="main-layout">
-    <nav-bar />
+    <nav-bar class="nav-bar" />
     <main>
       <router-view />
     </main>
@@ -19,13 +19,22 @@ import NavBar from '@/components/common/NavBar.vue';
 
   @media (min-width: 927px) {
     height: 100%;
-
     flex-direction: row;
   }
 
   main {
     flex: 1;
     overflow-y: auto;
+    margin-bottom: 3.75rem;
+  }
+
+  .nav-bar {
+    position: fixed;
+    z-index: 1;
+
+    @media (min-width: 927px) {
+      position: inherit;
+    }
   }
 }
 </style>
