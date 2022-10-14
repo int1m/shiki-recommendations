@@ -19,3 +19,12 @@ export const getPopularAnimes = async () => {
   const result = await response.json();
   return result;
 };
+
+export const searchAnimes = async (searchQuery: string) => {
+  const response = await useFetch.get<AnimeApi[]>(`${baseUrl}/popular`, {
+    search: searchQuery,
+    count: 20,
+  });
+  const result = await response.json();
+  return result;
+};
