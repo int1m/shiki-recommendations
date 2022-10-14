@@ -5,8 +5,6 @@ import {
 export class FindAnimesDto {
   @IsString()
   @IsNotEmpty()
-  @Min(1)
-  @Max(40)
     search: string;
 
   @IsInt()
