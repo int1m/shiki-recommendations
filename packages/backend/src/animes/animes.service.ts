@@ -139,7 +139,7 @@ export class AnimesService {
     });
 
     const delay = new Promise((resolve) => {
-      setTimeout(() => resolve(animeResponse), 300);
+      setTimeout(() => resolve(animeResponse), 350);
     });
 
     await Promise.resolve(delay);

@@ -16,7 +16,7 @@ export class AnimesController implements OnApplicationBootstrap {
 
   onApplicationBootstrap() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    // this.animesService.shikimoriUsersParsingBootstrap();
+    this.animesService.shikimoriAnimesParsingBootstrap();
   }
 
   @Get()
