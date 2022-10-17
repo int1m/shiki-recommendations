@@ -250,7 +250,7 @@ export class AnimesService {
     this.logger.log(`Anime minutes has passed: ${minutesHasPassed}`);
   }
 
-  @Cron('0 0-23/72 * * *')
+  @Cron('0 0-23/96 * * *')
   async onCronAnimesUpdateHandler() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.shikimoriAnimesParsingBootstrap();

@@ -114,10 +114,10 @@ export class Anime {
 
   @Prop(raw([{
     name: {
-      type: Number,
+      type: String,
       required: true,
     },
-    number: {
+    value: {
       type: Number,
       required: true,
     },
@@ -129,8 +129,8 @@ export class Anime {
       type: String,
       required: true,
     },
-    number: {
-      type: String,
+    value: {
+      type: Number,
       required: true,
     },
   }]))
