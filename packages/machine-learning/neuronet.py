@@ -12,6 +12,8 @@ from pymongo import MongoClient
 # import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
+
 
 class Neuronet:
     def __init__(self):
@@ -60,9 +62,9 @@ class Neuronet:
         # one_user = self.df_users.loc[0]
         # print(type(one_user), one_user)
         x_vector = np.reshape(self.preprocessUser(one_user), 500)
-        print(type(x_vector), x_vector.shape, x_vector[0:10])
+        # print(type(x_vector), x_vector.shape, x_vector[0:10])
         x_vector = np.expand_dims(x_vector, axis=0)
-        print(type(x_vector), x_vector.shape, x_vector[0:10][0:10])
+        # print(type(x_vector), x_vector.shape, x_vector[0:10][0:10])
         pred = self.model.predict(x_vector)[0]
         # pred = self.model.predict(self.x_data)[self.df_users[self.df_users['externalId'] == externalId].index[0]]
         result = list()
@@ -78,18 +80,30 @@ class Neuronet:
         self.model.load_weights('./weights/weights.h5')
 
     def loadData(self):
-        x_vector = np.array(pd.read_csv("./data/x_vector.csv"))
-        y_vector = np.array(pd.read_csv("./data/y_vector.csv"))
+        if (os.path.exists("./data/x_vector.csv") and os.path.exists("./data/y_vector.csv")):
+            x_vector = np.array(pd.read_csv("./data/x_vector.csv"))
+            y_vector = np.array(pd.read_csv("./data/y_vector.csv"))
+            y_vector = y_vector / 10
+            return x_vector, y_vector
+        else:
+            self.preprocessTrainingData()
+            self.loadData()
         # print(x_vector[0:30], y_vector[0:30])
         # x_vector = x_vector / 5
-        y_vector = y_vector / 10
-        return x_vector, y_vector
+
 
     def loadDatasets(self):
-        self.df_animes = pd.read_json('./data/animes.json', orient='records')
-        self.df_users = pd.read_json('./data/users.json', orient='records')
+        if (os.path.exists('./data/animes.json') and os.path.exists('./data/users.json')):
+            self.df_animes = pd.read_json('./data/animes.json', orient='records')
+            self.df_users = pd.read_json('./data/users.json', orient='records')
+        else:
+            self.preprocessTrainingData()
+            self.loadDatasets()
+
 
     def preprocessUser(self, user):
+
+
         # def animeVector(user_rates):
         #     y_vector = np.array([0 for x in range(len(self.df_animes['externalId']))])
         #     for rate in user_rates:
@@ -116,6 +130,10 @@ class Neuronet:
         return user_vector
 
     def preprocessTrainingData(self):
+        if (not os.path.exists("./data")):
+            os.makedirs("./data")
+        if (not os.path.exists("./weights")):
+            os.makedirs("./weights")
         client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
         db = client["shiki-recommendations"]
         users = db['users']
@@ -202,9 +220,6 @@ class Neuronet:
             y_vector[i] = vector
             i += 1
 
-
-
-
         df_animes.to_json('./data/animes.json', index=True, orient='records', default_handler=str)
         df_users.to_json('./data/users.json', index=True, orient='records', default_handler=str)
         pd.DataFrame(x_vector).to_csv("./data/x_vector.csv", header=None, index=None)
@@ -213,8 +228,8 @@ class Neuronet:
 
 def main():
     neuronet = Neuronet()
-    # neuronet.preprocessTrainingData()
-    # neuronet.trainModel()
+
+    neuronet.trainModel()
     neuronet.uploadWeights()
 
     one_user = neuronet.df_users.loc[150]
@@ -225,6 +240,7 @@ def main():
     for score in predictionVector[0:5]:
         animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
     print(animes)
+
 
 if __name__ == '__main__':
     main()
