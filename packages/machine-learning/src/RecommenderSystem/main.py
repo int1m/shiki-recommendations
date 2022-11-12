@@ -1,6 +1,5 @@
 import pymongo
 import pandas as pd
-import numpy as np
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
@@ -14,25 +13,16 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 ps = SnowballStemmer("russian")
 
-# name desc(?) genres rating status kind synonyms studios seyu mangaka 
-# duration episodes score
-
-# db_client = pymongo.MongoClient('mongodb://shiki:gf9ff8791khhdg@localhost:27017/shiki-recommendations/animes')
-# current_db = db_client("shiki-recommendations")
 client = pymongo.MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
-db = client["shiki-recommendations"]
+db = client["shikireki"]
 coll = db['animes']
 
 query = {}
 
-# for x in coll.find(query, {'_id': 0, "externalId": 1, "name": 1, "description": 1, "duration": 1, "episodes": 1, "genres": 1, "rating": 1, "score": 1 }):
-#     print(x)
 df = pd.DataFrame(list(coll.find()))
 df = df[["externalId", "name", "description", "genres", "rating", "status", "kind", "synonyms", "studios", "duration", "episodes", "score"]]
 df_digits = df[["duration", "episodes", "score"]]
 df_words = pd.DataFrame(list(coll.find(query, {'_id': 0, "externalId": 1, "name": 1, "description": 1, "genres": 1, "rating": 1, "status": 1, "kind": 1})))
-# print(df.info())
-# print(df.genres[0])
 
 def convert(obj):
     L = []
@@ -45,9 +35,6 @@ def stem(text):
     for i in text.split():
         y.append(ps.stem(i))
     return " ".join(y)
-
-
-
 
 df.dropna(inplace = True)
 df = df.reset_index(drop=True)
@@ -65,7 +52,6 @@ new_df = df[['externalId', 'name', 'tags']].copy()
 new_df['tags'] = new_df['tags'].apply(lambda x:" ".join(x))
 new_df['tags'] = new_df['tags'].apply(lambda x:x.lower())
 new_df['tags'] = new_df['tags'].apply(stem)
-
 
 
 cv = CountVectorizer(max_features=5000, encoding='koi8r', stop_words=stopWords)

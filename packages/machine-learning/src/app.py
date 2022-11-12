@@ -10,7 +10,7 @@ neuronet = Neuronet()
 
 @app.on_event("startup")
 async def startupEvent():
-    # neuronet.trainModel()
+    neuronet.trainModel()
     neuronet.uploadWeights()
 
 @app.post("/personal-recommendations", response_class=PlainTextResponse)

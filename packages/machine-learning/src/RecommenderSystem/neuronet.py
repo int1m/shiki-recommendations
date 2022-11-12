@@ -59,7 +59,7 @@ class Neuronet:
             return x_vector, y_vector
         else:
             self.preprocessTrainingData()
-            self.loadData()
+            return self.loadData()
 
     def loadDatasets(self):
         if (os.path.exists('./data/animes.json') and os.path.exists('./data/users.json')):
