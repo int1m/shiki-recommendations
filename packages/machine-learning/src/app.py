@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse
 
-app = FastAPI(title="volsu-rating-bot")
+app = FastAPI(title="shikireki-machine-learning")
 
 @app.post("/personal-recommendations", response_class=PlainTextResponse)
 async def boot(request: Request) -> str:
