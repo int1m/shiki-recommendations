@@ -63,14 +63,14 @@ const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
 
 <style lang="scss" scoped>
 .anime-search {
-  background-color: #ffffff;
+  background-color: var(--color-background);
   padding-bottom: 1.875rem;
 
   .anime-cards-container {
-    margin-top: 1.875rem;
+    margin-top: 0.5rem;
 
     @media (min-width: 927px) {
-      margin-top: 2.5rem;
+      margin-top: 1rem;
     }
 
     .anime-cards-title {

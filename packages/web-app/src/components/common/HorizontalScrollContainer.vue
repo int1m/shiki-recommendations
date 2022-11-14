@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
@@ -8,7 +8,7 @@ import { useInitialStore } from '@/stores/initialStore';
 
 const initialStore = useInitialStore();
 
-const colorIcons = useGetCSSVariable('--color-primary');
+const colorIconsSecondary = useGetCSSVariable('--color-icon-secondary');
 
 const scrollableContainer = ref<null | HTMLDivElement>(null);
 const containerScrollLeft = ref(0);
@@ -131,7 +131,7 @@ const onMouseUpContainerHandler = () => {
         class="nav-button-icon"
         name="chevron"
         :size="26"
-        fill="#D3D3D3"
+        :fill="colorIconsSecondary"
       />
     </div>
     <div
@@ -154,7 +154,7 @@ const onMouseUpContainerHandler = () => {
         class="nav-button-icon"
         name="chevron"
         :size="26"
-        fill="#D3D3D3"
+        :fill="colorIconsSecondary"
       />
     </div>
   </div>
