@@ -1,12 +1,44 @@
 {
   "shiki-light": {
-    "--color-primary": "#5C77F0",
-    "--color-primary-opacity": "#50A2E980",
-    "--color-primary-shade": "#4a95d6"
+    "--color-background": "#ffffff",
+    "--color-background-secondary": "#f4f4f5",
+    "--color-background-shade": "#e4e4e5",
+    "--color-background-light": "#ffffff",
+    "--color-text": "#1e1e1e",
+    "--color-text-secondary": "#9d9fab",
+    "--color-text-secondary-light": "#c3c5d0",
+    "--color-text-navbar": "#ccbec5",
+    "--color-icon": "#d3d3d3",
+    "--color-icon-secondary": "#979aa5",
+    "--color-borders": "#dadce0",
+    "--color-default-shadow": "#72727240",
+    "--color-light-shadow": "#7272722b",
+    "--color-background-footer": "#5c77f0",
+    "--color-icon-footer-main": "#ffffff",
+    "--color-icon-footer-secondary": "#5c77f0",
+    "--color-background-illustration": "#cad4fd",
+    "--color-text-hidden": "linear-gradient(180deg, #171717 0%, rgba(23, 23, 23, 0) 84.9%)",
+    "--color-background-rates": "#fafafa"
   },
   "shiki-dark": {
-    "--color-primary": "#DE48E1",
-    "--color-primary-opacity": "#8378DB80",
-    "--color-primary-shade": "#7b71c6"
+    "--color-background": "#212121",
+    "--color-background-secondary": "#0f0f0f",
+    "--color-background-shade": "#100f10",
+    "--color-background-light": "#2c2b2b",
+    "--color-text": "#ffffff",
+    "--color-text-secondary": "#aaaaaa",
+    "--color-text-secondary-light": "#636262",
+    "--color-text-navbar": "#636262",
+    "--color-icon": "#575757",
+    "--color-icon-secondary": "#aaaaaa",
+    "--color-borders": "#303030",
+    "--color-default-shadow": "#101010",
+    "--color-light-shadow": "#000000",
+    "--color-background-footer": "#2c2b2b",
+    "--color-icon-footer-main": "#5c77f0",
+    "--color-icon-footer-secondary": "#ffffff",
+    "--color-background-illustration": "#2c2b2b",
+    "--color-text-hidden": "linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 84.9%)",
+    "--color-background-rates": "#2c2b2b"
   }
 }

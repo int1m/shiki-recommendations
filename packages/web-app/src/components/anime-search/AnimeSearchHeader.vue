@@ -33,7 +33,6 @@ const autoCompleteThemeOverrides: AutoCompleteThemeOverrides = {
       borderFocus: 'none',
       borderHover: 'none',
       border: 'none',
-      textColor: colorText,
     },
     InternalSelectMenu: {
       borderRadius: '1rem',
@@ -61,10 +60,6 @@ const onSelectInputHandler = (animeExternalId: string | number) => {
 
 <template>
   <div class="header">
-    <h1>Рекомендации по твоему любимому аниме</h1>
-    <div class="subtitle">
-      Поиск по <span>18454</span> тайтлам
-    </div>
     <n-auto-complete
       v-model:value="search"
       class="search-auto-complete"
@@ -84,17 +79,10 @@ const onSelectInputHandler = (animeExternalId: string | number) => {
 
 <style lang="scss" scoped>
 .header {
-  background-color: var(--color-primary);
   padding: 1.5rem 1rem;
-  border-bottom-left-radius: 1.875rem;
-  border-bottom-right-radius: 1.875rem;
-  color: #ffffff;
 
   @media (min-width: 927px) {
-    width: fit-content;
-    color: var(--color-text);
-    background-color: unset;
-
+    max-width: 990px;
     padding: var(--padding-containter);
   }
 
@@ -116,15 +104,17 @@ const onSelectInputHandler = (animeExternalId: string | number) => {
   }
 
   .search-auto-complete {
-    margin-top: 1rem;
-
-    @media (min-width: 927px) {
-      margin-top: 1.5rem;
-    }
-
     :deep(.n-input) {
-      @media (min-width: 927px) {
-        box-shadow: 0 12px 40px 10px rgba(19, 19, 19, 0.05);
+      box-shadow: 0 12px 40px 10px rgba(19, 19, 19, 0.05);
+      background-color: var(--color-background-light);
+      color: var(--color-text);
+
+      input {
+        color: var(--color-text);
+      }
+
+      .n-input__placeholder {
+        color: var(--color-text-secondary-light)
       }
 
       &.n-input--focus {
@@ -138,7 +128,7 @@ const onSelectInputHandler = (animeExternalId: string | number) => {
       .n-input__prefix {
         margin-right: 0.75rem;
         svg use {
-          fill: #D3D3D3;
+          fill: var(--color-icon);
           transition: fill ease-out .1s;
         }
       }

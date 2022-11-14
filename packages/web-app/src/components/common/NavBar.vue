@@ -47,7 +47,7 @@ const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
           route-name="anime-search"
           :active-route-name="routeName"
           icon-name="search"
-          title="Поиск"
+          title="Главная"
         />
         <nav-bar-item
           route-name="recommendation"
@@ -75,14 +75,14 @@ const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
   width: 100%;
   padding: 0.625rem 1rem;
   justify-content: space-between;
-  border-top: #ECEFF6 solid 1px;
+  border-top: var(--color-borders) solid 1px;
   background-color: var(--color-background);
 
   @media (min-width: 927px) {
     max-width: 270px;
     padding: var(--padding-containter);
     border-top: none;
-    border-right: #ECEFF6 solid 1px;
+    border-right: var(--color-borders) solid 1px;
 
     .nav-bar-up-content {
       display: flex;
@@ -130,13 +130,13 @@ const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
     align-items: center;
     gap: 1rem;
     padding: 0.75rem 1rem;
-    color: #979AA5;
+    color: var(--color-text-secondary);
     cursor: pointer;
     user-select: none;
     transition: color ease-in-out .2s;
 
     :deep(use) {
-      fill: #979AA5;
+      fill: var(--color-icon-secondary);
       transition: fill ease-in-out .2s;
     }
 

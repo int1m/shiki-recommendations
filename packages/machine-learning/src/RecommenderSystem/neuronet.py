@@ -1,18 +1,19 @@
 from keras import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import CountVectorizer
 from pymongo import MongoClient
 
-# import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
 
 
 class Neuronet:
+    isReady: bool = False
+
     def __init__(self):
         self.df_users = None
         self.df_animes = None
@@ -21,26 +22,14 @@ class Neuronet:
         else:
             self.is_learned = True
         self.x_data_raw, self.y_data = self.loadData()
-        # print(self.x_data_raw.shape, self.y_data.shape)
         self.pca = PCA(n_components=500)
         self.x_data = self.pca.fit_transform(self.x_data_raw)
-        # print(self.x_data.shape, self.y_data.shape)
-        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x_data, self.y_data,
-                                                                                test_size=0.33)
+        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x_data, self.y_data, test_size=0.33)
         scaler = StandardScaler()
         self.x_train = scaler.fit_transform(self.x_train)
         self.x_test = scaler.fit_transform(self.x_test)
         self.model = Sequential([
             Dense(2000, input_dim=self.x_data.shape[1], kernel_initializer='normal', activation='relu'),
-            # Dropout(0.25),
-            # Dense(2000, kernel_initializer='normal', activation='relu'),
-            # # Dropout(0.25),
-            # Dense(1000, kernel_initializer='normal', activation='relu'),
-            # # Dropout(0.25),
-            # Dense(2500, kernel_initializer='normal', activation='relu'),
-            # Dropout(0.25),
-            # Dense(5000, kernel_initializer='normal', activation='relu'),
-            # Dense(5000, kernel_initializer='normal', activation='relu'),
             Dense(5000, kernel_initializer='normal', activation='relu'),
             Dense(self.y_data.shape[1], activation='sigmoid')
         ])
@@ -49,39 +38,24 @@ class Neuronet:
         self.loadDatasets()
 
     def trainModel(self):
-
         history = self.model.fit(self.x_train, self.y_train, batch_size=20, epochs=5, validation_split=0.2)
-
-        # plt.plot(history.history['loss'],
-        #          label='Доля потерь на обучающем наборе')
-        # plt.plot(history.history['val_loss'],
-        #          label='Доля потерь на проверочном наборе')
-        # plt.xlabel('Эпоха обучения')
-        # plt.ylabel('Loss')
-        # plt.legend()
-        # plt.show()
         self.model.save_weights('./weights/weights.h5')
 
     def predict(self, one_user):
-        # one_user = self.df_users.loc[0]
-        # print(type(one_user), one_user)
         x_vector = np.reshape(self.preprocessUser(one_user), 500)
-        # print(type(x_vector), x_vector.shape, x_vector[0:10])
         x_vector = np.expand_dims(x_vector, axis=0)
-        # print(type(x_vector), x_vector.shape, x_vector[0:10][0:10])
         pred = self.model.predict(x_vector)[0]
-        # pred = self.model.predict(self.x_data)[self.df_users[self.df_users['externalId'] == externalId].index[0]]
         result = list()
         for index, item in enumerate(pred):
-            result.append({'score': item, 'index': index})
-        # print(result[0:10])
-        result.sort(key=lambda x: x["score"], reverse=True)
-        # print(result[0:10])
+            result.append({ 'score': item, 'index': index })
+        result.sort(key = lambda x: x["score"], reverse=True)
 
         return result
 
     def uploadWeights(self):
         self.model.load_weights('./weights/weights.h5')
+        self.isReady = True
+        print('Neuronet is ready')
 
     def loadData(self):
         if os.path.exists("./data/x_vector.csv") and os.path.exists("./data/y_vector.csv"):
@@ -91,7 +65,7 @@ class Neuronet:
             return x_vector, y_vector
         else:
             self.preprocessTrainingData()
-            self.loadData()
+            return self.loadData()
 
     def loadDatasets(self):
         if os.path.exists('./data/animes.json') and os.path.exists('./data/users.json'):
@@ -101,30 +75,21 @@ class Neuronet:
             self.preprocessTrainingData()
             self.loadDatasets()
 
-    def preprocessUser(self, user):
 
-        # def animeVector(user_rates):
-        #     y_vector = np.array([0 for x in range(len(self.df_animes['externalId']))])
-        #     for rate in user_rates:
-        #         index = self.df_animes[self.df_animes['externalId'] == rate['animeExternalId']].index
-        #         if (len(index) > 0):
-        #             y_vector[index[0]] = rate['score']
-        #     return y_vector
-        # y_vector = animeVector(user['rates'])
+    def preprocessUser(self, user):
         user_vector = np.array([0 for x in self.df_animes['x_vector'][0]])
 
         user['rates'].sort(key=lambda x: x["score"], reverse=True)
         user['rates'] = user['rates'][0:5]
 
+
         for rate in user['rates']:
             index = self.df_animes[self.df_animes['externalId'] == rate['animeExternalId']].index
-            if len(index) > 0:
-                # print(type(self.df_animes.loc[index[0]]['x_vector']), self.df_animes.loc[index[0]]['x_vector'])
+            if (len(index) > 0):
                 user_vector += self.df_animes.loc[index[0]]['x_vector']
 
         x_data = np.insert(self.x_data_raw, 0, user_vector, axis=0)
         user_vector = self.pca.transform(x_data)[0]
-        # print(user_vector, user_vector.shape, type(user_vector))
         return user_vector
 
     @staticmethod
@@ -134,7 +99,7 @@ class Neuronet:
         if not os.path.exists("./weights"):
             os.makedirs("./weights")
         client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
-        db = client["shiki-recommendations"]
+        db = client["shikireki"]
         users = db['users']
         animes = db['animes']
 
@@ -146,11 +111,8 @@ class Neuronet:
              "characters", "persons", "duration", "episodes", "score", "releasedOn"]]
         df_users = df_users[["externalId", "rates"]]
 
-        # df_animes.dropna(inplace=True)
         df_animes = df_animes.drop(df_animes[pd.isnull(df_animes['description'])].index)
         df_animes = df_animes.reset_index(drop=True)
-
-        # print(df_animes.info())
 
         def convert(obj):
             L = []
@@ -226,23 +188,16 @@ class Neuronet:
         pd.DataFrame(y_vector).to_csv("./data/y_vector.csv", header=None, index=None)
 
 
-def main():
-    neuronet = Neuronet()
-
-    if not neuronet.is_learned:
-        neuronet.trainModel()
-        neuronet.is_learned = True
-    neuronet.uploadWeights()
-
-    one_user = neuronet.df_users.loc[500]
-    print(type(one_user), one_user)
-    predictionVector = neuronet.predict(one_user)
-    # print(type(predictionVector['score']), predictionVector[0:10])
-    animes = list()
-    for score in predictionVector[0:5]:
-        animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
-    print(animes)
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     neuronet = Neuronet()
+#
+#     neuronet.trainModel()
+#     neuronet.uploadWeights()
+#
+#     one_user = neuronet.df_users.loc[150]
+#     print(type(one_user), one_user)
+#     predictionVector = neuronet.predict(one_user)
+#     animes = list()
+#     for score in predictionVector[0:5]:
+#         animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
+#     print(animes)

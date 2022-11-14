@@ -66,6 +66,7 @@ const OnCardClickHandler = () => {
 
 <style lang="scss" scoped>
 .anime-card {
+  width: 100%;
   max-width: 152px;
   display: flex;
   flex-shrink: 0;
@@ -92,7 +93,7 @@ const OnCardClickHandler = () => {
     pointer-events: none;
 
     @media (min-width: 927px) {
-      height: 17.5rem;
+      height: 16.5rem;
     }
   }
 

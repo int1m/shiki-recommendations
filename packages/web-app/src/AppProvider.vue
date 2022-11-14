@@ -13,6 +13,7 @@ import { useGetCSSVariable } from '@/hooks/useCssVariables';
 // Naive UI color schema
 const colorText = useGetCSSVariable('--color-text');
 const colorPrimary = useGetCSSVariable('--color-primary');
+const colorTextSecondaryLight = useGetCSSVariable('--color-text-secondary-light');
 
 const borderRadiusDefault = useGetCSSVariable('--border-radius-default');
 const colorShadowDefault = useGetCSSVariable('--color-default-shadow');
@@ -25,9 +26,11 @@ const themeOverrides: GlobalThemeOverrides = {
     fontSizeLarge: '18px',
     fontSizeHuge: '18px',
     lineHeight: '1.5rem',
-    placeholderColor: '#C6C9D2',
+    placeholderColor: colorTextSecondaryLight,
     textColorBase: colorText,
     primaryColor: colorPrimary,
+    textColor1: '#000',
+    baseColor: '#000',
   },
   Select: {
     peers: {
