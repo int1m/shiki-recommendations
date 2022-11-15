@@ -4,7 +4,7 @@ export interface StudioApi {
   id: number;
   name?: string;
   filteredName?: string;
-  image?: string;
+  images?: string;
   real?: boolean;
 }
 
