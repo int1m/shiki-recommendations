@@ -73,8 +73,7 @@ backend-deploy-production:
     name: docker/compose:latest
   script:
     - cd packages/backend
-    - docker-compose build docker-compose.production.yml --no-cache
-    - docker-compose up docker-compose.production.yml
+    - docker-compose -f docker-compose.production.yml up --build -d --force-recreate
   only:
     - main
 
