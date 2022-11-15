@@ -26,10 +26,6 @@ backend-build:
     key: npm
     paths:
       - .npm/
-  artifacts:
-    expire_in: 2 days
-    paths:
-      - packages/backend/node_modules/
 
 web-app-build:
   stage: build
@@ -43,11 +39,7 @@ web-app-build:
     key: npm
     paths:
       - .npm/
-  artifacts:
-    expire_in: 2 days
-    paths:
-      - packages/web-app/node_modules/
-
+ 
 backend-linting:
   stage: linting
   extends: .backend
