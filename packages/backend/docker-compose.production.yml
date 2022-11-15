@@ -8,7 +8,7 @@ services:
     networks:
       - shikireki-network-production
     volumes:
-      - /shikireki-volume-production:/data/db
+      - shikireki-volume-production:/data/db
     environment:
       MONGODB_DATABASE: shikireki
     env_file:
@@ -21,7 +21,7 @@ services:
     networks:
       - shikireki-network-production
     volumes:
-      - /shikireki-volume-production:/data/db
+      - shikireki-volume-production:/data/db
     environment:
       ME_CONFIG_MONGODB_SERVER: shikireki-mongodb-production
       ME_CONFIG_MONGODB_PORT: 27017
