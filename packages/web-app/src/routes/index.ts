@@ -15,6 +15,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/recommendation',
     name: 'recommendation',
     component: () => import('@/views/Recommendation.vue'),
+    props: (route) => ({ query: route.query.code }),
   },
 ];
 

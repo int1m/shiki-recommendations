@@ -1,3 +1,5 @@
+import { refreshTokens } from '@/services/shikimoriIntegrationRefreshToken';
+
 interface BodyGeneric<T = unknown> {
   readonly headers: Headers;
   readonly ok: boolean;
@@ -31,6 +33,11 @@ const request = async <T = unknown>(
     params.headers = requestHeaders;
 
     const response = (await fetch(url, params)) as ResponseGeneric<T>;
+
+    if (response.status === 401 && await refreshTokens()) {
+      return await request(url, params, requestHeaders);
+    }
+
     return response;
   } catch (error) {
     console.warn(`Не удалось получить доступ API: ${url}`);
@@ -74,9 +81,18 @@ const useFetch = {
     return response;
   },
 
-  post: async <T = unknown>(url: string, body = {}, params: UrlParamsType = {}): Promise<ResponseGeneric<T>> => {
+  post: async <T = unknown>(url: string, body = {},
+    params: UrlParamsType = {}, headers: RequestHeaders = {}): Promise<ResponseGeneric<T>> => {
     let urlWithParams = url;
+
     const requestHeaders: HeadersInit = new Headers();
+    if (Object.keys(headers).length !== 0) {
+      Object.entries(headers).forEach(([key, value]) => {
+        if (value && typeof value !== 'undefined') {
+          requestHeaders.set(key, value);
+        }
+      });
+    }
 
     const paramsValue: RequestInit = {
       method: 'POST',

@@ -9,6 +9,8 @@ import {
 } from 'naive-ui';
 
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
+import { useGetUserInfo } from '@/hooks/useGetUserInfo';
+import { onBeforeMount } from 'vue';
 
 // Naive UI color schema
 const colorText = useGetCSSVariable('--color-text');
@@ -49,6 +51,11 @@ const themeOverrides: GlobalThemeOverrides = {
     colorHover: 'rgba(0, 0, 0, 0.2)',
   },
 };
+
+// Get user
+onBeforeMount(async () => {
+  await useGetUserInfo();
+});
 </script>
 
 <template>
