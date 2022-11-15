@@ -57,7 +57,7 @@ volumes:
 
 networks:
   default:
-    name: containers-controller_default
+    name: containers-controller
     external: true
   shikireki-network-production:
     name: shikireki-network-production

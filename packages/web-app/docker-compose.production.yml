@@ -14,5 +14,5 @@ services:
     command: nginx -g "daemon off;"
 networks:
   default:
-    name: containers-controller_default
+    name: containers-controller
     external: true
