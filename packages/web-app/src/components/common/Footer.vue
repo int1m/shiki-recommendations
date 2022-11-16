@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import VIcon from '@/components/kit/VIcon.vue';
+import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 
 const currentYear = (new Date()).getFullYear();
 </script>
@@ -7,7 +8,12 @@ const currentYear = (new Date()).getFullYear();
   <footer>
     <div class="footer-up">
       <div class="footer-up-left">
-        <VIcon name="logo-light" :size="48" />
+        <v-icon-import
+          class="logo"
+          name="logo"
+          :size="48"
+          fill="none"
+        />
         <div class="footer-up-left-text">
           shikireki
         </div>
@@ -46,6 +52,18 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .logo {
+      :deep(svg) {
+        .footer-main {
+          fill: var(--color-icon-footer-main);
+        }
+
+        .footer-secondary {
+          fill: var(--color-icon-footer-secondary);
+        }
+      }
+    }
 
     .footer-up-left {
       display: flex;
