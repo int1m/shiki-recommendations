@@ -1,13 +1,14 @@
 <script lang="ts" setup>
+import { computed, ref } from 'vue';
 import { useQuery } from 'vue-query';
 
 import { getOngoingAnimes, getPopularAnimes, searchAnimes } from '@/services/animes';
 
-import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
-import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
-import AnimeCard from '@/components/common/AnimeCard.vue';
-import { computed, ref } from 'vue';
 import { useDebounce } from '@/hooks/useDebounce';
+
+import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
+import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
+import AnimeCard from '@/components/common/AnimeCard.vue';
 
 const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
   refetchOnWindowFocus: false,
