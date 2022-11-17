@@ -24,7 +24,8 @@ class Neuronet:
         self.x_data_raw, self.y_data = self.loadData()
         self.pca = PCA(n_components=500)
         self.x_data = self.pca.fit_transform(self.x_data_raw)
-        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x_data, self.y_data, test_size=0.33)
+        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x_data, self.y_data,
+                                                                                test_size=0.33)
         scaler = StandardScaler()
         self.x_train = scaler.fit_transform(self.x_train)
         self.x_test = scaler.fit_transform(self.x_test)
@@ -47,8 +48,8 @@ class Neuronet:
         pred = self.model.predict(x_vector)[0]
         result = list()
         for index, item in enumerate(pred):
-            result.append({ 'score': item, 'index': index })
-        result.sort(key = lambda x: x["score"], reverse=True)
+            result.append({'score': item, 'index': index})
+        result.sort(key=lambda x: x["score"], reverse=True)
 
         return result
 
@@ -75,17 +76,15 @@ class Neuronet:
             self.preprocessTrainingData()
             self.loadDatasets()
 
-
     def preprocessUser(self, user):
         user_vector = np.array([0 for x in self.df_animes['x_vector'][0]])
 
         user['rates'].sort(key=lambda x: x["score"], reverse=True)
         user['rates'] = user['rates'][0:5]
 
-
         for rate in user['rates']:
             index = self.df_animes[self.df_animes['externalId'] == rate['animeExternalId']].index
-            if (len(index) > 0):
+            if len(index) > 0:
                 user_vector += self.df_animes.loc[index[0]]['x_vector']
 
         x_data = np.insert(self.x_data_raw, 0, user_vector, axis=0)
@@ -186,7 +185,6 @@ class Neuronet:
         df_users.to_json('./data/users.json', index=True, orient='records', default_handler=str)
         pd.DataFrame(x_vector).to_csv("./data/x_vector.csv", header=None, index=None)
         pd.DataFrame(y_vector).to_csv("./data/y_vector.csv", header=None, index=None)
-
 
 # def main():
 #     neuronet = Neuronet()
