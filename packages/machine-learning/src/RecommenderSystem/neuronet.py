@@ -17,7 +17,7 @@ class Neuronet:
     def __init__(self):
         self.df_users = None
         self.df_animes = None
-        if not os.path.exists('./weights/weights.h5'):
+        if not os.path.exists('../weights/weights.h5'):
             self.is_learned = False
         else:
             self.is_learned = True
@@ -40,7 +40,8 @@ class Neuronet:
 
     def trainModel(self):
         history = self.model.fit(self.x_train, self.y_train, batch_size=20, epochs=5, validation_split=0.2)
-        self.model.save_weights('./weights/weights.h5')
+        self.model.save_weights('../weights/weights.h5')
+        self.is_learned = True
 
     def predict(self, one_user):
         x_vector = np.reshape(self.preprocessUser(one_user), 500)
@@ -54,14 +55,14 @@ class Neuronet:
         return result
 
     def uploadWeights(self):
-        self.model.load_weights('./weights/weights.h5')
+        self.model.load_weights('../weights/weights.h5')
         self.isReady = True
         print('Neuronet is ready')
 
     def loadData(self):
-        if os.path.exists("./data/x_vector.csv") and os.path.exists("./data/y_vector.csv"):
-            x_vector = np.array(pd.read_csv("./data/x_vector.csv"))
-            y_vector = np.array(pd.read_csv("./data/y_vector.csv"))
+        if os.path.exists("../data/x_vector.csv") and os.path.exists("../data/y_vector.csv"):
+            x_vector = np.array(pd.read_csv("../data/x_vector.csv"))
+            y_vector = np.array(pd.read_csv("../data/y_vector.csv"))
             y_vector = y_vector / 10
             return x_vector, y_vector
         else:
@@ -69,9 +70,9 @@ class Neuronet:
             return self.loadData()
 
     def loadDatasets(self):
-        if os.path.exists('./data/animes.json') and os.path.exists('./data/users.json'):
-            self.df_animes = pd.read_json('./data/animes.json', orient='records')
-            self.df_users = pd.read_json('./data/users.json', orient='records')
+        if os.path.exists('../data/animes.json') and os.path.exists('../data/users.json'):
+            self.df_animes = pd.read_json('../data/animes.json', orient='records')
+            self.df_users = pd.read_json('../data/users.json', orient='records')
         else:
             self.preprocessTrainingData()
             self.loadDatasets()
@@ -93,10 +94,10 @@ class Neuronet:
 
     @staticmethod
     def preprocessTrainingData():
-        if not os.path.exists("./data"):
-            os.makedirs("./data")
-        if not os.path.exists("./weights"):
-            os.makedirs("./weights")
+        if not os.path.exists("../data"):
+            os.makedirs("../data")
+        if not os.path.exists("../weights"):
+            os.makedirs("../weights")
         client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
         db = client["shikireki"]
         users = db['users']
@@ -181,10 +182,11 @@ class Neuronet:
             y_vector[i] = vector
             i += 1
 
-        df_animes.to_json('./data/animes.json', index=True, orient='records', default_handler=str)
-        df_users.to_json('./data/users.json', index=True, orient='records', default_handler=str)
-        pd.DataFrame(x_vector).to_csv("./data/x_vector.csv", header=None, index=None)
-        pd.DataFrame(y_vector).to_csv("./data/y_vector.csv", header=None, index=None)
+        df_animes.to_json('../data/animes.json', index=True, orient='records', default_handler=str)
+        df_users.to_json('../data/users.json', index=True, orient='records', default_handler=str)
+        pd.DataFrame(x_vector).to_csv("../data/x_vector.csv", header=None, index=None)
+        pd.DataFrame(y_vector).to_csv("../data/y_vector.csv", header=None, index=None)
+
 
 # def main():
 #     neuronet = Neuronet()
@@ -199,3 +201,18 @@ class Neuronet:
 #     for score in predictionVector[0:5]:
 #         animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
 #     print(animes)
+
+if __name__ == '__main__':
+    neuronet = Neuronet()
+
+    if not neuronet.is_learned:
+        neuronet.trainModel()
+    neuronet.uploadWeights()
+
+    one_user = neuronet.df_users.loc[150]
+    print(type(one_user), one_user)
+    predictionVector = neuronet.predict(one_user)
+    animes = list()
+    for score in predictionVector[0:5]:
+        animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
+    print(animes)
