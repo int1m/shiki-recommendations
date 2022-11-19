@@ -1,4 +1,4 @@
-import { config } from '@/config';
+import { config, SHIKIMORI_CLIENT_ID, SHIKIMORI_CLIENT_SECRET } from '@/config';
 import { useUserStore } from '@/stores/userStore';
 import { AuthTokens } from '@/services/@types/shikimoriIntegration';
 
@@ -18,10 +18,9 @@ export const refreshTokens = async () => {
       method: 'POST',
       body: JSON.stringify({
         grant_type: 'refresh_token',
-        client_id: '86nfY-LpRn2UnfWzboTnZZVSZWPMzS5A4f3OBPE0PHo',
-        client_secret: 'l-HTBWWuyoyZxdWkpO3hmeVVHPauVNSe4nvj0uKq_dQ',
+        client_id: SHIKIMORI_CLIENT_ID,
+        client_secret: SHIKIMORI_CLIENT_SECRET,
         refresh_token: tokenRefresh,
-        redirect_uri: `${window.location.origin}${window.location.pathname}`,
       }),
       headers: requestHeaders,
     };

@@ -11,7 +11,10 @@ declare module '*.vue' {
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_API_BASE_DOMAIN: string
+  readonly VITE_API_BASE_DOMAIN: string;
+  readonly VITE_SHIKIMORI_CLIENT_ID: string;
+  readonly VITE_SHIKIMORI_CLIENT_SECRET: string;
+  readonly VITE_SHIKIMORI_REDIRECT_URL: string;
 }
 
 interface ImportMeta {
