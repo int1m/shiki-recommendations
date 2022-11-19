@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
-import { config } from '@/config';
+import { config, SHIKIMORI_CLIENT_ID, SHIKIMORI_REDIRECT_URL } from '@/config';
 
 import { useUserStore } from '@/stores/userStore';
 
@@ -20,22 +20,22 @@ const tokenRefresh = localStorage.getItem('tokenRefresh');
 
 onBeforeMount(async () => {
   if (typeof code === 'string' && !userStore.isAuthorized) {
-    const tokens = await getAuthTokens(code, `${window.location.origin}${window.location.pathname}`);
+    const tokens = await getAuthTokens(code);
     if (tokens.access_token) {
       userStore.$patch({
         isAuthorized: true,
       });
-      await useGetUserInfo();
       localStorage.setItem('tokenAccess', tokens.access_token);
       localStorage.setItem('tokenRefresh', tokens.refresh_token);
+      await useGetUserInfo();
     }
   }
 });
 
 const onAuthButtonClickHandler = () => {
   const redirectParams = new URLSearchParams({
-    client_id: '86nfY-LpRn2UnfWzboTnZZVSZWPMzS5A4f3OBPE0PHo',
-    redirect_uri: `${window.location.origin}${window.location.pathname}`,
+    client_id: SHIKIMORI_CLIENT_ID,
+    redirect_uri: SHIKIMORI_REDIRECT_URL,
     response_type: 'code',
     scope: '',
   });

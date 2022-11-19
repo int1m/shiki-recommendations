@@ -1,21 +1,24 @@
 import useFetch from '@/hooks/useFetch';
-import { config } from '@/config';
+import {
+  config, SHIKIMORI_CLIENT_ID, SHIKIMORI_CLIENT_SECRET, SHIKIMORI_REDIRECT_URL,
+} from '@/config';
 
 import { AuthTokens, User } from '@/services/@types/shikimoriIntegration';
 import { useUserStore } from '@/stores/userStore';
 
 const baseUrl = `${config.shikimoriUrl}`;
 
-export const getAuthTokens = async (code: string, redirectUri: string) => {
+export const getAuthTokens = async (code: string) => {
   const userStore = useUserStore();
   userStore.$patch({ isAuthorized: false });
   localStorage.removeItem('tokenAccess');
+  localStorage.removeItem('tokenRefresh');
   const response = await useFetch.post<AuthTokens>(`${baseUrl}/oauth/token`, {
     grant_type: 'authorization_code',
-    client_id: '86nfY-LpRn2UnfWzboTnZZVSZWPMzS5A4f3OBPE0PHo',
-    client_secret: 'l-HTBWWuyoyZxdWkpO3hmeVVHPauVNSe4nvj0uKq_dQ',
+    client_id: SHIKIMORI_CLIENT_ID,
+    client_secret: SHIKIMORI_CLIENT_SECRET,
     code,
-    redirect_uri: redirectUri,
+    redirect_uri: SHIKIMORI_REDIRECT_URL,
   }, {}, {
     'User-Agent': 'Shikireki',
   });

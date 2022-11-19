@@ -13,3 +13,8 @@ export const config = {
     isGlobalUseMockedData: false,
   },
 };
+
+export const SHIKIMORI_CLIENT_ID = import.meta.env.VITE_SHIKIMORI_CLIENT_ID ?? '';
+export const SHIKIMORI_CLIENT_SECRET = import.meta.env.VITE_SHIKIMORI_CLIENT_SECRET ?? '';
+export const SHIKIMORI_REDIRECT_URL = import.meta.env.VITE_SHIKIMORI_REDIRECT_URL
+  ?? 'https://localhost:5173/recommendation';
