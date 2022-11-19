@@ -10,21 +10,17 @@ neuronet = Neuronet()
 
 @app.on_event("startup")
 async def startupEvent():
-    neuronet.trainModel()
+    if not neuronet.isLearned:
+        neuronet.trainModel()
     neuronet.uploadWeights()
 
 @app.post("/personal-recommendations", response_class=PlainTextResponse)
 async def onPersonalRecommendationsHandler(request: Request) -> str:
-    #data = await request.json()
+    print('ok')
+    # data = await request.json()
     # print(data)
-    if (neuronet.isReady):
-        oneUser = neuronet.df_users.loc[150]
-        print(type(oneUser), oneUser)
-        predictionVector = neuronet.predict(oneUser)
-        animes = list()
-        for score in predictionVector[0:5]:
-            animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
-            print(animes)
+    # if (neuronet.isReady):
+
 @app.post("/similar-animes", response_class=PlainTextResponse)
 async def onSimilarAnimes(request: Request) -> str:
     data = await request.json()

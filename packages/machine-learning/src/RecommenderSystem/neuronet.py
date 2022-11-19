@@ -186,17 +186,17 @@ class Neuronet:
         pd.DataFrame(y_vector).to_csv("../data/y_vector.csv", header=None, index=None)
 
 
-if __name__ == '__main__':
-    neuronet = Neuronet()
-
-    if not neuronet.isLearned:
-        neuronet.trainModel()
-    neuronet.uploadWeights()
-
-    one_user = neuronet.df_users.loc[150]
-    print(type(one_user), one_user)
-    predictionVector = neuronet.predict(one_user)
-    animes = list()
-    for score in predictionVector[0:5]:
-        animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
-    print(animes)
+# if __name__ == '__main__':
+#     neuronet = Neuronet()
+#
+#     if not neuronet.isLearned:
+#         neuronet.trainModel()
+#     neuronet.uploadWeights()
+#
+#     one_user = neuronet.df_users.loc[150]
+#     print(type(one_user), one_user)
+#     predictionVector = neuronet.predict(one_user)
+#     animes = list()
+#     for score in predictionVector[0:5]:
+#         animes.append(neuronet.df_animes.loc[score['index']][['name', 'externalId']])
+#     print(animes)
