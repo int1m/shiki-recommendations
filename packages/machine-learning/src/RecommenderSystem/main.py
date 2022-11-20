@@ -6,70 +6,71 @@ from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
-stopWords = stopwords.words('russian')
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
-pd.set_option('display.width', None)
-pd.set_option('display.max_colwidth', None)
-ps = SnowballStemmer("russian")
 
-client = pymongo.MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
-db = client["shikireki"]
-coll = db['animes']
+class ContentBasedRecommender:
+    def __init__(self):
+        self.df, self.similarity = self.preprocessData()
 
-query = {}
+    @staticmethod
+    def preprocessData():
+        stopWords = stopwords.words('russian')
+        ps = SnowballStemmer("russian")
 
-df = pd.DataFrame(list(coll.find()))
-df = df[["externalId", "name", "description", "genres", "rating", "status", "kind", "synonyms", "studios", "duration", "episodes", "score"]]
-df_digits = df[["duration", "episodes", "score"]]
-df_words = pd.DataFrame(list(coll.find(query, {'_id': 0, "externalId": 1, "name": 1, "description": 1, "genres": 1, "rating": 1, "status": 1, "kind": 1})))
+        client = pymongo.MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
+        db = client["shikireki"]
+        coll = db['animes']
 
-def convert(obj):
-    L = []
-    for i in obj:
-        L.append(i["name"])
-    return L
+        df = pd.DataFrame(list(coll.find()))
+        df = df[["externalId", "name", "description", "genres", "rating", "status", "kind", "synonyms", "studios",
+                 "duration", "episodes", "score"]]
 
-def stem(text):
-    y = []
-    for i in text.split():
-        y.append(ps.stem(i))
-    return " ".join(y)
+        def convert(obj):
+            L = []
+            for i in obj:
+                L.append(i["name"])
+            return L
 
-df.dropna(inplace = True)
-df = df.reset_index(drop=True)
-df['genres'] = df['genres'].apply(convert)
-df['studios'] = df['studios'].apply(convert)
-df['description'] = df['description'].apply(lambda x:x.split())
+        def stem(text):
+            y = []
+            for i in text.split():
+                y.append(ps.stem(i))
+            return " ".join(y)
 
-df['description'] = df['description'].apply(lambda x:[i.replace(" ", "") for i in x])
-df['genres'] = df['genres'].apply(lambda x:[i.replace(" ", "") for i in x])
-df['studios'] = df['studios'].apply(lambda x:[i.replace(" ", "") for i in x])
+        df.dropna(inplace=True)
+        df = df.reset_index(drop=True)
+        df['genres'] = df['genres'].apply(convert)
+        df['studios'] = df['studios'].apply(convert)
+        df['description'] = df['description'].apply(lambda x: x.split())
+        df['description'] = df['description'].apply(lambda x: [i.replace(" ", "") for i in x])
+        df['genres'] = df['genres'].apply(lambda x: [i.replace(" ", "") for i in x])
+        df['studios'] = df['studios'].apply(lambda x: [i.replace(" ", "") for i in x])
+        df['tags'] = df['description'] + df['genres'] + df['studios']
 
-df['tags'] = df['description'] + df['genres'] + df['studios']
+        new_df = df[['externalId', 'name', 'tags']].copy()
+        new_df['tags'] = new_df['tags'].apply(lambda x: " ".join(x))
+        new_df['tags'] = new_df['tags'].apply(lambda x: x.lower())
+        new_df['tags'] = new_df['tags'].apply(stem)
 
-new_df = df[['externalId', 'name', 'tags']].copy()
-new_df['tags'] = new_df['tags'].apply(lambda x:" ".join(x))
-new_df['tags'] = new_df['tags'].apply(lambda x:x.lower())
-new_df['tags'] = new_df['tags'].apply(stem)
+        cv = CountVectorizer(max_features=5000, encoding='koi8r', stop_words=stopWords)
+        vectors = cv.fit_transform(new_df['tags']).toarray()
+        similarity = cosine_similarity(vectors)
+        return new_df, similarity
+
+    def recommend(self, anime, sigma):
+        anime_list = list()
+        anime_index = self.df[self.df['externalId'] == anime].index[0]
+        distances = self.similarity[anime_index]
+        anime_list_all = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])
+        for i in anime_list_all:
+            if i[1] > sigma:
+                anime_list.append(i)
+        res = list()
+        for i in anime_list:
+            res.append({"name": self.df['name'].loc[i[0]],  "externalId": self.df['externalId'].loc[i[0]]})
+        return res
 
 
-cv = CountVectorizer(max_features=5000, encoding='koi8r', stop_words=stopWords)
-vectors = cv.fit_transform(new_df['tags']).toarray()
-similarity = cosine_similarity(vectors)
-
-def recommend(anime):
-    anime_list = []
-    anime_index = new_df[new_df['name'] == anime].index[0]
-    distances = similarity[anime_index]
-    anime_list_all = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])[1:11]
-    for i in anime_list_all:
-        if(i[1] > 0.20):
-            anime_list.append(i)
-    # print(anime_list)
-    for i in anime_list:
-        print(new_df['name'].loc[i[0]])
-
-# print(new_df.head(10))
-# print(new_df[new_df['name'] == 'One Piece'])
-recommend('Itou Junji: Collection')
+if __name__ == '__main__':
+    contentBasedRecommender = ContentBasedRecommender()
+    recommendation = contentBasedRecommender.recommend(anime=40462, sigma=0.20)
+    print(recommendation)
