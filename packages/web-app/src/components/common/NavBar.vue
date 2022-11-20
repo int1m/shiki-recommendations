@@ -78,6 +78,14 @@ const changeColorSchemaClickHandler = (schemaName: string | undefined) => {
   border-top: var(--color-borders) solid 1px;
   background-color: var(--color-background);
 
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   @media (min-width: 927px) {
     max-width: 270px;
     padding: var(--padding-containter);
