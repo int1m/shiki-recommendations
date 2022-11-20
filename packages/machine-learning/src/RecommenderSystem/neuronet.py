@@ -79,7 +79,6 @@ class Neuronet:
         ratesVector = np.array([0 for x in self.df_animes['x_vector'][0]])
 
         rates.sort(key=lambda x: x["score"], reverse=True)
-        rates = rates[0:5]
 
         for rate in rates:
             index = self.df_animes[self.df_animes['externalId'] == rate['animeExternalId']].index

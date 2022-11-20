@@ -91,3 +91,20 @@ export interface AnimeApi {
   characters: Array<CharacterApi>;
   persons: Array<PersonApi>;
 }
+
+export interface RateApi {
+  id: number;
+  user_id: number;
+  target_type: 'Anime';
+  target_id: number;
+  status: 'completed';
+  episodes: number;
+  chapters: number;
+  volumes: number;
+  rewatches: number;
+  score: number;
+  text: string;
+  text_html: string;
+  created_at: Date;
+  updated_at: Date;
+}
