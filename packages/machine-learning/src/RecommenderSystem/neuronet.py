@@ -41,8 +41,8 @@ class Neuronet:
         self.model.save_weights('../weights/weights.h5')
         self.isLearned = True
 
-    def predict(self, one_user):
-        x_vector = np.reshape(self.preprocessUser(one_user), 500)
+    def predict(self, rates):
+        x_vector = np.reshape(self.preprocessUser(rates), 500)
         x_vector = np.expand_dims(x_vector, axis=0)
         pred = self.model.predict(x_vector)[0]
         result = list()
@@ -75,20 +75,21 @@ class Neuronet:
             self.preprocessTrainingData()
             self.loadDatasets()
 
-    def preprocessUser(self, user):
-        user_vector = np.array([0 for x in self.df_animes['x_vector'][0]])
+    def preprocessUser(self, rates):
+        ratesVector = np.array([0 for x in self.df_animes['x_vector'][0]])
 
-        user['rates'].sort(key=lambda x: x["score"], reverse=True)
-        user['rates'] = user['rates'][0:5]
+        rates.sort(key=lambda x: x["score"], reverse=True)
+        rates = rates[0:5]
 
-        for rate in user['rates']:
+        for rate in rates:
             index = self.df_animes[self.df_animes['externalId'] == rate['animeExternalId']].index
             if len(index) > 0:
-                user_vector += self.df_animes.loc[index[0]]['x_vector']
+                ratesVector += self.df_animes.loc[index[0]]['x_vector']
 
-        x_data = np.insert(self.x_data_raw, 0, user_vector, axis=0)
-        user_vector = self.pca.transform(x_data)[0]
-        return user_vector
+        x_data = np.insert(self.x_data_raw, 0, ratesVector, axis=0)
+
+        ratesVector = self.pca.transform(x_data)[0]
+        return ratesVector
 
     @staticmethod
     def preprocessTrainingData():
@@ -96,7 +97,7 @@ class Neuronet:
             os.makedirs("../data")
         if not os.path.exists("../weights"):
             os.makedirs("../weights")
-        client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
+        client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017')
         db = client["shikireki"]
         users = db['users']
         animes = db['animes']
