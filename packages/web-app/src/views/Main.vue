@@ -1,45 +1,25 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
 import { useQuery } from 'vue-query';
 
-import { getOngoingAnimes, getPopularAnimes, searchAnimes } from '@/services/animes';
-
-import { useDebounce } from '@/hooks/useDebounce';
+import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
 
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
-import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
 
 const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
   refetchOnWindowFocus: false,
 });
 
-const { data: animesPopular, isFetching: isLoadingPopular } = useQuery(['get-popular-animes'], getPopularAnimes, {
+const { data: animesPopular, isLoading: isLoadingPopular } = useQuery(['get-popular-animes'], getPopularAnimes, {
   refetchOnWindowFocus: false,
 });
 
-const searchQuery = ref('');
-const searchEnabled = computed(() => searchQuery.value !== '');
-
-const { data: searchResult } = useQuery(['search-animes', searchQuery], () => searchAnimes(searchQuery.value), {
-  refetchOnWindowFocus: false,
-  enabled: searchEnabled,
-});
-
-const animeSearched = computed(() => searchResult.value ?? []);
-
-const onSearchInputHandler = (searchValue: string) => {
-  searchQuery.value = searchValue;
-};
-
-const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
 </script>
 
 <template>
-  <div class="anime-search">
-    <anime-search-header :animes="animeSearched" @search="onSearchInputHandlerDebounce" />
+  <div class="main">
     <div class="anime-cards-container">
-      <span class="anime-cards-title">Сейчас на экранах</span>
+      <div class="anime-cards-title">Сейчас на экранах</div>
       <horizontal-scroll-container v-if="!isLoadingOngoing" class="anime-cards-scrollable">
         <anime-card
           v-for="anime in animesOngoing"
@@ -50,7 +30,7 @@ const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
     </div>
 
     <div class="anime-cards-container">
-      <span class="anime-cards-title">Популярное</span>
+      <div class="anime-cards-title">Популярное</div>
       <horizontal-scroll-container v-if="!isLoadingPopular" class="anime-cards-scrollable">
         <anime-card
           v-for="anime in animesPopular"
@@ -63,7 +43,7 @@ const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
 </template>
 
 <style lang="scss" scoped>
-.anime-search {
+.main {
   background-color: var(--color-background);
   padding-bottom: 1.875rem;
 

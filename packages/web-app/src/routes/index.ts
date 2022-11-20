@@ -9,7 +9,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'anime-search',
-    component: () => import('@/views/AnimeSearch.vue'),
+    component: () => import('@/views/Main.vue'),
   },
   {
     path: '/recommendation',

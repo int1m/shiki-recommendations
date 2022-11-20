@@ -39,6 +39,7 @@
     display: inline-flex;
     width: 1rem;
     overflow: hidden;
+    color: var(--color-text-secondary);
 
     &::after {
       content: '...';
