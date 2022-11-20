@@ -1,6 +1,6 @@
 import useFetch from '@/hooks/useFetch';
 import { config } from '@/config';
-import { AnimeApi } from '@/services/@types/animes';
+import { AnimeApi, RateApi } from '@/services/@types/animes';
 
 const baseUrl = `${config.urlRest}/${config.apiVersion}/animes`;
 
@@ -25,6 +25,12 @@ export const searchAnimes = async (searchQuery: string) => {
     search: searchQuery,
     count: 20,
   });
+  const result = await response.json();
+  return result;
+};
+
+export const getAnimesRecommendation = async (rates: RateApi[]) => {
+  const response = await useFetch.post<unknown>(`${baseUrl}/recommend-anime`, rates);
   const result = await response.json();
   return result;
 };

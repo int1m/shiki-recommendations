@@ -2,6 +2,7 @@ import useFetch from '@/hooks/useFetch';
 import {
   config, SHIKIMORI_CLIENT_ID, SHIKIMORI_CLIENT_SECRET, SHIKIMORI_REDIRECT_URL,
 } from '@/config';
+import { RateApi } from '@/services/@types/animes';
 
 import { AuthTokens, User } from '@/services/@types/shikimoriIntegration';
 import { useUserStore } from '@/stores/userStore';
@@ -39,9 +40,10 @@ export const getAnimeRates = async (userId: number) => {
   const response = await useFetch.get<unknown>(`${baseUrl}/api/v2/user_rates`, {
     user_id: userId,
     target_type: 'Anime',
+    status: 'completed',
   }, {
     'User-Agent': 'Shikireki',
   });
-  const result = await response.json();
+  const result = (await response.json()) as RateApi[];
   return result;
 };

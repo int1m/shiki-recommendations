@@ -6,6 +6,7 @@ import { config, SHIKIMORI_CLIENT_ID, SHIKIMORI_REDIRECT_URL } from '@/config';
 import { useUserStore } from '@/stores/userStore';
 
 import { getAnimeRates, getAuthTokens } from '@/services/shikimoriIntegration';
+import { getAnimesRecommendation } from '@/services/animes';
 
 import { useGetUserInfo } from '@/hooks/useGetUserInfo';
 
@@ -16,7 +17,6 @@ const route = useRoute();
 const userStore = useUserStore();
 
 const { code } = route.query;
-const tokenRefresh = localStorage.getItem('tokenRefresh');
 
 onBeforeMount(async () => {
   if (typeof code === 'string' && !userStore.isAuthorized) {
@@ -46,7 +46,8 @@ const onAuthButtonClickHandler = () => {
 const onGetAnimeRatesButtonClickHandler = async () => {
   if (userStore.isAuthorized && userStore.id) {
     const userAnimeRates = await getAnimeRates(userStore.id);
-    console.log(userAnimeRates);
+    const recommendation = await getAnimesRecommendation(userAnimeRates);
+    console.log(recommendation);
   }
 };
 </script>

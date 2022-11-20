@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { FilterQuery, Model, SortOrder } from 'mongoose';
 
@@ -8,6 +9,7 @@ import { Anime, AnimeDocument } from './schemas/animes.schema';
 import {
   ApiShikiAnime, ApiShikiAnimeListItem, ApiShikiCharacter, ApiShikiPersons,
 } from './@types/api-shiki.types';
+import { GetRecommendationDto } from './dto/get-recommendation.dto';
 
 interface FindOptions {
   skip: number;
@@ -20,6 +22,7 @@ export class AnimesService {
   private readonly logger = new Logger(AnimesService.name);
 
   constructor(
+    private configService: ConfigService,
     @InjectModel(Anime.name) private AnimeModel: Model<AnimeDocument>,
   ) {}
 
@@ -31,6 +34,34 @@ export class AnimesService {
       .sort(options.sort ?? {})
       .exec();
     return result;
+  }
+
+  async getNeuronetRecommendation(rates: GetRecommendationDto[]) {
+    const ratesPreprocessing = rates.sort((rateA, rateB) => (rateA.score < rateB.score ? 1 : -1))
+      .map((rate) => ({
+        animeExternalId: rate.target_id,
+        status: rate.status,
+        score: rate.score,
+      }));
+
+    const requestHeaders: HeadersInit = new Headers();
+    requestHeaders.set('Content-Type', 'application/json');
+    const recommendationResponse = await fetch('http://127.0.0.1:8000/personal-recommendations', {
+      method: 'POST',
+      headers: requestHeaders,
+      body: JSON.stringify(ratesPreprocessing),
+    });
+
+    const recommendAnimesIds = (await recommendationResponse.json()) as number[];
+
+    const recommendAnimes = await this.AnimeModel
+      .aggregate<AnimeDocument>([
+      { $match: { externalId: { $in: recommendAnimesIds } } },
+      { $addFields: { __order: { $indexOfArray: [recommendAnimesIds, '$externalId'] } } },
+      { $sort: { __order: 1 } },
+    ]).exec();
+
+    return recommendAnimes;
   }
 
   private async shikimoriCharacterFetch(id: number): Promise<Character> {

@@ -38,15 +38,18 @@ async def startupEvent():
 async def onPersonalRecommendationsHandler(request: Request):
     data = await request.json()
     if (neuronet.isReady):
-        predictionVector = neuronet.predict(data)
+        predictionVector = neuronet.predict(data[0:round(len(data) * 0.3)])
         animes = list()
-        for score in predictionVector[0:10]:
-            animeDf = neuronet.df_animes.loc[score['index']][['name', 'externalId']]
-            animes.append({
-                'name': animeDf['name'],
-                'externalId': animeDf.externalId.item(),
-            })
-        return animes
+        for score in predictionVector:
+            animeDf = neuronet.df_animes.loc[score['index']][['externalId']]
+            animes.append(animeDf.externalId.item())
+        for rate in data:
+            try:
+                animes.remove(rate['animeExternalId'])
+            except ValueError:
+                pass
+
+        return animes[0:100]
 
     return {
         'errors': ['Neuronet is not ready'],
