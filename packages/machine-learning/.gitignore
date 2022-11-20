@@ -1,8 +1,3 @@
 /data
 /weights
 /venv
-/src/data/animes.json
-/src/data/users.json
-/src/data/x_vector.csv
-/src/data/y_vector.csv
-/src/weights/weights.h5

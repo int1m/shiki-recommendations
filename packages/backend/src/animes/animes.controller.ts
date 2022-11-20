@@ -1,5 +1,6 @@
+import { GetRecommendationDto } from '@/animes/dto/get-recommendation.dto';
 import {
-  Controller, Get, OnApplicationBootstrap, Logger, Query,
+  Controller, Get, OnApplicationBootstrap, Logger, Query, Post, Body, ParseArrayPipe,
 } from '@nestjs/common';
 
 import { AnimesService } from './animes.service';
@@ -86,5 +87,13 @@ export class AnimesController implements OnApplicationBootstrap {
     });
 
     return animes;
+  }
+
+  @Post('recommend-anime')
+  async getRecommendationHandler(
+  @Body(new ParseArrayPipe({ items: GetRecommendationDto })) body: GetRecommendationDto[],
+  ) {
+    const recommendAnime = await this.animesService.getNeuronetRecommendation(body);
+    return recommendAnime;
   }
 }
