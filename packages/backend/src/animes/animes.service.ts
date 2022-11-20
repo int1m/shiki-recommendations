@@ -55,6 +55,8 @@ export class AnimesService {
 
     const recommendAnimesIds = (await recommendationResponse.json()) as number[];
 
+    this.logger.log(JSON.stringify(recommendAnimesIds));
+
     const recommendAnimes = await this.AnimeModel
       .aggregate<AnimeDocument>([
       { $match: { externalId: { $in: recommendAnimesIds } } },
