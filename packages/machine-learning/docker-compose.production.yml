@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  neuronet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      env: production
+    container_name: shikireki-neuronet-production
+    restart: always
+    networks:
+      - shikireki-network-production
+    ports:
+      - "8000"
+
+networks:
+  shikireki-network-production:
+    name: shikireki-network-production
+    external: true

@@ -77,6 +77,18 @@ backend-deploy-production:
   only:
     - main
 
+neuronet-deploy-production:
+  stage: deploy-production
+  needs:
+    - backend-deploy-production
+  image:
+    name: docker/compose:latest
+  script:
+    - cd packages/machine-learning
+    - docker-compose -f docker-compose.production.yml up --build -d
+  only:
+    - main
+
 web-app-deploy-production:
   stage: deploy-production
   extends: .web-app

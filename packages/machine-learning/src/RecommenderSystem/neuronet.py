@@ -5,11 +5,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import CountVectorizer
 from pymongo import MongoClient
+from os import getenv
 
 import pandas as pd
 import numpy as np
 import os
 
+environment = getenv("env")
+
+if environment == 'production':
+    from configs.config import ConfigProd as Config
+else:
+    from configs.config import ConfigDev as Config
 
 class Neuronet:
     isReady: bool = False
@@ -96,7 +103,7 @@ class Neuronet:
             os.makedirs("../data")
         if not os.path.exists("../weights"):
             os.makedirs("../weights")
-        client = MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017')
+        client = MongoClient(Config.MONGODB_URL)
         db = client["shikireki"]
         users = db['users']
         animes = db['animes']

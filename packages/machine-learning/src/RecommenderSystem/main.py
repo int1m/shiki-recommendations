@@ -1,10 +1,20 @@
 import pymongo
 import pandas as pd
 
+from os import getenv
+
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+
+
+environment = getenv("env")
+
+if environment == 'production':
+    from configs.config import ConfigProd as Config
+else:
+    from configs.config import ConfigDev as Config
 
 
 class ContentBasedRecommender:
@@ -16,7 +26,7 @@ class ContentBasedRecommender:
         stopWords = stopwords.words('russian')
         ps = SnowballStemmer("russian")
 
-        client = pymongo.MongoClient('mongodb://root:gkkI7ifm3cmOpQerxb@localhost:27017/')
+        client = pymongo.MongoClient(Config.MONGODB_URL)
         db = client["shikireki"]
         coll = db['animes']
 
