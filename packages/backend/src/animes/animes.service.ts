@@ -46,7 +46,8 @@ export class AnimesService {
 
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Content-Type', 'application/json');
-    const recommendationResponse = await fetch('http://127.0.0.1:8000/personal-recommendations', {
+    const recommendationResponse = await fetch(`${this.configService
+      .get<string>('MACHINE_LEARNING_SERVICE_API_URL')}/personal-recommendations`, {
       method: 'POST',
       headers: requestHeaders,
       body: JSON.stringify(ratesPreprocessing),
