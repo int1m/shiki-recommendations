@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 
-CMD ["python", "app/app.py", "--reload"]
+CMD ["python", "src/app.py", "--reload"]
