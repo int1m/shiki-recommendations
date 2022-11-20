@@ -30,7 +30,7 @@ export const searchAnimes = async (searchQuery: string) => {
 };
 
 export const getAnimesRecommendation = async (rates: RateApi[]) => {
-  const response = await useFetch.post<unknown>(`${baseUrl}/recommend-anime`, rates);
+  const response = await useFetch.post<AnimeApi[]>(`${baseUrl}/recommend-anime`, rates);
   const result = await response.json();
   return result;
 };
