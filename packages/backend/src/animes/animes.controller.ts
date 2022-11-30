@@ -53,7 +53,8 @@ export class AnimesController implements OnApplicationBootstrap {
 
   @Get('id')
   async getAnimeById(id: string) {
-    return this.animesService.getAnimeById(id);
+    const result = await this.animesService.getAnimeById(id);
+    return result;
   }
 
   @Get('ongoing')
