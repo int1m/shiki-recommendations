@@ -55,7 +55,7 @@ backend-linting:
     - backend-build
   script:
     - cd packages/backend
-    - npm run lint
+    - npm run lint-ci
 
 web-app-linting:
   stage: linting
