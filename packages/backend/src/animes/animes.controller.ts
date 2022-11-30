@@ -1,9 +1,11 @@
-import {GetRecommendationDto} from '@/animes/dto/get-recommendation.dto';
-import {Body, Controller, Get, Logger, OnApplicationBootstrap, ParseArrayPipe, Post, Query,} from '@nestjs/common';
+import { GetRecommendationDto } from '@/animes/dto/get-recommendation.dto';
+import {
+  Body, Controller, Get, Logger, OnApplicationBootstrap, ParseArrayPipe, Post, Query,
+} from '@nestjs/common';
 
-import {AnimesService} from './animes.service';
-import {FindAnimesDto} from './dto/find-animes.dto';
-import {GetAnimesDto} from './dto/get-animes.dto';
+import { AnimesService } from './animes.service';
+import { FindAnimesDto } from './dto/find-animes.dto';
+import { GetAnimesDto } from './dto/get-animes.dto';
 
 @Controller('animes')
 export class AnimesController implements OnApplicationBootstrap {
@@ -51,9 +53,8 @@ export class AnimesController implements OnApplicationBootstrap {
 
   @Get('id')
   async getAnimeById(id: string) {
-    return await this.animesService.getAnimeById(id);
+    return this.animesService.getAnimeById(id);
   }
-
 
   @Get('ongoing')
   async getOngoingAnimesHandler(

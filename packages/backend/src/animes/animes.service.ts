@@ -37,9 +37,8 @@ export class AnimesService {
   }
 
   async getAnimeById(id: string) {
-    const result = await this.AnimeModel
-      .findOne({ externalId: id }, { url:1 })
-    return result;
+    return this.AnimeModel
+      .findOne({ externalId: id }, { url: 1 });
   }
 
   async getNeuronetRecommendation(rates: GetRecommendationDto[]) {
