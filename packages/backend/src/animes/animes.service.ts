@@ -36,6 +36,12 @@ export class AnimesService {
     return result;
   }
 
+  async getAnimeById(id: string) {
+    const result = await this.AnimeModel
+      .findOne({ externalId: id }, { url:1 })
+    return result;
+  }
+
   async getNeuronetRecommendation(rates: GetRecommendationDto[]) {
     const ratesPreprocessing = rates.sort((rateA, rateB) => (rateA.score < rateB.score ? 1 : -1))
       .map((rate) => ({
