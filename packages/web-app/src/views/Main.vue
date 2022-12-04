@@ -5,6 +5,7 @@ import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
 
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
+import AnimePage from '@/components/common/AnimePage.vue';
 
 const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
   refetchOnWindowFocus: false,
@@ -18,7 +19,7 @@ const { data: animesPopular, isLoading: isLoadingPopular } = useQuery(['get-popu
 
 <template>
   <div class="main">
-    <div class="anime-cards-container">
+    <!--<div class="anime-cards-container">
       <div class="anime-cards-title">Сейчас на экранах</div>
       <horizontal-scroll-container v-if="!isLoadingOngoing" class="anime-cards-scrollable">
         <anime-card
@@ -38,7 +39,8 @@ const { data: animesPopular, isLoading: isLoadingPopular } = useQuery(['get-popu
           :anime="anime"
         />
       </horizontal-scroll-container>
-    </div>
+    </div>-->
+    <AnimePage> </AnimePage>
   </div>
 </template>
 
