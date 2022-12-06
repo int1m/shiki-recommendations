@@ -34,15 +34,26 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
       </div>
       <div class="anime-basic-information-down">
         <div class="anime-left-information">
-          <div class="anime-left-picture">
-            <v-icon-import
-              class="bleach"
-              name="bleach"
-              :size="340"
-              fill="none"
-            />
+          <img class="anime-left-picture" src=" https://moe.shikimori.one/system/animes/original/41467.jpg?1668635043" alt="poster">
+          <div class="anime-left-add">
+            <div class="left-add">
+              <v-icon-import
+                class="plus"
+                name="plus"
+                :size="14"
+                fill="#fff"
+              />
+              <span class="add-list-text">Добавить в список</span>
+            </div>
+            <div class="left-menu">
+              <v-icon-import
+                class="vector"
+                name="vector"
+                :size="13"
+                fill="#fff"
+              />
+            </div>
           </div>
-          <div class="anime-left-add" />
           <div class="anime-left-rating" />
         </div>
         <div class="anime-right-information" />
@@ -85,7 +96,32 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 }
 .anime-left-information{
   display: flex;
+  flex-direction: column;
+  padding-right: 2rem;
+}
+.anime-left-picture{
+  border-radius: var(--border-radius-card);
+  padding-bottom: 1.5rem;
+  width: 21.25rem;
+  height: 29.75rem;
+}
+.anime-left-add{
+  display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--border-radius-card);
+  background-color: var(--color-primary);
+  width: 21.25rem;
+  height: 2.5rem;
+  color: var(--color-white);
+  padding: 0.5rem;
+}
+.plus{
+  padding-right: 0.813rem;
+}
+.add-list-text{
+  font-size: 18px;
 }
 
 </style>
