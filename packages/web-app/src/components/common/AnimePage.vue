@@ -110,11 +110,35 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
         <span class="authors-title-text">Авторы</span>
       </div>
       <div class="anime-authors-down">
-        <div class="authors-one"></div>
-        <div class="authors-two"></div>
+        <div class="authors-one">
+          <div class="authors-one-photo">
+            <img src="https://nyaa.shikimori.one/system/people/x48/1880.jpg?1663070895" alt="" class="photo-author">
+          </div>
+          <div class="authors-one-text">
+            <span class="text-title">Тайто Кубо</span>
+            <span class="one-text">Автор оригинала</span>
+          </div>
+        </div>
+        <div class="authors-two">
+          <div class="authors-two-photo">
+            <img src="https://nyaa.shikimori.one/system/people/x48/31235.jpg?1644526447" alt="" class="photo-author">
+          </div>
+          <div class="authors-two-text">
+            <span class="text-title">Томохиса Тагути</span>
+            <span class="one-text">Компоновка серий</span>
+            <span class="one-text">Режиссёр</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="anime-similar" />
+    <div class="anime-similar">
+      <div class="anime-similar-title">
+        <span class="authors-title-text">Похожее</span>
+      </div>
+      <div class="anime-similar-down">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -231,6 +255,7 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 .anime-main-heroes{
   display: flex;
   flex-direction: column;
+  padding-bottom: 32px;
 }
 .anime-main-heroes-images{
   display: flex;
@@ -266,4 +291,61 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
   font-size: 16px;
   padding-right: 90px;
 }
+.anime-authors{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+.authors-title-text{
+  font-size: 40px;
+  font-weight: 700;
+}
+.anime-authors-down{
+  display: flex;
+  flex-direction: row;
+}
+.authors-one{
+  display: flex;
+  flex-direction: row;
+  padding-right: 63px;
+  align-items: center;
+}
+.authors-two{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.anime-authors-title{
+  padding-bottom: 30px;
+
+}
+.authors-one-photo{
+  height: 100px;
+  width: 100px;
+}
+.authors-two-photo{
+  height: 100px;
+  width: 100px;
+}
+.photo-author{
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+}
+.authors-one-text{
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+}
+.authors-two-text{
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+}
+.text-title{
+  font-size: 24px;
+  font-weight: 700;
+  padding-bottom: 8px;
+}
+
 </style>
