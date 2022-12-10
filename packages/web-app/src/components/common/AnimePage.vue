@@ -89,9 +89,26 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
             <div class="meaning">Bleach: Thousand-Year Blood War</div>
           </div>
           <div class="anime-status">
-            <div class="anime"></div>
+            <div class="anime-status-title">
+              <span class="status-title">В списках у людей</span>
+            </div>
+            <div class="anime-status-left"></div>
+            <div class="anime-status-right">
+              <div class="meaning">Запланировано</div>
+              <div class="meaning">Просмотренно</div>
+              <div class="meaning">Смотрю</div>
+              <div class="meaning">Брошено</div>
+              <div class="meaning">Отложено</div>
+            </div>
           </div>
-          <div class="anime-studio"></div>
+          <div class="anime-studio">
+            <div class="anime-studio-title">
+              <span class="studio-text-title">Студии</span>
+            </div>
+            <div class="anime-studio-photo">
+              <img src="https://dere.shikimori.one/system/studios/original/569.png?1351013196" alt="" class="studio-photo">
+            </div>
+          </div>
           <div class="anime-description">
             <span class="description-title">Описание</span>
             <div class="description-text">Сообщество душ получает множество сообщений о тревоге: число пустых, уничтоженных в мире живых, растёт с каждой минутой; всё больше жителей района Руконгай числятся пропавшими; грань  между миром живых и Сообществом душ под угрозой исчезновения. Вскоре и Сообщество душ получает множество сообщений о тревоге: число пустых, уничтоженных в мире живых, растёт с каждой минутой; всё больше жителей района Руконгай числятся пропавшими; грань между миром живых и Сообществом душ под </div>
@@ -105,16 +122,22 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
       </div>
       <div class="anime-main-heroes-images">
         <div class="anime-main-heroes-images-up">
-          <div class="image"><img src="https://nyaa.shikimori.one/system/characters/preview/5.jpg?1669414948" alt="" class="photo"></div>
-          <div class="image"><img src="https://moe.shikimori.one/system/characters/preview/7.jpg?1644787375" alt="" class="photo"></div>
-          <div class="image"><img src="https://dere.shikimori.one/system/characters/preview/564.jpg?1644787319" alt="" class="photo"></div>
-          <div class="image"><img src="https://nyaa.shikimori.one/system/characters/preview/575.jpg?1644787192" alt="" class="photo"></div>
-        </div>
-        <div class="anime-main-heroes-images-down">
-          <span class="images-text">Ичиго Куросаки</span>
-          <span class="images-text">Орихимэ Иноуэ</span>
-          <span class="images-text">Урю Исида</span>
-          <span class="images-text">Ясутора Садо</span>
+          <div class="image">
+            <img src="https://nyaa.shikimori.one/system/characters/original/5.jpg?1669414948" alt="" class="photo">
+            <span class="images-text">Ичиго Куросаки</span>
+          </div>
+          <div class="image">
+            <img src="https://moe.shikimori.one/system/characters/original/7.jpg?1644787375" alt="" class="photo">
+            <span class="images-text">Орихимэ Иноуэ</span>
+          </div>
+          <div class="image">
+            <img src="https://dere.shikimori.one/system/characters/original/564.jpg?1644787319" alt="" class="photo">
+            <span class="images-text">Урю Исида</span>
+          </div>
+          <div class="image">
+            <img src="https://nyaa.shikimori.one/system/characters/original/575.jpg?1644787192" alt="" class="photo">
+            <span class="images-text">Ясутора Садо</span>
+          </div>
         </div>
       </div>
     </div>
@@ -125,7 +148,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
       <div class="anime-authors-down">
         <div class="authors-one">
           <div class="authors-one-photo">
-            <img src="https://nyaa.shikimori.one/system/people/x48/1880.jpg?1663070895" alt="" class="photo-author">
+            <img src="https://nyaa.shikimori.one/system/people/original/1880.jpg?1663070895" alt="" class="photo-author">
           </div>
           <div class="authors-one-text">
             <span class="text-title">Тайто Кубо</span>
@@ -134,7 +157,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
         </div>
         <div class="authors-two">
           <div class="authors-two-photo">
-            <img src="https://nyaa.shikimori.one/system/people/x48/31235.jpg?1644526447" alt="" class="photo-author">
+            <img src="https://nyaa.shikimori.one/system/people/original/31235.jpg?1644526447" alt="" class="photo-author">
           </div>
           <div class="authors-two-text">
             <span class="text-title">Томохиса Тагути</span>
@@ -263,11 +286,48 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 }
 .anime-status{
   grid-area:status;
-
+  display: grid;
+  grid-template-areas:"title title "
+                      "left right ";
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 12px;
+}
+.anime-status-title{
+  grid-area: title;
+  font-size: 24px;
+  font-weight: 600;
+}
+.anime-status-left{
+  grid-area: left;
+  background-color: #686c72;
+}
+.anime-status-right{
+  grid-area: right;
+  text-align: right;
+  display: grid;
+  row-gap: 8px;
 }
 .anime-studio{
   grid-area: studio;
-
+  display: grid;
+  grid-template-rows: 71px 51px;
+  grid-template-columns: 1fr;
+  justify-content: end;
+  align-items: end;
+}
+.anime-studio-photo{
+  height: 38px;
+  width: 130px;
+}
+.studio-photo{
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+}
+.studio-text-title{
+  font-size: 24px;
+  font-weight: 600;
 }
 .anime-description{
   grid-area: description;
@@ -281,7 +341,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 }
 .meaning{
   font-size: 14px;
-
+  font-weight: 400;
 }
 .description-title{
   font-size: 40px;
@@ -298,6 +358,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 .anime-main-heroes-images{
   display: flex;
   flex-direction: column;
+  padding-bottom: 32px;
 }
 .anime-main-heroes-images-up{
   display: flex;
@@ -305,14 +366,15 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 }
 
 .image{
-  height: 300px;
-  width: 203px;
+  height: 260px;
+  width: 210px;
 }
 .photo{
   width: 100%;
   height: 100%;
-  border-radius: 8px 8px 8px 8px;
-  padding-right: 12px;
+  border-radius: 10px;
+  padding-right: 13px;
+  object-fit: cover;
 }
 .heroes-title{
   font-size: 40px;
@@ -321,10 +383,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 .anime-main-heroes-title{
   padding-bottom: 20px;
 }
-.anime-main-heroes-images-down{
-  display: flex;
-  justify-content: left;
-}
+
 .images-text{
   font-size: 16px;
   padding-right: 90px;
@@ -369,6 +428,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
   width: 100%;
   height: 100%;
   border-radius: 100px;
+  object-fit: cover;
 }
 .authors-one-text{
   display: flex;
