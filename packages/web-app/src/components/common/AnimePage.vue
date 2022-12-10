@@ -56,7 +56,34 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
           </div>
           <div class="anime-left-rating" />
         </div>
-        <div class="anime-right-information" />
+        <div class="anime-right-information">
+          <div class="information-about-anime">
+            <div class="variable">Тип:</div>
+            <div class="meaning">TV Сериал</div>
+            <div class="variable">Эпизоды:</div>
+            <div class="meaning">2</div>
+            <div class="variable">Следующий эпизод:</div>
+            <div class="meaning">24 окт. 18:00</div>
+            <div class="variable">Длительность эпизода:</div>
+            <div class="meaning">24 мин.</div>
+            <div class="variable">Статус:</div>
+            <div class="meaning">с 11 окт. 2022 г.</div>
+            <div class="variable">Рейтинг:</div>
+            <div class="meaning">R-17</div>
+            <div class="variable">По-японски:</div>
+            <div class="meaning">BLEACH: 千年血戦篇</div>
+            <div class="variable">По-английски:</div>
+            <div class="meaning">Bleach: Thousand-Year Blood War</div>
+          </div>
+          <div class="anime-status">
+            <div class="anime"></div>
+          </div>
+          <div class="anime-studio"></div>
+          <div class="anime-description">
+            <span class="description-title">Описание</span>
+            <div class="description-text">Сообщество душ получает множество сообщений о тревоге: число пустых, уничтоженных в мире живых, растёт с каждой минутой; всё больше жителей района Руконгай числятся пропавшими; грань  между миром живых и Сообществом душ под угрозой исчезновения. Вскоре и Сообщество душ получает множество сообщений о тревоге: число пустых, уничтоженных в мире живых, растёт с каждой минутой; всё больше жителей района Руконгай числятся пропавшими; грань между миром живых и Сообществом душ под </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="anime-main-heroes" />
@@ -98,6 +125,7 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
   display: flex;
   flex-direction: column;
   padding-right: 2rem;
+
 }
 .anime-left-picture{
   border-radius: var(--border-radius-card);
@@ -117,11 +145,61 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
   color: var(--color-white);
   padding: 0.5rem;
 }
+.anime-basic-information-down{
+  display: flex;
+  flex-direction: row;
+}
 .plus{
   padding-right: 0.813rem;
 }
 .add-list-text{
   font-size: 18px;
 }
+.anime-right-information{
+  display: grid;
+  grid-template-areas:"about status"
+                      "about studio"
+                      "description description";
+  grid-template-rows: 8.969rem 8.969rem 13.063rem;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 15px;
+  column-gap: 32px;
+}
+.information-about-anime{
+  display: inline-grid;
+  grid-template-rows: repeat(2, 19px) repeat(2,38px) repeat(4,19px);
+  grid-template-columns: 1fr 2fr;
+  grid-area:about;
+  row-gap: 10px;
+  column-gap: 17px;
+}
+.anime-status{
+  grid-area:status;
 
+}
+.anime-studio{
+  grid-area: studio;
+
+}
+.anime-description{
+  grid-area: description;
+  display: inline-grid;
+  grid-template-rows: 20% 80%;
+  row-gap: 15px;
+}
+.variable{
+  font-weight: 700;
+  font-size: 14px;
+}
+.meaning{
+  font-size: 14px;
+
+}
+.description-title{
+  font-size: 30px;
+  font-weight: 600;
+}
+.description-text{
+  font-size: 14px;
+}
 </style>
