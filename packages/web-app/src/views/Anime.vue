@@ -3,7 +3,13 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 
+import Genres from '@/components/anime/Genres.vue';
+
 import { AnimeApi } from '@/services/@types/animes';
+import Information from '@/components/anime/Information.vue';
+import Description from '@/components/anime/Description.vue';
+import RatesStatuses from '@/components/anime/RatesStatuses.vue';
+import Action from '@/components/anime/Action.vue';
 
 const animesSimilar: AnimeApi[] = [
   {
@@ -104,31 +110,8 @@ const animesSimilar: AnimeApi[] = [
 <template>
   <div class="anime-content">
     <div class="anime-basic-information">
-      <div class="anime-basic-information-up">
-        <div class="anime-title">
-          <span class="anime-title-text">Блич: Тысячелетняя кровавая война</span>
-        </div>
-        <div class="anime-genres">
-          <div class="anime-genre">
-            Супер сила
-          </div>
-          <div class="anime-genre">
-            Экшен
-          </div>
-          <div class="anime-genre">
-            Приключения
-          </div>
-          <div class="anime-genre">
-            Комедия
-          </div>
-          <div class="anime-genre">
-            Сверхъестественное
-          </div>
-          <div class="anime-genre">
-            Сёнен
-          </div>
-        </div>
-      </div>
+      <h2>Блич: Тысячелетняя кровавая война</h2>
+      <Genres />
       <div class="anime-basic-information-down">
         <div class="anime-left-information">
           <img
@@ -136,25 +119,7 @@ const animesSimilar: AnimeApi[] = [
             src="https://moe.shikimori.one/system/animes/original/41467.jpg?1668635043"
             alt="poster"
           >
-          <div class="anime-left-add">
-            <div class="left-add">
-              <v-icon-import
-                class="plus"
-                name="plus"
-                :size="14"
-                fill="#fff"
-              />
-              <span class="add-list-text">Добавить в список</span>
-            </div>
-            <div class="left-menu">
-              <v-icon-import
-                class="vector"
-                name="vector"
-                :size="13"
-                fill="#fff"
-              />
-            </div>
-          </div>
+          <Action />
           <div class="anime-left-rating">
             <div class="anime-left-rating-left">
               <div class="rating-left-up">
@@ -170,79 +135,8 @@ const animesSimilar: AnimeApi[] = [
           </div>
         </div>
         <div class="anime-right-information">
-          <div class="information-about-anime">
-            <div class="variable">
-              Тип:
-            </div>
-            <div class="meaning">
-              TV Сериал
-            </div>
-            <div class="variable">
-              Эпизоды:
-            </div>
-            <div class="meaning">
-              2
-            </div>
-            <div class="variable">
-              Следующий эпизод:
-            </div>
-            <div class="meaning">
-              24 окт. 18:00
-            </div>
-            <div class="variable">
-              Длительность эпизода:
-            </div>
-            <div class="meaning">
-              24 мин.
-            </div>
-            <div class="variable">
-              Статус:
-            </div>
-            <div class="meaning">
-              с 11 окт. 2022 г.
-            </div>
-            <div class="variable">
-              Рейтинг:
-            </div>
-            <div class="meaning">
-              R-17
-            </div>
-            <div class="variable">
-              По-японски:
-            </div>
-            <div class="meaning">
-              BLEACH: 千年血戦篇
-            </div>
-            <div class="variable">
-              По-английски:
-            </div>
-            <div class="meaning">
-              Bleach: Thousand-Year Blood War
-            </div>
-          </div>
-          <div class="anime-status">
-            <div class="anime-status-title">
-              <span class="status-title">В списках у людей</span>
-            </div>
-            <div class="anime-status-left" />
-            <div class="anime-status-right">
-              <div class="meaning">
-                Запланировано
-              </div>
-              <div class="meaning">
-                Просмотренно
-              </div>
-              <div class="meaning">
-                Смотрю
-              </div>
-              <div class="meaning">
-                Брошено
-              </div>
-              <div class="meaning">
-                Отложено
-              </div>
-            </div>
-          </div>
+          <Information />
+          <RatesStatuses />
           <div class="anime-studio">
             <div class="anime-studio-title">
               <span class="studio-text-title">Студии</span>
@@ -255,16 +149,7 @@ const animesSimilar: AnimeApi[] = [
               >
             </div>
           </div>
-          <div class="anime-description">
-            <span class="description-title">Описание</span>
-            <div class="description-text">
-              Сообщество душ получает множество сообщений о тревоге: число пустых, уничтоженных в мире живых, растёт с
-              каждой минутой; всё больше жителей района Руконгай числятся пропавшими; грань между миром живых и
-              Сообществом душ под угрозой исчезновения. Вскоре и Сообщество душ получает множество сообщений о тревоге:
-              число пустых, уничтоженных в мире живых, растёт с каждой минутой; всё больше жителей района Руконгай
-              числятся пропавшими; грань между миром живых и Сообществом душ под
-            </div>
-          </div>
+          <Description />
         </div>
       </div>
     </div>
@@ -369,34 +254,6 @@ const animesSimilar: AnimeApi[] = [
   padding-bottom: var(--padding-containter);
 
   .anime-basic-information {
-    .anime-basic-information-up {
-      .anime-title {
-        padding-bottom: 1rem;
-
-        .anime-title-text {
-          font-size: 40px;
-          font-weight: 700;
-        }
-      }
-
-      .anime-genres {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        font-size: 14px;
-        gap: 0.75rem;
-        padding-bottom: 2rem;
-
-        .anime-genre {
-          padding: 0.625rem;
-          align-content: center;
-          background-color: var(--color-background-light);
-          box-shadow: 0 12px 40px 10px rgba(19, 19, 19, 0.05);
-          border-radius: var(--border-radius-default-small);
-        }
-      }
-    }
-
     .anime-basic-information-down {
       display: flex;
       flex-direction: row;

@@ -74,6 +74,7 @@ const buttonMenuStyle = computed(() => ({
 
 <style lang="scss" scoped>
 .v-button-menu-base {
+  --ripple-color: rgba(0, 0, 0, 0.1);
   height: v-bind('buttonMenuStyle.height');
   position: relative;
   width: auto;
@@ -101,7 +102,7 @@ const buttonMenuStyle = computed(() => ({
   color: var(--color-text);
 
   &:hover {
-    background-color: var(--color-background-compact-menu-hover);
+    background-color: var(--color-background-secondary);
   }
 
   &:active {
