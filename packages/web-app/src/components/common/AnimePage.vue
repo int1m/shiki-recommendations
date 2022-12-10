@@ -86,8 +86,34 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
         </div>
       </div>
     </div>
-    <div class="anime-main-heroes" />
-    <div class="anime-authors" />
+    <div class="anime-main-heroes">
+      <div class="anime-main-heroes-title">
+        <span class="heroes-title">Главные герои</span>
+      </div>
+      <div class="anime-main-heroes-images">
+        <div class="anime-main-heroes-images-up">
+          <div class="image"><img src="https://nyaa.shikimori.one/system/characters/preview/5.jpg?1669414948" alt="" class="photo"></div>
+          <div class="image"><img src="https://moe.shikimori.one/system/characters/preview/7.jpg?1644787375" alt="" class="photo"></div>
+          <div class="image"><img src="https://dere.shikimori.one/system/characters/preview/564.jpg?1644787319" alt="" class="photo"></div>
+          <div class="image"><img src="https://nyaa.shikimori.one/system/characters/preview/575.jpg?1644787192" alt="" class="photo"></div>
+        </div>
+        <div class="anime-main-heroes-images-down">
+          <span class="images-text">Ичиго Куросаки</span>
+          <span class="images-text">Орихимэ Иноуэ</span>
+          <span class="images-text">Урю Исида</span>
+          <span class="images-text">Ясутора Садо</span>
+        </div>
+      </div>
+    </div>
+    <div class="anime-authors">
+      <div class="anime-authors-title">
+        <span class="authors-title-text">Авторы</span>
+      </div>
+      <div class="anime-authors-down">
+        <div class="authors-one"></div>
+        <div class="authors-two"></div>
+      </div>
+    </div>
     <div class="anime-similar" />
   </div>
 </template>
@@ -201,5 +227,43 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 }
 .description-text{
   font-size: 14px;
+}
+.anime-main-heroes{
+  display: flex;
+  flex-direction: column;
+}
+.anime-main-heroes-images{
+  display: flex;
+  flex-direction: column;
+}
+.anime-main-heroes-images-up{
+  display: flex;
+  justify-content: left;
+}
+
+.image{
+  height: 300px;
+  width: 203px;
+}
+.photo{
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 8px 8px 8px;
+  padding-right: 12px;
+}
+.heroes-title{
+  font-size: 40px;
+  font-weight: 700;
+}
+.anime-main-heroes-title{
+  padding-bottom: 20px;
+}
+.anime-main-heroes-images-down{
+  display: flex;
+  justify-content: left;
+}
+.images-text{
+  font-size: 16px;
+  padding-right: 90px;
 }
 </style>
