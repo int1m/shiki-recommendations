@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import VIcon from '@/components/kit/VIcon.vue';
 import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
+import AnimeCard from '@/components/common/AnimeCard.vue';
+
 
 </script>
 
@@ -54,7 +55,19 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
               />
             </div>
           </div>
-          <div class="anime-left-rating" />
+          <div class="anime-left-rating">
+            <div class="anime-left-rating-left">
+              <div class="rating-left-up">
+                <div class="rating-left-up-star"></div>
+              </div>
+              <div class="rating-left-down">
+                <span class="rating-text">152 938 оценки</span>
+              </div>
+            </div>
+            <div class="anime-left-rating-right">
+              <span class="rating-right">8.6</span>
+            </div>
+          </div>
         </div>
         <div class="anime-right-information">
           <div class="information-about-anime">
@@ -146,7 +159,9 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 .anime-content{
   display: flex;
   flex-direction: column;
-  padding: var(--padding-containter);
+  padding-right: var(--padding-containter);
+  padding-left: var(--padding-containter);
+  padding-bottom: var(--padding-containter);
 }
 .anime-title{
   padding-bottom: 1rem;
@@ -195,6 +210,30 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
   color: var(--color-white);
   padding: 0.5rem;
 }
+.anime-left-rating{
+  display: flex;
+  flex-direction: row;
+  padding-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+.anime-left-rating-left{
+  display: flex;
+  flex-direction: column;
+}
+.rating-right{
+  font-size: 40px;
+  font-weight: 500;
+}
+.rating-text{
+  font-size: 14px;
+}
+
+.rating-left-up-star{
+  background-color: #686c72;
+  height: 16px;
+  width: 102px;
+}
 .anime-basic-information-down{
   display: flex;
   flex-direction: row;
@@ -212,7 +251,6 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
                       "description description";
   grid-template-rows: 8.969rem 8.969rem 13.063rem;
   grid-template-columns: 1fr 1fr;
-  row-gap: 15px;
   column-gap: 32px;
 }
 .information-about-anime{
@@ -235,22 +273,22 @@ import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
   grid-area: description;
   display: inline-grid;
   grid-template-rows: 20% 80%;
-  row-gap: 15px;
+  row-gap: 30px;
 }
 .variable{
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
 }
 .meaning{
   font-size: 14px;
 
 }
 .description-title{
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 600;
 }
 .description-text{
-  font-size: 14px;
+  font-size: 16px;
 }
 .anime-main-heroes{
   display: flex;
