@@ -206,6 +206,7 @@ const onMouseUpContainerHandler = () => {
   }
 
   .scrollable-container {
+    width: 100%;
     display: flex;
     overflow-x: scroll;
     -ms-overflow-style: none;

@@ -86,12 +86,6 @@ const options = [
   user-select: none;
   cursor: pointer;
 
-  //&:not(&.action-left:hover) {
-  //  .title {
-  //    text-decoration: underline;
-  //  }
-  //}
-
   .action-right {
     height: 100%;
     padding-left: 0.5rem;
