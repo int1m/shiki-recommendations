@@ -72,9 +72,14 @@
 
 <style lang="scss" scoped>
 .information {
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+
+  @media (min-width: 927px) {
+    padding: 0;
+  }
 
   .information-item {
     display: flex;

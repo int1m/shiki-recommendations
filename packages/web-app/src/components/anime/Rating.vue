@@ -24,9 +24,14 @@ const colorPrimary = useGetCSSVariable('--color-primary');
 
 <style lang="scss" scoped>
 .rating {
+  padding: 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 927px) {
+    padding: 0;
+  }
 
   .rating-left {
     display: flex;

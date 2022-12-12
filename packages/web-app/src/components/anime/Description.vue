@@ -13,9 +13,14 @@
 <style lang="scss" scoped>
 .description {
   width: 100%;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media (min-width: 927px) {
+    padding: 0;
+  }
 
   @media (min-width: 927px) {
     gap: 2rem;
