@@ -54,3 +54,12 @@ h1 {
     font-size: 3rem;
   }
 }
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  @media (min-width: 927px) {
+    font-size: 2.5rem;
+  }
+}

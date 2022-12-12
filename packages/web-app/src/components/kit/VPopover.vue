@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { NPopover } from 'naive-ui';
 import {
   computed, onMounted, PropType, watch,
 } from 'vue';
+import { NPopover } from 'naive-ui';
+
 import { useSetCSSVariable } from '@/hooks/useCssVariables';
 
 const props = defineProps({
@@ -39,11 +40,13 @@ watch((isShowValue), (showValue) => {
   useSetCSSVariable(followerContainerPointerEventsVar, showValue ? 'all' : 'none');
 });
 
-const onClickOutsideHandler = (e: MouseEvent) => {
+const onOutsideClickHandler = (e: MouseEvent) => {
+  console.log(e.type);
   if (e.type === 'mouseup') {
     emit('clickOutside', e);
   }
 };
+
 </script>
 
 <template>
@@ -54,7 +57,7 @@ const onClickOutsideHandler = (e: MouseEvent) => {
     :placement="props.placement"
     :show-arrow="false"
     :to="props.to"
-    :on-clickoutside="onClickOutsideHandler"
+    :on-clickoutside="onOutsideClickHandler"
   >
     <template #trigger>
       <slot name="trigger" />
@@ -66,7 +69,7 @@ const onClickOutsideHandler = (e: MouseEvent) => {
 <style lang="scss" scoped>
 :global(.v-popover) {
   :deep(.n-popover) {
-    background: rgba(255,255,255,0.733333) !important;
+    background: rgba(255, 255, 255, 0.733333) !important;
     backdrop-filter: blur(10px);
   }
 }

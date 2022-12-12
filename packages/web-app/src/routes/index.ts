@@ -12,6 +12,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/Main.vue'),
   },
   {
+    path: '/anime/:id',
+    name: 'anime',
+    component: () => import('@/views/Anime.vue'),
+  },
+  {
     path: '/recommendation',
     name: 'recommendation',
     component: () => import('@/views/Recommendation.vue'),
