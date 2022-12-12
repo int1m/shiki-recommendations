@@ -4,6 +4,12 @@ import { AnimeApi, RateApi } from '@/services/@types/animes';
 
 const baseUrl = `${config.urlRest}/${config.apiVersion}/animes`;
 
+export const getAnime = async (id: string) => {
+  const response = await useFetch.get<AnimeApi>(`${baseUrl}/${id}`);
+  const result = await response.json();
+  return result;
+};
+
 export const getOngoingAnimes = async () => {
   const response = await useFetch.get<AnimeApi[]>(`${baseUrl}/ongoing`, {
     count: 20,

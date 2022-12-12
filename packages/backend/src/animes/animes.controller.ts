@@ -1,6 +1,6 @@
 import { GetRecommendationDto } from '@/animes/dto/get-recommendation.dto';
 import {
-  Body, Controller, Get, Logger, OnApplicationBootstrap, ParseArrayPipe, Post, Query,
+  Body, Controller, Get, Logger, OnApplicationBootstrap, Param, ParseArrayPipe, Post, Query,
 } from '@nestjs/common';
 
 import { AnimesService } from './animes.service';
@@ -51,10 +51,9 @@ export class AnimesController implements OnApplicationBootstrap {
     return animes;
   }
 
-  @Get('id')
-  async getAnimeById(id: string) {
-    const result = await this.animesService.getAnimeById(id);
-    return result;
+  @Get(':id')
+  async getAnimeById(@Param('id') id: string) {
+    return this.animesService.getAnimeById(id);
   }
 
   @Get('ongoing')

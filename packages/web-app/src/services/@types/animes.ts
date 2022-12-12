@@ -61,6 +61,7 @@ export interface PersonApi {
 }
 
 export interface AnimeApi {
+  _id: string;
   externalId: number;
   url: string;
   score: number;
@@ -108,3 +109,23 @@ export interface RateApi {
   created_at: Date;
   updated_at: Date;
 }
+
+export const KindApi: { [key: string]: string } = {
+  tv: 'TV сериал',
+  ona: 'ONA',
+  ova: 'OVA',
+  special: 'Special',
+  movie: 'Фильм',
+  tv_13: 'TV сериал',
+  tv_24: 'TV сериал',
+  tv_48: 'TV сериал',
+};
+
+export const RatingApi: { [key: string]: string } = {
+  g: 'G',
+  pg: 'PG',
+  pg_13: 'PG-13',
+  r: 'R-17',
+  r_plus: 'R+',
+  rx: 'Rx',
+};

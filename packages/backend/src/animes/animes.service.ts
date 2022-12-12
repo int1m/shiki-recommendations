@@ -27,18 +27,18 @@ export class AnimesService {
   ) {}
 
   async find(query: FilterQuery<AnimeDocument>, options: FindOptions = { skip: 0, limit: 10, sort: { } }) {
-    const result = await this.AnimeModel
+    return this.AnimeModel
       .find(query)
       .skip(options.skip)
       .limit(options.limit)
       .sort(options.sort ?? {})
       .exec();
-    return result;
   }
 
   async getAnimeById(id: string) {
     return this.AnimeModel
-      .findOne({ externalId: id }, { url: 1 });
+      .findById(id)
+      .exec();
   }
 
   async getNeuronetRecommendation(rates: GetRecommendationDto[]) {
@@ -62,14 +62,12 @@ export class AnimesService {
 
     this.logger.log(JSON.stringify(recommendAnimesIds));
 
-    const recommendAnimes = await this.AnimeModel
+    return this.AnimeModel
       .aggregate<AnimeDocument>([
       { $match: { externalId: { $in: recommendAnimesIds } } },
       { $addFields: { __order: { $indexOfArray: [recommendAnimesIds, '$externalId'] } } },
       { $sort: { __order: 1 } },
     ]).exec();
-
-    return recommendAnimes;
   }
 
   private async shikimoriCharacterFetch(id: number): Promise<Character> {
