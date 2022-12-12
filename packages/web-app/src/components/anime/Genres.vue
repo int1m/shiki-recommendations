@@ -26,14 +26,9 @@
 
 <style lang="scss" scoped>
 .genres {
-  padding: 0 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-
-  @media (min-width: 927px) {
-    padding: 0;
-  }
 
   .genre {
     padding: 0.625rem;

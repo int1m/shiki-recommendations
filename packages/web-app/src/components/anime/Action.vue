@@ -71,7 +71,6 @@ const options = [
       </div>
     </template>
   </v-popover>
-  <div id="action-popover-container" />
 </template>
 
 <style lang="scss" scoped>

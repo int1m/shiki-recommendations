@@ -53,17 +53,13 @@
 
 <style lang="scss" scoped>
 .rates-statuses {
-  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  @media (min-width: 927px) {
-    padding: 0;
-  }
-
   .title {
     font-size: 1.5rem;
+    line-height: 1;
     font-weight: 600;
   }
 

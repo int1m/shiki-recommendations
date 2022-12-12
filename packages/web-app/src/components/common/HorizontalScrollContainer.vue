@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
 
@@ -14,9 +14,22 @@ const scrollableContainer = ref<null | HTMLDivElement>(null);
 const containerScrollLeft = ref(0);
 const isContainerScrollInEnd = ref(false);
 
-const isScrollableContainerScrolled = computed(
-  () => scrollableContainer.value?.offsetWidth !== scrollableContainer.value?.scrollWidth,
-);
+const isScrollableContainerScrolled = ref(scrollableContainer.value?.offsetWidth
+  !== scrollableContainer.value?.scrollWidth);
+
+watchEffect(() => {
+  const observer = new ResizeObserver(([entry]) => {
+    isScrollableContainerScrolled.value = entry.contentRect.width !== entry.target.scrollWidth;
+  });
+
+  if (scrollableContainer.value) {
+    observer.observe(scrollableContainer.value);
+  }
+
+  return () => {
+    observer.disconnect();
+  };
+});
 
 const isPrevButtonVisible = computed(() => (!initialStore.isMobileVersion
 && containerScrollLeft.value > 0) && isScrollableContainerScrolled.value);
@@ -118,6 +131,10 @@ const onMouseUpContainerHandler = () => {
   isDragActive.value = false;
   window.clearInterval(interval);
 };
+
+const onContainerResizeHandler = (e: Event) => {
+  console.log(e);
+};
 </script>
 
 <template>
@@ -137,7 +154,7 @@ const onMouseUpContainerHandler = () => {
     <div
       ref="scrollableContainer"
       class="scrollable-container"
-      :class="[{ 'drag-active': isDragActive }]"
+      :class="[{ 'drag-active': isDragActive, 'scrollable': isScrollableContainerScrolled }]"
       @scroll="onScrollContainerHandler"
       @mousedown="onMouseDownContainerHandler"
       @mouseup="onMouseUpContainerHandler"
@@ -214,7 +231,7 @@ const onMouseUpContainerHandler = () => {
     user-select: none;
     transition: transform ease-out .1s;
 
-    &.drag-active {
+    &.drag-active.scrollable {
       cursor: grabbing;
       transform: scale(0.99);
 
