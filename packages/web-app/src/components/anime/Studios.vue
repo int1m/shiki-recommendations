@@ -1,4 +1,14 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+import { config } from '@/config';
+import { StudioApi } from '@/services/@types/animes';
+
+const props = defineProps({
+  studios: {
+    type: Array as PropType<StudioApi[]>,
+    required: true,
+  },
+});
 </script>
 
 <template>
@@ -8,7 +18,9 @@
     </div>
     <div class="studios-content">
       <img
-        src="https://dere.shikimori.one/system/studios/original/569.png?1351013196"
+        v-for="studio in props.studios"
+        :key="studio.id"
+        :src="`${config.shikimoriUrl}${studio.image}`"
         alt="studio logo"
         class="logo"
       >
@@ -28,9 +40,14 @@
   }
 
   .studios-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
     .logo {
       width: auto;
       max-height: 2.5rem;
+      object-fit: cover;
     }
   }
 }

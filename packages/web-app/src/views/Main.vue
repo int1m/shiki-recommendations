@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
 
 import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
 
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
+
+const router = useRouter();
 
 const { data: animesOngoing, isLoading: isLoadingOngoing } = useQuery(['get-ongoing-animes'], getOngoingAnimes, {
   refetchOnWindowFocus: false,
@@ -14,28 +17,37 @@ const { data: animesPopular, isLoading: isLoadingPopular } = useQuery(['get-popu
   refetchOnWindowFocus: false,
 });
 
+const onAnimeCardClickHandler = async (id: string) => {
+  await router.push({ name: 'anime', params: { id } });
+};
 </script>
 
 <template>
   <div class="main">
     <div class="anime-cards-container">
-      <div class="anime-cards-title">Сейчас на экранах</div>
+      <div class="anime-cards-title">
+        Сейчас на экранах
+      </div>
       <horizontal-scroll-container v-if="!isLoadingOngoing" class="anime-cards-scrollable">
         <anime-card
           v-for="anime in animesOngoing"
           :key="anime.externalId"
           :anime="anime"
+          @click="onAnimeCardClickHandler(anime._id)"
         />
       </horizontal-scroll-container>
     </div>
 
     <div class="anime-cards-container">
-      <div class="anime-cards-title">Популярное</div>
+      <div class="anime-cards-title">
+        Популярное
+      </div>
       <horizontal-scroll-container v-if="!isLoadingPopular" class="anime-cards-scrollable">
         <anime-card
           v-for="anime in animesPopular"
           :key="anime.externalId"
           :anime="anime"
+          @click="onAnimeCardClickHandler(anime._id)"
         />
       </horizontal-scroll-container>
     </div>

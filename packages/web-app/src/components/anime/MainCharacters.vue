@@ -1,34 +1,34 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+import { config } from '@/config';
+import { CharacterApi } from '@/services/@types/animes';
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
+
+const props = defineProps({
+  characters: {
+    type: Array as PropType<CharacterApi[]>,
+    required: true,
+  },
+});
 </script>
 
 <template>
   <div class="main-characters">
     <h2>Главные герои</h2>
     <horizontal-scroll-container class="main-characters-content">
-      <div class="character">
+      <div
+        v-for="character in props.characters"
+        :key="character.externalId"
+        class="character"
+      >
         <img
-          src="https://nyaa.shikimori.one/system/characters/original/5.jpg?1669414948"
+          :src="`${config.shikimoriUrl}${character.images.original}`"
           alt="character-poster"
           class="poster"
         >
-        <div class="title">Ичиго Куросаки</div>
-      </div>
-      <div class="character">
-        <img
-          src="https://nyaa.shikimori.one/system/characters/original/5.jpg?1669414948"
-          alt="character-poster"
-          class="poster"
-        >
-        <div class="title">Ичиго Куросаки</div>
-      </div>
-      <div class="character">
-        <img
-          src="https://nyaa.shikimori.one/system/characters/original/5.jpg?1669414948"
-          alt="character poster"
-          class="poster"
-        >
-        <div class="title">Ичиго Куросаки</div>
+        <div class="title">
+          {{ character.nameRussian }}
+        </div>
       </div>
     </horizontal-scroll-container>
   </div>
@@ -54,7 +54,6 @@ import HorizontalScrollContainer from '@/components/common/HorizontalScrollConta
 
   .main-characters-content {
     display: flex;
-    gap: 1rem;
 
     .character {
       width: 100%;

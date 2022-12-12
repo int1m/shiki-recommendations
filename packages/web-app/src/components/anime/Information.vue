@@ -1,4 +1,37 @@
 <script lang="ts" setup>
+import { KindApi, RatingApi } from '@/services/@types/animes';
+import { PropType } from 'vue';
+
+const props = defineProps({
+  kind: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  nextEpisodeAt: {
+    type: String,
+    default: undefined,
+  },
+  namesEnglish: {
+    type: Array as PropType<Array<string>>,
+    required: true,
+  },
+  namesJapanese: {
+    type: Array as PropType<Array<string>>,
+    required: true,
+  },
+});
 </script>
 
 <template>
@@ -8,7 +41,7 @@
         Тип:
       </div>
       <div class="value">
-        TV Сериал
+        {{ KindApi[props.kind ?? 'tv'] }}
       </div>
     </div>
     <div class="information-item">
@@ -16,15 +49,15 @@
         Эпизоды:
       </div>
       <div class="value">
-        2
+        ---
       </div>
     </div>
-    <div class="information-item">
+    <div v-if="props.status === 'ongoing'" class="information-item">
       <div class="title">
         Следующий эпизод:
       </div>
       <div class="value">
-        24 окт. 18:00
+        {{ props.nextEpisodeAt }}
       </div>
     </div>
     <div class="information-item">
@@ -32,7 +65,7 @@
         Длительность эпизода:
       </div>
       <div class="value">
-        24 мин.
+        {{ props.duration }} мин.
       </div>
     </div>
     <div class="information-item">
@@ -40,7 +73,7 @@
         Статус:
       </div>
       <div class="value">
-        с 11 окт. 2022 г.
+        ---
       </div>
     </div>
     <div class="information-item">
@@ -48,23 +81,23 @@
         Рейтинг:
       </div>
       <div class="value">
-        R-17
+        {{ RatingApi[props.rating ?? 'No rating'] }}
       </div>
     </div>
-    <div class="information-item">
+    <div v-if="props.namesJapanese.length > 0 && props.namesJapanese[0]" class="information-item">
       <div class="title">
         По-японски:
       </div>
       <div class="value">
-        BLEACH: 千年血戦篇
+        {{ props.namesJapanese[0] }}
       </div>
     </div>
-    <div class="information-item">
+    <div v-if="props.namesEnglish.length > 0 && props.namesEnglish[0]" class="information-item">
       <div class="title">
         По-английски:
       </div>
       <div class="value">
-        Bleach: Thousand-Year Blood War
+        {{ props.namesEnglish[0] }}
       </div>
     </div>
   </div>

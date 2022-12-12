@@ -1,25 +1,23 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+import { GenreApi } from '@/services/@types/animes';
+
+const props = defineProps({
+  genres: {
+    type: Array as PropType<GenreApi[]>,
+    required: true,
+  },
+});
 </script>
 
 <template>
   <div class="genres">
-    <div class="genre">
-      Супер сила
-    </div>
-    <div class="genre">
-      Экшен
-    </div>
-    <div class="genre">
-      Приключения
-    </div>
-    <div class="genre">
-      Комедия
-    </div>
-    <div class="genre">
-      Сверхъестественное
-    </div>
-    <div class="genre">
-      Сёнен
+    <div
+      v-for="genre in props.genres"
+      :key="genre.id"
+      class="genre"
+    >
+      {{ genre.name }}
     </div>
   </div>
 </template>

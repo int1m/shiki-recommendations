@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+import { useRoute } from 'vue-router';
+import { useQuery } from 'vue-query';
+
+import { config } from '@/config';
+
+import { getAnime } from '@/services/animes';
+
 import Action from '@/components/anime/Action.vue';
 import Genres from '@/components/anime/Genres.vue';
 import Rating from '@/components/anime/Rating.vue';
@@ -9,31 +16,48 @@ import Studios from '@/components/anime/Studios.vue';
 import MainCharacters from '@/components/anime/MainCharacters.vue';
 import Authors from '@/components/anime/Authors.vue';
 import Similar from '@/components/anime/Similar.vue';
+
+const route = useRoute();
+
+const { id } = route.params;
+
+const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id as string), {
+  refetchOnWindowFocus: false,
+});
 </script>
 
 <template>
-  <div class="anime">
-    <h2>Блич: Тысячелетняя кровавая война</h2>
+  <div v-if="!isLoading" class="anime">
+    <h2>{{ anime.nameRussian }}</h2>
     <div class="anime-main-info">
       <div class="poster-container">
         <img
           class="poster"
-          src="https://moe.shikimori.one/system/animes/original/41467.jpg?1668635043"
+          :src="`${config.shikimoriUrl}${anime.images.original}`"
           alt="anime poster"
         >
         <Action />
       </div>
-      <Genres class="genres" />
+      <Genres class="genres" :genres="anime.genres" />
       <div class="rating-container">
         <Rating />
       </div>
       <RatesStatuses class="rates" />
-      <Information class="information" />
-      <Description class="description" />
-      <Studios class="studios" />
+      <Information
+        class="information"
+        :kind="anime.kind"
+        :rating="anime.rating"
+        :duration="anime.duration"
+        :status="anime.status"
+        :next-episode-at="anime.nextEpisodeAt"
+        :names-english="anime.namesEnglish"
+        :names-japanese="anime.namesJapanese"
+      />
+      <Description class="description" :description="anime.description" />
+      <Studios class="studios" :studios="anime.studios" />
     </div>
-    <MainCharacters class="main-characters" />
-    <Authors class="authors" />
+    <MainCharacters class="main-characters" :characters="anime.characters" />
+    <Authors class="authors" :persons="anime.persons" />
     <Similar class="similar" />
     <div id="action-popover-container" />
   </div>

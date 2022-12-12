@@ -54,6 +54,7 @@ module.exports = {
       before: false,
       after: true,
     }],
+    'no-underscore-dangle': ['error', { 'allow': ['_id'] }],
     'space-in-parens': ['error', 'never'],
     'key-spacing': ['error'],
     'object-curly-spacing': ['error', 'always'],

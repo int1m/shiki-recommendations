@@ -1,36 +1,41 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+import { config } from '@/config';
+import { PersonApi } from '@/services/@types/animes';
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
+
+const props = defineProps({
+  persons: {
+    type: Array as PropType<PersonApi[]>,
+    required: true,
+  },
+});
 </script>
 
 <template>
   <div class="authors">
     <h2>Авторы</h2>
     <horizontal-scroll-container class="authors-content">
-      <div class="author">
+      <div
+        v-for="person in persons"
+        :key="person.externalId"
+        class="author"
+      >
         <img
-          src="https://nyaa.shikimori.one/system/people/original/1880.jpg?1663070895"
+          :src="`${config.shikimoriUrl}${person.images.original}`"
           alt="author photo"
           class="photo"
         >
         <div class="description">
-          <div class="title">Тайто Кубо</div>
-          <div class="roles">
-            <div>Компоновка серий</div>
-            <div>Режиссёр</div>
+          <div class="title">
+            {{ person.nameRussian }}
           </div>
-        </div>
-      </div>
-      <div class="author">
-        <img
-          src="https://nyaa.shikimori.one/system/people/original/1880.jpg?1663070895"
-          alt="author photo"
-          class="photo"
-        >
-        <div class="description">
-          <div class="title">Тайто Кубо</div>
-          <div class="roles">
-            <div>Компоновка серий</div>
-            <div>Режиссёр</div>
+          <div
+            v-for="(role, index) in person.roles"
+            :key="index"
+            class="roles"
+          >
+            <div>{{ role.name }}</div>
           </div>
         </div>
       </div>
@@ -57,7 +62,6 @@ import HorizontalScrollContainer from '@/components/common/HorizontalScrollConta
 
   .authors-content {
     display: flex;
-    gap: 2rem;
 
     .author {
       display: flex;
@@ -72,6 +76,7 @@ import HorizontalScrollContainer from '@/components/common/HorizontalScrollConta
         border-radius: 50%;
         object-fit: cover;
         object-position: top center;
+        pointer-events: none;
 
         @media (min-width: 927px) {
           width: 6.25rem;
