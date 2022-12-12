@@ -19,9 +19,9 @@ const isScrollableContainerScrolled = computed(
 );
 
 const isPrevButtonVisible = computed(() => (!initialStore.isMobileVersion
-&& containerScrollLeft.value > 0) && isScrollableContainerScrolled);
+&& containerScrollLeft.value > 0) && isScrollableContainerScrolled.value);
 const isNextButtonVisible = computed(() => (!initialStore.isMobileVersion
-&& !isContainerScrollInEnd.value) && isScrollableContainerScrolled);
+&& !isContainerScrollInEnd.value) && isScrollableContainerScrolled.value);
 
 const childrenGap = 20;
 const onClickPrevButtonHandler = () => {
