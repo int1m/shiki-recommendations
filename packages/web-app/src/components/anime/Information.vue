@@ -5,7 +5,7 @@ import { PropType } from 'vue';
 const props = defineProps({
   kind: {
     type: String,
-    required: true,
+    default: undefined,
   },
   rating: {
     type: String,
@@ -17,7 +17,7 @@ const props = defineProps({
   },
   status: {
     type: String,
-    required: true,
+    default: undefined,
   },
   nextEpisodeAt: {
     type: String,
@@ -25,11 +25,11 @@ const props = defineProps({
   },
   namesEnglish: {
     type: Array as PropType<Array<string>>,
-    required: true,
+    default: undefined,
   },
   namesJapanese: {
     type: Array as PropType<Array<string>>,
-    required: true,
+    default: undefined,
   },
 });
 </script>
@@ -84,7 +84,11 @@ const props = defineProps({
         {{ RatingApi[props.rating ?? 'No rating'] }}
       </div>
     </div>
-    <div v-if="props.namesJapanese.length > 0 && props.namesJapanese[0]" class="information-item">
+    <div
+      v-if="Array.isArray(props.namesJapanese)
+        && props.namesJapanese.length > 0 && props.namesJapanese[0]"
+      class="information-item"
+    >
       <div class="title">
         По-японски:
       </div>
@@ -92,7 +96,11 @@ const props = defineProps({
         {{ props.namesJapanese[0] }}
       </div>
     </div>
-    <div v-if="props.namesEnglish.length > 0 && props.namesEnglish[0]" class="information-item">
+    <div
+      v-if="Array.isArray(props.namesEnglish)
+        && props.namesEnglish.length > 0 && props.namesEnglish[0]"
+      class="information-item"
+    >
       <div class="title">
         По-английски:
       </div>
