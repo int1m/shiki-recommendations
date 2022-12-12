@@ -27,8 +27,8 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
 </script>
 
 <template>
-  <div v-if="!isLoading" class="anime">
-    <h2>{{ anime.nameRussian }}</h2>
+  <div v-if="!isLoading && typeof anime !== 'undefined'" class="anime">
+    <h2>{{ anime?.nameRussian }}</h2>
     <div class="anime-main-info">
       <div class="poster-container">
         <img

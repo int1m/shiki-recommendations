@@ -5,6 +5,7 @@ import AnimeCard from '@/components/common/AnimeCard.vue';
 
 const animesSimilar: AnimeApi[] = [
   {
+    _id: '123',
     externalId: 414,
     url: '123',
     score: 8,
@@ -28,6 +29,7 @@ const animesSimilar: AnimeApi[] = [
     persons: [],
   },
   {
+    _id: '123',
     externalId: 414,
     url: '123',
     score: 8,
@@ -51,6 +53,7 @@ const animesSimilar: AnimeApi[] = [
     persons: [],
   },
   {
+    _id: '123',
     externalId: 414,
     url: '123',
     score: 8,
