@@ -53,7 +53,11 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
         :names-english="anime.namesEnglish"
         :names-japanese="anime.namesJapanese"
       />
-      <Description class="description" :description="anime.description" />
+      <Description
+        v-if="anime.description"
+        class="description"
+        :description="anime.description"
+      />
       <Studios class="studios" :studios="anime.studios" />
     </div>
     <MainCharacters class="main-characters" :characters="anime.characters" />
@@ -113,6 +117,7 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
 
     @media (min-width: 1340px) {
       grid-template-columns: min-content min-content auto;
+      grid-template-rows: auto auto auto min-content 1fr;
       grid-template-areas: "genres genres genres"
                          "poster information rates"
                          "poster information studios"
