@@ -43,6 +43,14 @@ import HorizontalScrollContainer from '@/components/common/HorizontalScrollConta
   display: flex;
   flex-direction: column;
 
+  h2 {
+    margin-left: 1rem;
+
+    @media (min-width: 927px) {
+      margin-left: 1.5rem;
+    }
+  }
+
   @media (min-width: 927px) {
     gap: 1rem;
   }
