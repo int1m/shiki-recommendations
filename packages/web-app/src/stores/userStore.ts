@@ -11,6 +11,15 @@ export const useUserStore = defineStore('userStore', () => {
   const avatar = ref<string | undefined>(undefined);
   const url = ref<string | undefined>(undefined);
 
+  const exit = () => {
+    isAuthorized.value = false;
+    id.value = undefined;
+    nickname.value = undefined;
+    images.value = undefined;
+    avatar.value = undefined;
+    url.value = undefined;
+  };
+
   return {
     isAuthorized,
     id,
@@ -18,5 +27,6 @@ export const useUserStore = defineStore('userStore', () => {
     images,
     avatar,
     url,
+    exit,
   };
 }, { persist: true });

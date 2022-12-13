@@ -14,16 +14,6 @@ const onClickActionOutsideHandler = () => {
 };
 
 const value = ref('Добавить в список');
-const options = [
-  {
-    value: 'Просмотрено',
-    label: 'Просмотрено',
-  },
-  {
-    value: 'Брошено',
-    label: 'Брошено',
-  },
-];
 </script>
 
 <template>
