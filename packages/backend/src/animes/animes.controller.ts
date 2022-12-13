@@ -16,7 +16,7 @@ export class AnimesController implements OnApplicationBootstrap {
   ) {}
 
   onApplicationBootstrap() {
-    if (process.env.NODE_ENV !== 'development' || process.env.NODE_ENV !== undefined) {
+    if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== undefined) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.animesService.shikimoriAnimesParsingBootstrap();
     }
