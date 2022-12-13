@@ -54,7 +54,7 @@ const onSimilarAnimeClickHandler = async (similarId: string) => {
           loading="lazy"
         >
         <Action
-          v-if="isAuthorized"
+          v-if="isAuthorized && userStore.id"
           :user-id="userStore.id"
           :anime-external-id="anime.externalId"
         />
