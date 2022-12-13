@@ -8,6 +8,8 @@ from starlette.responses import PlainTextResponse, JSONResponse
 
 from RecommenderSystem.neuronet import Neuronet
 
+from RecommenderSystem.contentbaserecommender import ContentBasedRecommender
+
 app = FastAPI(title="shikireki-machine-learning")
 
 origins = [
@@ -25,6 +27,7 @@ app.add_middleware(
 
 
 neuronet = Neuronet()
+contentBasedRecommender = ContentBasedRecommender()
 
 
 @app.on_event("startup")
@@ -56,10 +59,9 @@ async def onPersonalRecommendationsHandler(request: Request):
     }
 
 
-@app.get("/similar-animes", response_class=PlainTextResponse)
-async def onSimilarAnimes(request: Request) -> str:
-    data = await request.json()
-    print(data)
+@app.get("/similar-animes/{id}", response_class=JSONResponse)
+async def onSimilarAnimes(id: int):
+    return contentBasedRecommender.recommend(anime=id, sigma=0.20)
 
 
 if __name__ == "__main__":

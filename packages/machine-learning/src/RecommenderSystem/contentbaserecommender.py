@@ -6,6 +6,7 @@ from os import getenv
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
+from nltk import download
 from nltk.stem.snowball import SnowballStemmer
 
 
@@ -16,6 +17,7 @@ if environment == 'production':
 else:
     from configs.config import ConfigDev as Config
 
+download('stopwords')
 
 class ContentBasedRecommender:
     def __init__(self):
@@ -76,7 +78,7 @@ class ContentBasedRecommender:
                 anime_list.append(i)
         res = list()
         for i in anime_list:
-            res.append({"name": self.df['name'].loc[i[0]],  "externalId": self.df['externalId'].loc[i[0]]})
+            res.append(self.df['externalId'].loc[i[0]].item())
         return res
 
 
