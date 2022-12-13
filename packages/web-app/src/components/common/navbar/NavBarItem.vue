@@ -48,6 +48,8 @@ const isActive = computed(() => props.routeName === props.activeRouteName);
   min-width: 120px;
   border-radius: var(--border-radius-default-large);
   transition: color, background-color ease-in-out .2s;
+  pointer-events: none;
+  user-select: none;
 
   .navbar-icon {
     :deep(use) {
