@@ -41,6 +41,28 @@ export class AnimesService {
       .exec();
   }
 
+  async getSimilarAnimes(id: string) {
+    const anime = await this.AnimeModel
+      .findById(id)
+      .exec();
+
+    const similarResponse = await fetch(`${this.configService
+      .get<string>('MACHINE_LEARNING_SERVICE_API_URL')}/similar-animes/${anime.externalId}`);
+
+    const similarAnimesIds = ((await similarResponse.json()) as number[]).splice(0, 20);
+    const currentAnimesIndex = similarAnimesIds.findIndex((animeId) => animeId === anime.externalId);
+    if (currentAnimesIndex !== -1) {
+      similarAnimesIds.splice(currentAnimesIndex, 1);
+    }
+
+    this.logger.log(JSON.stringify(similarAnimesIds));
+
+    return this.AnimeModel
+      .find({ externalId: { $in: similarAnimesIds } })
+      .limit(20)
+      .exec();
+  }
+
   async getNeuronetRecommendation(rates: GetRecommendationDto[]) {
     const ratesPreprocessing = rates.sort((rateA, rateB) => (rateA.score < rateB.score ? 1 : -1))
       .map((rate) => ({
@@ -59,8 +81,6 @@ export class AnimesService {
     });
 
     const recommendAnimesIds = (await recommendationResponse.json()) as number[];
-
-    this.logger.log(JSON.stringify(recommendAnimesIds));
 
     return this.AnimeModel
       .aggregate<AnimeDocument>([

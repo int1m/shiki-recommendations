@@ -4,7 +4,7 @@ import { useQuery } from 'vue-query';
 
 import { config } from '@/config';
 
-import { getAnime } from '@/services/animes';
+import { getAnime, getAnimesSimilar } from '@/services/animes';
 
 import Action from '@/components/anime/Action.vue';
 import Genres from '@/components/anime/Genres.vue';
@@ -22,6 +22,11 @@ const route = useRoute();
 const { id } = route.params;
 
 const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id as string), {
+  refetchOnWindowFocus: false,
+});
+
+const { data: animeSimilar, isLoading: isLoadingSimilar } = useQuery(['similar-animes',
+  id], () => getAnimesSimilar(id as string), {
   refetchOnWindowFocus: false,
 });
 </script>
@@ -74,7 +79,11 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
       class="authors"
       :persons="anime.persons"
     />
-    <Similar class="similar" />
+    <Similar
+      v-if="!isLoadingSimilar && typeof animeSimilar !== 'undefined'"
+      :animes-similar="animeSimilar"
+      class="similar"
+    />
     <div id="action-popover-container" />
   </div>
 </template>
@@ -82,6 +91,7 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
 <style lang="scss" scoped>
 .anime {
   width: 100%;
+  padding: 0 0 1rem 0;
   display: flex;
   flex-direction: column;
 
@@ -232,7 +242,6 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
 
   .similar {
     margin-top: 2rem;
-    padding: 0 0 1rem 0;
   }
 }
 </style>

@@ -61,6 +61,7 @@ async def onPersonalRecommendationsHandler(request: Request):
 
 @app.get("/similar-animes/{id}", response_class=JSONResponse)
 async def onSimilarAnimes(id: int):
+    print(id)
     return contentBasedRecommender.recommend(anime=id, sigma=0.20)
 
 

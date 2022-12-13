@@ -100,7 +100,11 @@ export class AnimesController implements OnApplicationBootstrap {
   async getRecommendationHandler(
   @Body(new ParseArrayPipe({ items: GetRecommendationDto })) body: GetRecommendationDto[],
   ) {
-    const recommendAnime = await this.animesService.getNeuronetRecommendation(body);
-    return recommendAnime;
+    return this.animesService.getNeuronetRecommendation(body);
+  }
+
+  @Get('similar-animes/:id')
+  async getSimilarAnimesHandler(@Param('id') id: string) {
+    return this.animesService.getSimilarAnimes(id);
   }
 }

@@ -1,82 +1,17 @@
 <script lang="ts" setup>
+import { PropType } from 'vue';
+
 import { AnimeApi } from '@/services/@types/animes';
+
 import HorizontalScrollContainer from '@/components/common/HorizontalScrollContainer.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
 
-const animesSimilar: AnimeApi[] = [
-  {
-    _id: '123',
-    externalId: 414,
-    url: '123',
-    score: 8,
-    rating: '18+',
-    name: 'Anime',
-    nameRussian: 'Аниме',
-    studios: [],
-    genres: [],
-    images: {
-      original: '/system/animes/original/41467.jpg?1668635043',
-    },
-    duration: 4,
-    episodes: 3,
-    episodesAired: 4,
-    favoured: false,
-    anons: false,
-    ongoing: false,
-    ratesScoresStats: [],
-    ratesStatusesStats: [],
-    characters: [],
-    persons: [],
+const props = defineProps({
+  animesSimilar: {
+    type: Array as PropType<AnimeApi[]>,
+    required: true,
   },
-  {
-    _id: '123',
-    externalId: 414,
-    url: '123',
-    score: 8,
-    rating: '18+',
-    name: 'Anime',
-    nameRussian: 'Аниме',
-    studios: [],
-    genres: [],
-    images: {
-      original: '/system/animes/original/41467.jpg?1668635043',
-    },
-    duration: 4,
-    episodes: 3,
-    episodesAired: 4,
-    favoured: false,
-    anons: false,
-    ongoing: false,
-    ratesScoresStats: [],
-    ratesStatusesStats: [],
-    characters: [],
-    persons: [],
-  },
-  {
-    _id: '123',
-    externalId: 414,
-    url: '123',
-    score: 8,
-    rating: '18+',
-    name: 'Anime',
-    nameRussian: 'Аниме',
-    studios: [],
-    genres: [],
-    images: {
-      original: '/system/animes/original/41467.jpg?1668635043',
-    },
-    duration: 4,
-    episodes: 3,
-    episodesAired: 4,
-    favoured: false,
-    anons: false,
-    ongoing: false,
-    ratesScoresStats: [],
-    ratesStatusesStats: [],
-    characters: [],
-    persons: [],
-  },
-];
+});
 </script>
 
 <template>
@@ -84,7 +19,7 @@ const animesSimilar: AnimeApi[] = [
     <h2>Похожие</h2>
     <horizontal-scroll-container>
       <anime-card
-        v-for="anime in animesSimilar"
+        v-for="anime in props.animesSimilar"
         :key="anime.externalId"
         :anime="anime"
       />

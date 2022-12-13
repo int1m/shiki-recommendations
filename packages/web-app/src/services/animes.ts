@@ -40,3 +40,9 @@ export const getAnimesRecommendation = async (rates: RateApi[]) => {
   const result = await response.json();
   return result;
 };
+
+export const getAnimesSimilar = async (id: string) => {
+  const response = await useFetch.get<AnimeApi[]>(`${baseUrl}/similar-animes/${id}`);
+  const result = await response.json();
+  return result;
+};
