@@ -45,11 +45,12 @@ export interface Character {
 export enum RoleEnum {
   'Original Creator' = 'Автор оригинала',
   'Director' = 'Режиссёр',
+  'Character Design' = 'Дизайнер персонажей',
 }
 
 export interface Role {
   name: string;
-  nameRussia: string;
+  nameRussian: string;
 }
 
 export interface Person {

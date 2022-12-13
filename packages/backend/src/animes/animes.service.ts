@@ -133,9 +133,9 @@ export class AnimesService {
           name: role.person.name,
           nameRussian: role.person.russian,
           url: role.person.url,
-          roles: role.roles.map((roleValue) => ({
+          roles: role.roles.map((roleValue, index) => ({
             name: roleValue,
-            nameRussia: RoleEnum[roleValue],
+            nameRussian: role.roles_russian[index],
           })),
         }));
 
@@ -206,7 +206,12 @@ export class AnimesService {
         status: animeResult.status,
         franchise: animeResult.franchise,
         studios: animeResult.studios,
-        genres: animeResult.genres,
+        genres: animeResult.genres.map((genre) => ({
+          id: genre.id,
+          name: genre.name,
+          nameRussian: genre.russian,
+          kind: genre.kind,
+        })),
         images: animeResult.image,
         duration: animeResult.duration,
         episodes: animeResult.episodes,

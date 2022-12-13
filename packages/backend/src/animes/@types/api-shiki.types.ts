@@ -19,6 +19,13 @@ export interface ApiShikiAnimeListItem {
   image: Images;
 }
 
+export interface ApiShikiGenre {
+  id: number;
+  kind?: string;
+  name?: string;
+  russian?: string;
+}
+
 export interface ApiShikiAnime {
   id: number;
   url: string;
@@ -36,7 +43,7 @@ export interface ApiShikiAnime {
   status?: string;
   franchise?: string;
   studios: Array<Studio>;
-  genres: Array<Genre>;
+  genres: Array<ApiShikiGenre>;
   image: Images;
   duration: number;
   episodes: number;
