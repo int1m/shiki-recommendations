@@ -91,7 +91,7 @@ const nextEpisodeAt = computed(() => (props.nextEpisodeAt ? (new Date(props.next
       </div>
       <div class="value">
         <div class="status" :class="[props.status]">
-          {{ StatusApi[props.status] }}
+          {{ StatusApi[props.status ?? 'anons'] }}
         </div>
       </div>
     </div>
