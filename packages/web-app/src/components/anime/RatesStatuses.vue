@@ -1,4 +1,17 @@
 <script lang="ts" setup>
+import { computed, PropType } from 'vue';
+import { NPopover } from 'naive-ui';
+import { RateStatusesStatApi } from '@/services/@types/animes';
+
+const props = defineProps({
+  ratesStatusesStats: {
+    type: Array as PropType<RateStatusesStatApi[]>,
+    required: true,
+  },
+});
+
+
+const maxRate = computed(() => Math.max(...props.ratesStatusesStats.map((rate) => rate.value)));
 </script>
 
 <template>
@@ -7,44 +20,26 @@
       В списках у людей
     </div>
     <div class="rates-statuses-content">
-      <div class="rate-statuses">
-        <div class="rate-statuses-char">
-          <span />
-        </div>
+      <div
+        v-for="(rate, index) in props.ratesStatusesStats"
+        :key="index"
+        class="rate-statuses"
+      >
+        <n-popover
+          trigger="hover"
+          placement="top"
+          :show-arrow="false"
+        >
+          <template #trigger>
+            <div class="rate-statuses-char">
+              <span :style="{ width: `${rate.value / maxRate * 100}%` }" />
+            </div>
+          </template>
+          <div :style="{ padding: '0.125rem 0.25rem', fontSize: '0.875rem' }">{{ rate.value }}</div>
+        </n-popover>
+
         <div class="rate-statuses-title">
-          Запланировано
-        </div>
-      </div>
-      <div class="rate-statuses">
-        <div class="rate-statuses-char">
-          <span />
-        </div>
-        <div class="rate-statuses-title">
-          Просмотренно
-        </div>
-      </div>
-      <div class="rate-statuses">
-        <div class="rate-statuses-char">
-          <span />
-        </div>
-        <div class="rate-statuses-title">
-          Смотрю
-        </div>
-      </div>
-      <div class="rate-statuses">
-        <div class="rate-statuses-char">
-          <span />
-        </div>
-        <div class="rate-statuses-title">
-          Брошено
-        </div>
-      </div>
-      <div class="rate-statuses">
-        <div class="rate-statuses-char">
-          <span />
-        </div>
-        <div class="rate-statuses-title">
-          Отложено
+          {{ rate.name }}
         </div>
       </div>
     </div>
@@ -79,16 +74,21 @@
        height: 0.5rem;
        background-color: var(--color-background-rates);
        border-radius: 0.25rem;
+       cursor: pointer;
 
        span {
          position: absolute;
          top: 0;
          left: 0;
          height: 100%;
-         width: 60%;
+         width: 0%;
          background-color: var(--color-primary);
          border-radius: 0.25rem;
        }
+     }
+
+     .rate-statuses-value {
+       padding: 1rem;
      }
 
      .rate-statuses-title {

@@ -42,7 +42,7 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
       <div class="rating-container">
         <Rating :score="anime.score" :rates-scores-stats="anime.ratesScoresStats" />
       </div>
-      <RatesStatuses class="rates" />
+      <RatesStatuses class="rates" :rates-statuses-stats="anime.ratesStatusesStats" />
       <Information
         class="information"
         :kind="anime.kind"
