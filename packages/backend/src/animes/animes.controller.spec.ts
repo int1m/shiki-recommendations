@@ -14,7 +14,7 @@ describe('Animes Controller', () => {
         useValue: {
           getAnimeById: jest
             .fn()
-            .mockImplementation((id:number) => Promise.resolve({ externalId: id, name: 'Naruto' })),
+            .mockImplementation((id: string) => Promise.resolve({ externalId: id, name: 'Naruto' })),
         },
 
       }],
@@ -30,7 +30,7 @@ describe('Animes Controller', () => {
 
   describe('id', () => {
     it('should get a single anime by id', async () => {
-      await expect(controller.getAnimeById(1)).resolves.toEqual({
+      await expect(controller.getAnimeById('1')).resolves.toEqual({
         externalId: 1,
         name: 'Naruto',
       });
