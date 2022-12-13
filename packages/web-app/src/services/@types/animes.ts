@@ -49,7 +49,7 @@ export enum RoleEnumApi {
 
 export interface RoleApi {
   name: string;
-  nameRussia: string;
+  nameRussian: string;
 }
 
 export interface PersonApi {

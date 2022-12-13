@@ -1,4 +1,3 @@
-import { GetRecommendationDto } from '@/animes/dto/get-recommendation.dto';
 import {
   Body, Controller, Get, Logger, OnApplicationBootstrap, Param, ParseArrayPipe, Post, Query,
 } from '@nestjs/common';
@@ -6,6 +5,7 @@ import {
 import { AnimesService } from './animes.service';
 import { FindAnimesDto } from './dto/find-animes.dto';
 import { GetAnimesDto } from './dto/get-animes.dto';
+import { GetRecommendationDto } from './dto/get-recommendation.dto';
 
 @Controller('animes')
 export class AnimesController implements OnApplicationBootstrap {
@@ -16,8 +16,10 @@ export class AnimesController implements OnApplicationBootstrap {
   ) {}
 
   onApplicationBootstrap() {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.animesService.shikimoriAnimesParsingBootstrap();
+    if (process.env.NODE_ENV !== 'development' || process.env.NODE_ENV !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.animesService.shikimoriAnimesParsingBootstrap();
+    }
   }
 
   @Get()
