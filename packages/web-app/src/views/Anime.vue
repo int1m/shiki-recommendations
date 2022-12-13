@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
+import { NSpin } from 'naive-ui';
 
 import { config } from '@/config';
 
@@ -93,6 +94,9 @@ const onSimilarAnimeClickHandler = async (similarId: string) => {
       @card-click="onSimilarAnimeClickHandler"
     />
     <div id="action-popover-container" />
+  </div>
+  <div v-else class="anime-loading">
+    <n-spin />
   </div>
 </template>
 
@@ -251,5 +255,12 @@ const onSimilarAnimeClickHandler = async (similarId: string) => {
   .similar {
     margin-top: 2rem;
   }
+}
+
+.anime-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

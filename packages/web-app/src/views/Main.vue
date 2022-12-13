@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
+import { NSpin } from 'naive-ui';
 
 import { getOngoingAnimes, getPopularAnimes } from '@/services/animes';
 
@@ -36,6 +37,9 @@ const onAnimeCardClickHandler = async (id: string) => {
           @click="onAnimeCardClickHandler(anime._id)"
         />
       </horizontal-scroll-container>
+      <div v-else class="anime-cards-loading">
+        <n-spin />
+      </div>
     </div>
 
     <div class="anime-cards-container">
@@ -50,6 +54,9 @@ const onAnimeCardClickHandler = async (id: string) => {
           @click="onAnimeCardClickHandler(anime._id)"
         />
       </horizontal-scroll-container>
+      <div v-else class="anime-cards-loading">
+        <n-spin />
+      </div>
     </div>
   </div>
 </template>
@@ -77,8 +84,20 @@ const onAnimeCardClickHandler = async (id: string) => {
     }
 
     .anime-cards-scrollable {
+
       @media (min-width: 927px) {
         margin-top: 0.875rem;
+      }
+    }
+
+    .anime-cards-loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 299px;
+
+      @media (min-width: 927px) {
+        height: 377px;
       }
     }
   }

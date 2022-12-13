@@ -23,7 +23,9 @@ const props = defineProps({
 
 const emit = defineEmits(['search', 'select']);
 
-const { isAuthorized, images, exit } = useUserStore();
+const userStore = useUserStore();
+const isAuthorized = computed(() => userStore.isAuthorized);
+const avatar = computed(() => userStore?.images?.x64);
 
 const colorPrimary = useGetCSSVariable('--color-primary');
 
@@ -74,7 +76,7 @@ const onClickActionOutsideHandler = () => {
 const onExitButtonClickHandler = () => {
   localStorage.removeItem('tokenRefresh');
   localStorage.removeItem('tokenAccess');
-  exit();
+  userStore.exit();
 };
 </script>
 
@@ -107,7 +109,7 @@ const onExitButtonClickHandler = () => {
             <div class="avatar-circle">
               <img
                 class="avatar"
-                :src="images.x64"
+                :src="avatar"
                 alt="user-avatar"
               >
             </div>

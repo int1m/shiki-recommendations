@@ -6,6 +6,8 @@ import { useQuery } from 'vue-query';
 import { config, SHIKIMORI_CLIENT_ID, SHIKIMORI_REDIRECT_URL } from '@/config';
 
 import { useUserStore } from '@/stores/userStore';
+import { useInitialStore } from '@/stores/initialStore';
+import { useRecommendationStore } from '@/stores/recommendationStore';
 
 import { getAnimeRates, getAuthTokens } from '@/services/shikimoriIntegration';
 import { getAnimesRecommendation } from '@/services/animes';
@@ -17,13 +19,13 @@ import VDotLoading from '@/components/kit/VDotLoading.vue';
 import VIconImport from '@/components/kit/VIconImport/VIconImport.vue';
 import VButton from '@/components/kit/VButton.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
-import { useInitialStore } from '@/stores/initialStore';
 
 const router = useRouter();
 const route = useRoute();
 
 const initialStore = useInitialStore();
 const userStore = useUserStore();
+const recommendationStore = useRecommendationStore();
 
 const { code } = route.query;
 
@@ -77,6 +79,12 @@ const {
   {
     refetchOnWindowFocus: false,
     enabled: isUserRatesLoading,
+    onSuccess: (data) => {
+      recommendationStore.$patch({
+        recommendationAnimes: data,
+      });
+    },
+    initialData: recommendationStore.recommendationAnimes,
   },
 );
 
