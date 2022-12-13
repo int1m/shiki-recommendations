@@ -129,3 +129,9 @@ export const RatingApi: { [key: string]: string } = {
   r_plus: 'R+',
   rx: 'Rx',
 };
+
+export const StatusApi: { [key: string]: string } = {
+  anons: 'анонсировано',
+  ongoing: 'выходит',
+  released: 'вышло',
+};

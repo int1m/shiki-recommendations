@@ -69,6 +69,8 @@ const onSimilarAnimeClickHandler = async (similarId: string) => {
         :kind="anime.kind"
         :rating="anime.rating"
         :duration="anime.duration"
+        :episodes="anime.episodes"
+        :episodes-aired="anime.episodesAired"
         :status="anime.status"
         :next-episode-at="anime.nextEpisodeAt"
         :names-english="anime.namesEnglish"

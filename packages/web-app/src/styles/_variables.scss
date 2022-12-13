@@ -80,7 +80,7 @@ $color-item-active: #ededed;
 
   --color-green: #{$color-green};
   --color-green-shade: #{color.mix($color-green, $color-black, 92%)};
-  --color-green-darker: #{color.mix($color-green, $color-black, 84%)};
+  --color-green-darker: #{color.mix($color-green, $color-black, 65%)};
 
   --color-error: #{$color-error};
   --color-error-shade: #{color.mix($color-error, $color-black, 92%)};

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { KindApi, RatingApi } from '@/services/@types/animes';
-import { PropType } from 'vue';
+import { KindApi, RatingApi, StatusApi } from '@/services/@types/animes';
+import { computed, PropType } from 'vue';
 
 const props = defineProps({
   kind: {
@@ -12,6 +12,14 @@ const props = defineProps({
     required: true,
   },
   duration: {
+    type: Number,
+    required: true,
+  },
+  episodes: {
+    type: Number,
+    required: true,
+  },
+  episodesAired: {
     type: Number,
     required: true,
   },
@@ -32,6 +40,15 @@ const props = defineProps({
     default: undefined,
   },
 });
+
+const episodesAiredNotEmpty = computed(() => (props.episodes === props.episodesAired
+  ? props.episodes : `${props.episodesAired} / ${props.episodes}`));
+const episodes = computed(() => (props.episodesAired ? episodesAiredNotEmpty.value : props.episodes));
+
+const nextEpisodeAt = computed(() => (props.nextEpisodeAt ? (new Date(props.nextEpisodeAt))
+  .toLocaleTimeString('ru-RU', {
+    month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric',
+  }) : undefined));
 </script>
 
 <template>
@@ -44,12 +61,12 @@ const props = defineProps({
         {{ KindApi[props.kind ?? 'tv'] }}
       </div>
     </div>
-    <div class="information-item">
+    <div v-if="episodes" class="information-item">
       <div class="title">
         Эпизоды:
       </div>
       <div class="value">
-        ---
+        {{ episodes }}
       </div>
     </div>
     <div v-if="props.status === 'ongoing'" class="information-item">
@@ -57,7 +74,7 @@ const props = defineProps({
         Следующий эпизод:
       </div>
       <div class="value">
-        {{ props.nextEpisodeAt }}
+        {{ nextEpisodeAt }}
       </div>
     </div>
     <div class="information-item">
@@ -73,7 +90,9 @@ const props = defineProps({
         Статус:
       </div>
       <div class="value">
-        ---
+        <div class="status" :class="[props.status]">
+          {{ StatusApi[props.status] }}
+        </div>
       </div>
     </div>
     <div class="information-item">
@@ -120,6 +139,18 @@ const props = defineProps({
   .information-item {
     display: flex;
     gap: 1rem;
+
+    .status {
+      color: var(--color-white);
+      padding: 0.125rem 0.5rem;
+      background-color: var(--color-primary);
+      box-shadow: 0 12px 40px 10px rgb(19 19 19 / 5%);
+      border-radius: var(--border-radius-default-small);
+
+      &.released {
+        background-color: var(--color-green-darker);
+      }
+    }
 
     .title {
       min-width: 8rem;
