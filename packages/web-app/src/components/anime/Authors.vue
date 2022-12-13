@@ -25,6 +25,7 @@ const props = defineProps({
           :src="`${config.shikimoriUrl}${person.images.original}`"
           alt="author photo"
           class="photo"
+          loading="lazy"
         >
         <div class="description">
           <div class="title">

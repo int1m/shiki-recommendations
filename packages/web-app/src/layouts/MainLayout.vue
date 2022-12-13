@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
 
 import { useInitialStore } from '@/stores/initialStore';
@@ -11,6 +12,8 @@ import { useDebounce } from '@/hooks/useDebounce';
 import NavBar from '@/components/common/NavBar.vue';
 import Footer from '@/components/common/Footer.vue';
 import AnimeSearchHeader from '@/components/anime-search/AnimeSearchHeader.vue';
+
+const router = useRouter();
 
 const initialStore = useInitialStore();
 
@@ -29,13 +32,21 @@ const onSearchInputHandler = (searchValue: string) => {
 };
 
 const onSearchInputHandlerDebounce = useDebounce(onSearchInputHandler, 400);
+
+const onAnimeSelectHandler = async (id: string) => {
+  await router.push({ name: 'anime', params: { id } });
+};
 </script>
 
 <template>
   <div class="main-layout">
     <nav-bar class="nav-bar" />
     <main>
-      <anime-search-header :animes="animeSearched" @search="onSearchInputHandlerDebounce" />
+      <anime-search-header
+        :animes="animeSearched"
+        @search="onSearchInputHandlerDebounce"
+        @select="onAnimeSelectHandler"
+      />
       <router-view class="view" />
       <Footer v-if="initialStore.isMobileVersion" />
     </main>

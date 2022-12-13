@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
 
 import { config, SHIKIMORI_CLIENT_ID, SHIKIMORI_REDIRECT_URL } from '@/config';
@@ -19,6 +19,7 @@ import VButton from '@/components/kit/VButton.vue';
 import AnimeCard from '@/components/common/AnimeCard.vue';
 import { useInitialStore } from '@/stores/initialStore';
 
+const router = useRouter();
 const route = useRoute();
 
 const initialStore = useInitialStore();
@@ -78,6 +79,10 @@ const {
     enabled: isUserRatesLoading,
   },
 );
+
+const onAnimeCardClickHandler = async (id: string) => {
+  await router.push({ name: 'anime', params: { id } });
+};
 </script>
 
 <template>
@@ -91,6 +96,7 @@ const {
           v-for="anime in animesRecommend"
           :key="anime.externalId"
           :anime="anime"
+          @click="onAnimeCardClickHandler(anime._id)"
         />
       </div>
       <div v-else class="loading">

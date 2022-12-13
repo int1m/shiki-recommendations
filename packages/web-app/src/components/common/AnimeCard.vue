@@ -27,6 +27,7 @@ const colorPrimary = useGetCSSVariable('--color-primary');
       class="anime-card-poster"
       :src="`${config.shikimoriUrl}${props.anime.images.original}`"
       alt="anime poster"
+      loading="lazy"
     >
     <div class="anime-card-info">
       <div class="anime-card-info-content">

@@ -12,6 +12,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['card-click']);
+
+const onAnimeCardClickHandler = (id: string) => {
+  emit('card-click', id);
+};
 </script>
 
 <template>
@@ -22,6 +28,7 @@ const props = defineProps({
         v-for="anime in props.animesSimilar"
         :key="anime.externalId"
         :anime="anime"
+        @click="onAnimeCardClickHandler(anime._id)"
       />
     </horizontal-scroll-container>
   </div>

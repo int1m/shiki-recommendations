@@ -23,6 +23,7 @@ const props = defineProps({
         :src="`${config.shikimoriUrl}${studio.image}`"
         alt="studio logo"
         class="logo"
+        loading="lazy"
       >
     </div>
   </div>

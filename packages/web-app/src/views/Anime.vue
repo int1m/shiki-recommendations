@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useQuery } from 'vue-query';
 
 import { config } from '@/config';
@@ -17,18 +18,23 @@ import MainCharacters from '@/components/anime/MainCharacters.vue';
 import Authors from '@/components/anime/Authors.vue';
 import Similar from '@/components/anime/Similar.vue';
 
+const router = useRouter();
 const route = useRoute();
 
-const { id } = route.params;
+const id = computed(() => route.params?.id as string);
 
-const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id as string), {
+const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id.value), {
   refetchOnWindowFocus: false,
 });
 
 const { data: animeSimilar, isLoading: isLoadingSimilar } = useQuery(['similar-animes',
-  id], () => getAnimesSimilar(id as string), {
+  id], () => getAnimesSimilar(id.value), {
   refetchOnWindowFocus: false,
 });
+
+const onSimilarAnimeClickHandler = async (similarId: string) => {
+  await router.push({ name: 'anime', params: { id: similarId } });
+};
 </script>
 
 <template>
@@ -40,6 +46,7 @@ const { data: animeSimilar, isLoading: isLoadingSimilar } = useQuery(['similar-a
           class="poster"
           :src="`${config.shikimoriUrl}${anime.images.original}`"
           alt="anime poster"
+          loading="lazy"
         >
         <Action />
       </div>
@@ -80,9 +87,10 @@ const { data: animeSimilar, isLoading: isLoadingSimilar } = useQuery(['similar-a
       :persons="anime.persons"
     />
     <Similar
-      v-if="!isLoadingSimilar && typeof animeSimilar !== 'undefined'"
+      v-if="!isLoadingSimilar && typeof animeSimilar !== 'undefined' && animeSimilar?.length > 0"
       :animes-similar="animeSimilar"
       class="similar"
+      @card-click="onSimilarAnimeClickHandler"
     />
     <div id="action-popover-container" />
   </div>

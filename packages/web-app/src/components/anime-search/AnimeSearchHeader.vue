@@ -43,7 +43,7 @@ const autoCompleteThemeOverrides: AutoCompleteThemeOverrides = {
 const search = ref('');
 
 const options = computed(() => props.animes.map((anime) => ({
-  value: anime.externalId.toString(),
+  value: anime._id,
   label: anime.nameRussian,
 })));
 
@@ -52,9 +52,8 @@ const onSearchInputHandler = (searchValue: string) => {
   emit('search', searchValue);
 };
 
-const onSelectInputHandler = (animeExternalId: string | number) => {
-  console.log(`select: ${animeExternalId}`);
-  emit('select', animeExternalId);
+const onSelectInputHandler = (id: string | number) => {
+  emit('select', id);
 };
 </script>
 
