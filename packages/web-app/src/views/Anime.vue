@@ -6,6 +6,7 @@ import { NSpin } from 'naive-ui';
 
 import { config } from '@/config';
 
+import { useUserStore } from '@/stores/userStore';
 import { getAnime, getAnimesSimilar } from '@/services/animes';
 
 import Action from '@/components/anime/Action.vue';
@@ -21,6 +22,9 @@ import Similar from '@/components/anime/Similar.vue';
 
 const router = useRouter();
 const route = useRoute();
+
+const userStore = useUserStore();
+const isAuthorized = computed(() => userStore.isAuthorized);
 
 const id = computed(() => route.params?.id as string);
 
@@ -49,7 +53,11 @@ const onSimilarAnimeClickHandler = async (similarId: string) => {
           alt="anime poster"
           loading="lazy"
         >
-        <Action />
+        <Action
+          v-if="isAuthorized"
+          :user-id="userStore.id"
+          :anime-external-id="anime.externalId"
+        />
       </div>
       <Genres class="genres" :genres="anime.genres" />
       <div class="rating-container">

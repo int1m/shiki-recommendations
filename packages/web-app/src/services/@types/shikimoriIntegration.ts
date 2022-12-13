@@ -12,3 +12,23 @@ export interface User {
   nickname: string;
   url: string;
 }
+
+export const RateStatusApi: { [key: string]: string } = {
+  planned: 'Запланировано',
+  watching: 'Смотрю',
+  rewatching: 'Пересматриваю',
+  completed: 'Просмотрено',
+  on_hold: 'Отложено',
+  dropped: 'Брошено',
+};
+
+export interface ApiRateCreate {
+  userId: number;
+  animeId: number;
+  status: string;
+}
+
+export interface ApiRateUpdate {
+  rateId: number;
+  status: string;
+}

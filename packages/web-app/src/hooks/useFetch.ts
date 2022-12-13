@@ -81,6 +81,38 @@ const useFetch = {
     return response;
   },
 
+  delete: async <T = unknown>(
+    url: string,
+    params: UrlParamsType = {},
+    headers: RequestHeaders = {},
+  ): Promise<ResponseGeneric<T>> => {
+    let urlWithParams = url;
+    const requestHeaders: HeadersInit = new Headers();
+    if (Object.keys(headers).length !== 0) {
+      Object.entries(headers).forEach(([key, value]) => {
+        if (value && typeof value !== 'undefined') {
+          requestHeaders.set(key, value);
+        }
+      });
+    }
+
+    const paramsValue: RequestInit = { headers: new Headers(), method: 'DELETE' };
+    const paramsWithNotEmpty: Record<string, string> = {};
+
+    if (Object.keys(params).length !== 0) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value && typeof value !== 'undefined') {
+          paramsWithNotEmpty[key] = value.toString();
+        }
+      });
+
+      urlWithParams = `${url}?${new URLSearchParams(paramsWithNotEmpty).toString()}`;
+    }
+
+    const response = await request<T>(urlWithParams, paramsValue, requestHeaders);
+    return response;
+  },
+
   post: async <T = unknown>(url: string, body = {},
     params: UrlParamsType = {}, headers: RequestHeaders = {}): Promise<ResponseGeneric<T>> => {
     let urlWithParams = url;
@@ -96,6 +128,44 @@ const useFetch = {
 
     const paramsValue: RequestInit = {
       method: 'POST',
+    };
+
+    if (body instanceof FormData) {
+      paramsValue.body = body;
+    } else {
+      requestHeaders.set('Content-Type', 'application/json');
+      paramsValue.body = JSON.stringify(body);
+    }
+
+    const paramsWithNotEmpty: Record<string, string> = {};
+    if (Object.keys(params).length !== 0) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value && typeof value !== 'undefined') {
+          paramsWithNotEmpty[key] = value.toString();
+        }
+      });
+      urlWithParams = `${url}?${new URLSearchParams(paramsWithNotEmpty).toString()}`;
+    }
+
+    const response = await request<T>(urlWithParams, paramsValue, requestHeaders);
+    return response;
+  },
+
+  put: async <T = unknown>(url: string, body = {},
+    params: UrlParamsType = {}, headers: RequestHeaders = {}): Promise<ResponseGeneric<T>> => {
+    let urlWithParams = url;
+
+    const requestHeaders: HeadersInit = new Headers();
+    if (Object.keys(headers).length !== 0) {
+      Object.entries(headers).forEach(([key, value]) => {
+        if (value && typeof value !== 'undefined') {
+          requestHeaders.set(key, value);
+        }
+      });
+    }
+
+    const paramsValue: RequestInit = {
+      method: 'PUT',
     };
 
     if (body instanceof FormData) {

@@ -41,7 +41,6 @@ watch((isShowValue), (showValue) => {
 });
 
 const onOutsideClickHandler = (e: MouseEvent) => {
-  console.log(e.type);
   if (e.type === 'mouseup') {
     emit('clickOutside', e);
   }
