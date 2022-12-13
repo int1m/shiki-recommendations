@@ -17,7 +17,7 @@ const props = defineProps({
       :key="genre.id"
       class="genre"
     >
-      {{ genre.name }}
+      {{ genre.nameRussian }}
     </div>
   </div>
 </template>

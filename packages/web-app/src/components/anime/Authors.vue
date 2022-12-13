@@ -35,7 +35,7 @@ const props = defineProps({
             :key="index"
             class="roles"
           >
-            <div>{{ role.name }}</div>
+            <div>{{ role.nameRussian }}</div>
           </div>
         </div>
       </div>
