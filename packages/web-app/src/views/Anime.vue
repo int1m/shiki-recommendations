@@ -40,7 +40,7 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
       </div>
       <Genres class="genres" :genres="anime.genres" />
       <div class="rating-container">
-        <Rating />
+        <Rating :score="anime.score" :rates-scores-stats="anime.ratesScoresStats" />
       </div>
       <RatesStatuses class="rates" />
       <Information
@@ -58,10 +58,22 @@ const { data: anime, isLoading } = useQuery(['anime-get', id], () => getAnime(id
         class="description"
         :description="anime.description"
       />
-      <Studios class="studios" :studios="anime.studios" />
+      <Studios
+        v-if="anime.studios.length > 0"
+        class="studios"
+        :studios="anime.studios"
+      />
     </div>
-    <MainCharacters class="main-characters" :characters="anime.characters" />
-    <Authors class="authors" :persons="anime.persons" />
+    <MainCharacters
+      v-if="anime.characters.length > 0"
+      class="main-characters"
+      :characters="anime.characters"
+    />
+    <Authors
+      v-if="anime.persons.length > 0"
+      class="authors"
+      :persons="anime.persons"
+    />
     <Similar class="similar" />
     <div id="action-popover-container" />
   </div>

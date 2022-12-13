@@ -1,6 +1,21 @@
 <script lang="ts" setup>
 import { NRate } from 'naive-ui';
 import { useGetCSSVariable } from '@/hooks/useCssVariables';
+import { computed, PropType } from 'vue';
+import { RateScoresStatApi } from '@/services/@types/animes';
+
+const props = defineProps({
+  score: {
+    type: Number,
+    required: true,
+  },
+  ratesScoresStats: {
+    type: Array as PropType<RateScoresStatApi[]>,
+    required: true,
+  },
+});
+
+const ratesCount = computed(() => props.ratesScoresStats?.reduce((count, rateScore) => count + rateScore.value, 0));
 
 const colorPrimary = useGetCSSVariable('--color-primary');
 </script>
@@ -12,12 +27,13 @@ const colorPrimary = useGetCSSVariable('--color-primary');
         :color="colorPrimary"
         :readonly="true"
         :allow-half="true"
-        :default-value="4.5"
+        :count="5"
+        :default-value="props.score / 2"
       />
-      <span class="subtitle">152 938 оценок</span>
+      <span class="subtitle">{{ ratesCount }} оценок</span>
     </div>
     <div class="rating-right">
-      8.6
+      {{ props.score }}
     </div>
   </div>
 </template>
