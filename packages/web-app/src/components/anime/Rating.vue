@@ -28,7 +28,7 @@ const colorPrimary = useGetCSSVariable('--color-primary');
         :readonly="true"
         :allow-half="true"
         :count="5"
-        :default-value="props.score / 2 + 0.5"
+        :default-value="(props.score + 0.5) / 2"
       />
       <span class="subtitle">{{ ratesCount }} оценок</span>
     </div>
