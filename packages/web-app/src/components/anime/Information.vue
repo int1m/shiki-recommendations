@@ -21,7 +21,7 @@ const props = defineProps({
   },
   episodesAired: {
     type: Number,
-    required: true,
+    default: undefined,
   },
   status: {
     type: String,
@@ -41,8 +41,8 @@ const props = defineProps({
   },
 });
 
-const episodesAiredNotEmpty = computed(() => (props.episodes === props.episodesAired
-  ? props.episodes : `${props.episodesAired} / ${props.episodes}`));
+const episodesAiredNotEmpty = computed(() => ((props.episodes === props.episodesAired)
+  ? props.episodes : `${props.episodesAired ?? ''} / ${props.episodes}`));
 const episodes = computed(() => (props.episodesAired ? episodesAiredNotEmpty.value : props.episodes));
 
 const nextEpisodeAt = computed(() => (props.nextEpisodeAt ? (new Date(props.nextEpisodeAt))
